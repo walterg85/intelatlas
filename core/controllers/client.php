@@ -43,6 +43,15 @@
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
+		}else if($vars['_method'] == '_GET'){
+			$response = array(
+				'codeResponse' 	=> 200,
+				'data' 			=> $clientModel->getClient()
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");			
+			exit(json_encode($response));
 		}
 	}
 

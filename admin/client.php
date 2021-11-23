@@ -92,6 +92,8 @@
         });
 
         $("#addClient").click( registerClient);
+
+        loadClients();
     });
 
     function registerClient() {
@@ -128,6 +130,110 @@
         $("#addClient").html('<i class="bi bi-check2"></i> Save information');
 
         $(".btnPanel").click();
+    }
+
+    function loadClients(){
+        let objData = {
+            "_method":"_GET"
+        };
+
+        if (dataTableClient != null)
+            dataTableClient.destroy();
+
+        $.post("../core/controllers/client.php", objData, function(result) {
+            let mypaging =  false;
+
+            if( (result.data).length > 20 )
+                mypaging = true;
+
+            console.log(result.data);
+
+            dataTableClient = $("#clientList").DataTable({
+                data: result.data,
+                order: [[ 0, "desc" ]],
+                columns: [
+                    {
+                        title: '',
+                        data: 'id',
+                        width: "20px",
+                        render: function(data, type, row){
+                            return pad(data, 5);
+                        }
+                    },
+                    {
+                        title: '',
+                        data: 'nombre'
+                    },
+                    {
+                        title: '',
+                        data: 'apellido'
+                    },
+                    {
+                        title: '',
+                        data: 'telefono'
+                    },
+                    {
+                        title: '',
+                        data: null,
+                        orderable: false,
+                        class: "text-center",
+                        width: "200px",
+                        render: function ( data, type, row ){
+                            return `
+                                <a href="javascript:void(0);" class="btn btn-outline-danger btnDeleteClient" title="Delete"><i class="bi bi-trash"></i></a>
+                                <a href="javascript:void(0);" class="btn btn-outline-warning btnModifyClient" title="Modify"><i class="bi bi-pencil"></i></a>
+                            `;
+                        }
+                    }
+                ],
+                // "fnDrawCallback":function(oSettings){
+                //     $(".btnDeleteClient").unbind().click(function(){
+                //         let data = getData($(this), dataTableClient),
+                //             buton = $(this);
+
+                //         if (confirm(`${mesages.ctrtoRemove} (${data.name})?`)){
+                //             buton.attr("disabled","disabled");
+                //             buton.html('<i class="bi bi-clock-history"></i>');
+
+                //             let objData = {
+                //                 "_method":"Delete",
+                //                 "categoryId": data.id
+                //             };
+
+                //             $.post("../core/controllers/category.php", objData, function(result) {
+                //                 buton.removeAttr("disabled");
+                //                 buton.html('<i class="bi bi-trash"></i>');
+
+                //                 fnGetCategories();
+                //             });
+
+                //         }
+                //     });
+
+                //     $(".btnModifyClient").unbind().click(function(){
+                //         let data = getData($(this), dataTableClient),
+                //             visible = (data.parent) ? (data.parent == 1) ? true : false : false;
+
+                //         catPhoto = null;
+
+                //         $("#categoryId").val(data.id);
+                //         $("#inputName").val(data.name);
+                //         $("#inputNameSp").val(data.nameSp);
+                //         $("#chkVisible").prop("checked", visible);
+
+                //         let img = (data.thumbnail) ? `../${data.thumbnail}` : "../assets/img/defaultCat.jpg";
+                //         $(".imgPreview").attr("src", img).parent().removeClass("d-none");
+
+                //         $("#modalCategoria").modal("show");
+                //     });
+                // },
+                searching: false,
+                pageLength: 20,
+                info: false,
+                lengthChange: false,
+                paging: mypaging
+            });
+        });
     }
 
     function changePageLang(argument) {
