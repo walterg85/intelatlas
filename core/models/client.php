@@ -33,4 +33,30 @@
 		        return FALSE;
 		    }
 		}
+
+		public function getClient(){
+			$pdo = new Conexion();
+			$cmd = '
+				SELECT
+					id,
+					nombre, 
+					apellido, 
+					direccion_a, 
+					direccion_b, 
+					telefono, 
+					ciudad, 
+					estado, 
+					codigo_postal, 
+					adicional, 
+					registro
+				FROM 
+					client
+				WHERE estatus = 1;
+			';
+			
+			$sql = $pdo->prepare($cmd);
+			$sql->execute();
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
 	}
