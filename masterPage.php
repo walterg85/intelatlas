@@ -1,6 +1,6 @@
 <?php
     // Url raiz, para todas las coneciones al controlador, este se debe cambiar cuando se publica el proecto con una DNS
-    $base_url = 'http://localhost/tienda';
+    $base_url = 'http://localhost/intelatlas';
 ?>
 
 <!doctype html>
