@@ -30,8 +30,8 @@
 			if($vars['clientId'] == 0){
 				$tmpResponse = $clientModel->register($clientData);
 			}else{
-				$prodData['clientId'] 	= $vars['clientId'];				
-				$tmpResponse 			= $clientModel->updates($prodData);
+				$clientData['clientId'] 	= $vars['clientId'];				
+				$tmpResponse 				= $clientModel->updates($clientData);
 			}
 
 			if($tmpResponse){
@@ -47,6 +47,15 @@
 			$response = array(
 				'codeResponse' 	=> 200,
 				'data' 			=> $clientModel->getClient()
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");			
+			exit(json_encode($response));
+		}else if($vars['_method'] == 'Delete'){
+			$response = array(
+				'codeResponse' 	=> 200,
+				'data' 			=> $clientModel->deleteClient( $vars['clientId'] )
 			);
 
 			header('HTTP/1.1 200 Ok');

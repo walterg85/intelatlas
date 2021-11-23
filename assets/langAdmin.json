@@ -110,6 +110,9 @@
 		},
 		"Clients":{
 			"label": "value"
+		},
+		"Invoice":{
+			"label": "value"
 		}
 	},
 	"es":{
@@ -222,6 +225,9 @@
 			"btnSend": "Enviar"
 		},
 		"Clients":{
+			"label": "value"
+		},
+		"Invoice":{
 			"label": "value"
 		}
 	}
