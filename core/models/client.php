@@ -34,6 +34,33 @@
 		    }
 		}
 
+		public function updates($data) {
+			$pdo = new Conexion();
+			$cmd = '
+				UPDATE
+					client
+				SET nombre =:nombre, apellido =:apellido, direccion_a =:direccion_a, direccion_b =:direccion_b, telefono =:telefono, ciudad =:ciudad, estado =:estado, codigo_postal =:codigo_postal, adicional =:adicional
+				WHERE id =:clientId;
+			';
+
+			$parametros = array(
+				':nombre' 			=> $data['inputName'],
+				':apellido' 		=> $data['inputLastname'],
+				':direccion_a' 		=> $data['inputAddress'],
+				':direccion_b' 		=> $data['inputAddress2'],
+				':telefono'			=> $data['inputPhone'],
+				':ciudad' 			=> $data['inputCity'],
+				':estado'			=> $data['inputState'],
+				':codigo_postal'	=> $data['inputZip'],
+				':adicional'		=> $data['inputInfo'],
+				':clientId'			=> $data['clientId']
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			return TRUE;
+		}
+
 		public function getClient(){
 			$pdo = new Conexion();
 			$cmd = '
@@ -58,5 +85,21 @@
 			$sql->execute();
 
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
+
+		public function deleteClient($clientId){
+			$pdo = new Conexion();
+			$cmd = '
+				UPDATE client SET estatus = 0 WHERE id =:clientId;
+			';
+
+			$parametros = array(
+				':clientId' => $clientId
+			);
+			
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
 		}
 	}

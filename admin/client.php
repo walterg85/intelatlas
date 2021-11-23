@@ -2,6 +2,7 @@
     @session_start();
     ob_start();
 ?>
+
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2 lblNamePage">Clients</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
@@ -11,14 +12,7 @@
     </div>
 </div>
 
-<table class="table" id="clientList">
-    <thead class="table-light">
-        <th class="colA"></th>
-        <th class="colB"></th>
-        <th class="colC"></th>
-        <th class="colD"></th>
-    </thead>
-</table>
+<table class="table table-striped align-middle" id="clientList"></table>
 
 <!-- Panel lateral para agregar nuevo producto -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasClient" aria-labelledby="offcanvasWithBackdropLabel"  >
@@ -130,6 +124,8 @@
         $("#addClient").html('<i class="bi bi-check2"></i> Save information');
 
         $(".btnPanel").click();
+
+        loadClients();
     }
 
     function loadClients(){
@@ -146,14 +142,11 @@
             if( (result.data).length > 20 )
                 mypaging = true;
 
-            console.log(result.data);
-
             dataTableClient = $("#clientList").DataTable({
                 data: result.data,
                 order: [[ 0, "desc" ]],
                 columns: [
                     {
-                        title: '',
                         data: 'id',
                         width: "20px",
                         render: function(data, type, row){
@@ -161,19 +154,15 @@
                         }
                     },
                     {
-                        title: '',
                         data: 'nombre'
                     },
                     {
-                        title: '',
                         data: 'apellido'
                     },
                     {
-                        title: '',
                         data: 'telefono'
                     },
                     {
-                        title: '',
                         data: null,
                         orderable: false,
                         class: "text-center",
@@ -186,47 +175,49 @@
                         }
                     }
                 ],
-                // "fnDrawCallback":function(oSettings){
-                //     $(".btnDeleteClient").unbind().click(function(){
-                //         let data = getData($(this), dataTableClient),
-                //             buton = $(this);
+                "fnDrawCallback":function(oSettings){
+                    $("#clientList thead").remove();
 
-                //         if (confirm(`${mesages.ctrtoRemove} (${data.name})?`)){
-                //             buton.attr("disabled","disabled");
-                //             buton.html('<i class="bi bi-clock-history"></i>');
+                    $(".btnDeleteClient").unbind().click(function(){
+                        let data = getData($(this), dataTableClient),
+                            buton = $(this);
 
-                //             let objData = {
-                //                 "_method":"Delete",
-                //                 "categoryId": data.id
-                //             };
+                        if (confirm(`You want to delete this client (${data.nombre})?`)){
+                            buton.attr("disabled","disabled");
+                            buton.html('<i class="bi bi-clock-history"></i>');
 
-                //             $.post("../core/controllers/category.php", objData, function(result) {
-                //                 buton.removeAttr("disabled");
-                //                 buton.html('<i class="bi bi-trash"></i>');
+                            let objData = {
+                                "_method":"Delete",
+                                "clientId": data.id
+                            };
 
-                //                 fnGetCategories();
-                //             });
+                            $.post("../core/controllers/client.php", objData, function(result) {
+                                buton.removeAttr("disabled");
+                                buton.html('<i class="bi bi-trash"></i>');
 
-                //         }
-                //     });
+                                loadClients();
+                            });
 
-                //     $(".btnModifyClient").unbind().click(function(){
-                //         let data = getData($(this), dataTableClient),
-                //             visible = (data.parent) ? (data.parent == 1) ? true : false : false;
+                        }
+                    });
 
-                //         catPhoto = null;
+                    $(".btnModifyClient").unbind().click(function(){
+                        let data = getData($(this), dataTableClient);
 
-                //         $("#categoryId").val(data.id);
-                //         $("#inputName").val(data.name);
-                //         $("#inputNameSp").val(data.nameSp);
-                //         $("#chkVisible").prop("checked", visible);
+                        $("#clientId").val(data.id);
+                        $("#inputName").val(data.nombre);
+                        $("#inputLastname").val(data.apellido);
+                        $("#inputAddress").val(data.direccion_a);
+                        $("#inputAddress2").val(data.direccion_b);
+                        $("#inputPhone").val(data.telefono);
+                        $("#inputCity").val(data.ciudad);
+                        $("#inputState").val(data.estado);
+                        $("#inputZip").val(data.codigo_postal);
+                        $("#inputInfo").val(data.adicional);
 
-                //         let img = (data.thumbnail) ? `../${data.thumbnail}` : "../assets/img/defaultCat.jpg";
-                //         $(".imgPreview").attr("src", img).parent().removeClass("d-none");
-
-                //         $("#modalCategoria").modal("show");
-                //     });
-                // },
+                        $(".btnPanel").click();
+                    });
+                },
                 searching: false,
                 pageLength: 20,
                 info: false,
