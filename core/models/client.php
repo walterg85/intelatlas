@@ -8,9 +8,9 @@
 			$pdo = new Conexion();
 			$cmd = '
 				INSERT INTO client
-						(nombre, apellido, direccion_a, direccion_b, telefono, ciudad, estado, codigo_postal, adicional, registro, estatus)
+						(nombre, apellido, direccion_a, direccion_b, telefono, ciudad, estado, codigo_postal, adicional, registro, estatus, email)
 				VALUES
-					(:nombre, :apellido, :direccion_a, :direccion_b, :telefono, :ciudad, :estado, :codigo_postal, :adicional, now(), 1)
+					(:nombre, :apellido, :direccion_a, :direccion_b, :telefono, :ciudad, :estado, :codigo_postal, :adicional, now(), 1, :email)
 			';
 
 			$parametros = array(
@@ -19,6 +19,7 @@
 				':direccion_a' 		=> $data['inputAddress'],
 				':direccion_b' 		=> $data['inputAddress2'],
 				':telefono'			=> $data['inputPhone'],
+				':email'			=> $data['inputEmail'],
 				':ciudad' 			=> $data['inputCity'],
 				':estado'			=>  $data['inputState'],
 				':codigo_postal'	=>  $data['inputZip'],
@@ -39,7 +40,7 @@
 			$cmd = '
 				UPDATE
 					client
-				SET nombre =:nombre, apellido =:apellido, direccion_a =:direccion_a, direccion_b =:direccion_b, telefono =:telefono, ciudad =:ciudad, estado =:estado, codigo_postal =:codigo_postal, adicional =:adicional
+				SET nombre =:nombre, apellido =:apellido, direccion_a =:direccion_a, direccion_b =:direccion_b, telefono =:telefono, ciudad =:ciudad, estado =:estado, codigo_postal =:codigo_postal, adicional =:adicional, email =:email
 				WHERE id =:clientId;
 			';
 
@@ -49,6 +50,7 @@
 				':direccion_a' 		=> $data['inputAddress'],
 				':direccion_b' 		=> $data['inputAddress2'],
 				':telefono'			=> $data['inputPhone'],
+				':email'			=> $data['inputEmail'],
 				':ciudad' 			=> $data['inputCity'],
 				':estado'			=> $data['inputState'],
 				':codigo_postal'	=> $data['inputZip'],
@@ -75,7 +77,8 @@
 					estado, 
 					codigo_postal, 
 					adicional, 
-					registro
+					registro,
+					email
 				FROM 
 					client
 				WHERE estatus = 1;

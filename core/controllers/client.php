@@ -20,6 +20,7 @@
 				'inputLastname' => $vars['inputLastname'],
 				'inputAddress'	=> $vars['inputAddress'],
 				'inputAddress2'	=> $vars['inputAddress2'],
+				'inputEmail'	=> $vars['inputEmail'],
 				'inputPhone'	=> $vars['inputPhone'],
 				'inputCity'		=> $vars['inputCity'],
 				'inputState'	=> $vars['inputState'],
