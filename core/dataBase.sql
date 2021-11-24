@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 23-11-2021 a las 02:13:38
+-- Tiempo de generación: 24-11-2021 a las 02:07:48
 -- Versión del servidor: 8.0.17
 -- Versión de PHP: 7.3.10
 
@@ -60,7 +60,8 @@ CREATE TABLE `client` (
   `codigo_postal` varchar(10) NOT NULL,
   `adicional` varchar(500) NOT NULL,
   `registro` datetime NOT NULL,
-  `estatus` int(11) NOT NULL
+  `estatus` int(11) NOT NULL,
+  `email` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -76,6 +77,23 @@ CREATE TABLE `coupon` (
   `valor` float DEFAULT NULL,
   `tipo` int(11) DEFAULT NULL,
   `status` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `invoice`
+--
+
+DROP TABLE IF EXISTS `invoice`;
+CREATE TABLE `invoice` (
+  `id` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `detalles` varchar(1000) NOT NULL,
+  `importe` float NOT NULL,
+  `fecha` datetime NOT NULL,
+  `estatus` int(11) NOT NULL,
+  `activo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -233,6 +251,12 @@ ALTER TABLE `coupon`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `invoice`
+--
+ALTER TABLE `invoice`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `order`
 --
 ALTER TABLE `order`
@@ -294,6 +318,12 @@ ALTER TABLE `client`
 -- AUTO_INCREMENT de la tabla `coupon`
 --
 ALTER TABLE `coupon`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `invoice`
+--
+ALTER TABLE `invoice`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
