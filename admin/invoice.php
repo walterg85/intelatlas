@@ -3,6 +3,12 @@
     ob_start();
 ?>
 
+<style type="text/css">
+    .cursor-pointer{
+        cursor: pointer !important;
+    }
+</style>
+
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2 lblNamePage">Invoices</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
@@ -157,6 +163,9 @@
 
         // Cargar clientes
         loadClients();
+
+        // Cargar facturas
+        loadInvoices();
     });
 
     // Metodo para cargar los clientes al inputSearch
@@ -174,7 +183,7 @@
 
             $("#datalistOptions").html(options);
 
-            $("input").on('input', function () {
+            $("input").on('change', function () {
                 if(this.value != "" && this.id == "clientList" && $('datalist').find('option[value="'+this.value+'"]')){
                     let option  = $('datalist').find('option[value="'+this.value+'"]'),
                         data    = JSON.parse(option.data("client").replace(/'/g, '"'));
@@ -188,6 +197,114 @@
 
                     clienteSeleccionado = data.id;
                 }                
+            });
+        });
+    }
+
+    // Metodo para listar todas las facturas
+    function loadInvoices(){
+        let objData = {
+            "_method":"GET"
+        };
+
+        if (dataTableInvoice != null)
+            dataTableInvoice.destroy();
+
+        $.post("../core/controllers/invoice.php", objData, function(result){
+            let mypaging =  false;
+
+            if( (result.data).length > 20 )
+                mypaging = true;
+
+            dataTableInvoice = $("#invoiceList").DataTable({
+                data: result.data,
+                order: [[ 0, "desc" ]],
+                columns: [
+                    {
+                        data: 'id',
+                        width: "20px",
+                        class: 'fw-bolder',
+                        render: function(data, type, row){
+                            return `<text class="btnEditInvoice cursor-pointer">#${pad(data, 5)}</text>`;
+                        }
+                    },
+                    {
+                        data: 'fecha'
+                    },
+                    {
+                        data: 'clientName'
+                    },
+                    {
+                        data: 'estatus',
+                        render: function(data, type, row){
+                            return (data == 1) ? '<text class="text-danger">Debt</text>' : '<text class="text-success">Paid out</text>';
+                        }
+                    },
+                    {
+                        data: 'importe',
+                        class: 'text-danger',
+                        render: function(data, type, row){
+                            return formatter.format(data);
+                        }
+                    },
+                    {
+                        data: null,
+                        orderable: false,
+                        class: "text-center",
+                        render: function ( data, type, row ){
+                            return `
+                                <a href="javascript:void(0);" class="btn btn-outline-danger btnDeleteInvoice" title="Delete"><i class="bi bi-trash"></i></a>
+                            `;
+                        }
+                    }
+                ],
+                "fnDrawCallback":function(oSettings){
+                    $("#invoiceList thead").remove();
+
+                    $(".btnDeleteInvoice").unbind().click(function(){
+                        let data = getData($(this), dataTableInvoice),
+                            buton = $(this);
+
+                        if (confirm(`You want to delete this invoice (#${data.id})?`)){
+                            buton.attr("disabled","disabled");
+                            buton.html('<i class="bi bi-clock-history"></i>');
+
+                            let objData = {
+                                "_method":"Delete",
+                                "invoiceId": data.id
+                            };
+
+                            $.post("../core/controllers/invoice.php", objData, function(result) {
+                                buton.removeAttr("disabled");
+                                buton.html('<i class="bi bi-trash"></i>');
+
+                                loadInvoices();
+                            });
+
+                        }
+                    });
+
+                    $(".btnEditInvoice").unbind().click(function(){
+                        let data = getData($(this), dataTableInvoice);
+
+                        clienteSeleccionado = data.client_id;
+                        arrayConcepto       = JSON.parse(data.detalles);
+                        importeTotal        = data.importe;
+
+                        $("#clientList")
+                            .val(data.clientName.toUpperCase())
+                            .trigger('change');
+
+                        $(".btnPanel").click();
+
+                        listarConceptos();
+                    });
+                },
+                searching: false,
+                pageLength: 20,
+                info: false,
+                lengthChange: false,
+                paging: mypaging
             });
         });
     }
@@ -237,6 +354,7 @@
         $("#addFactura").html('<i class="bi bi-check2"></i> Save information');
 
         $(".btnPanel").click();
+        loadInvoices();
     }
 
     // Metodo para dibujar en la tabla los conceptos agregados
@@ -290,6 +408,7 @@
         });
     }
 
+    // Metodo para cambiar de idioma la pagina
     function changePageLang(argument) {
         console.log(argument);
     }
