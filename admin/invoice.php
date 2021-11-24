@@ -21,7 +21,7 @@
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <form id="addClientForm" class="needs-validation" novalidate>
+        <form id="addInvoiceForm" class="needs-validation" novalidate>
             <input type="hidden" name="invoiceId" id="invoiceId" value="0">
 
             <div class="row">
@@ -34,19 +34,22 @@
                     <table class="table table-sm">
                         <tbody>
                             <tr>
-                                <td><i class="bi bi-person-fill h4 text-secondary"></i> <texto class="lblNombre"></texto></td>
+                                <td><i class="bi bi-person-fill h4 text-secondary"></i> <texto class="lbl lblNombre"></texto></td>
                             </tr>
                             <tr>
-                                <td><i class="bi bi-telephone-fill h5 text-secondary"></i> <texto class="lblTelefono"></texto></td>
+                                <td><i class="bi bi-at  h5 text-secondary"></i> <texto class="lbl lblEmail"></texto></td>
                             </tr>
                             <tr>
-                                <td><i class="bi bi-house-door-fill h5 text-secondary"></i> <texto class="lblDireccion1"></texto></td>
+                                <td><i class="bi bi-telephone-fill h5 text-secondary"></i> <texto class="lbl lblTelefono"></texto></td>
                             </tr>
                             <tr>
-                                <td><i class="bi bi-house-door-fill h5 text-secondary"></i> <texto class="lblDireccion2"></texto></td>
+                                <td><i class="bi bi-house-door-fill h5 text-secondary"></i> <texto class="lbl lblDireccion1"></texto></td>
                             </tr>
                             <tr>
-                                <td><i class="bi bi-pin-map-fill h5 text-secondary"></i> <texto class="lblCiudad"></texto></td>
+                                <td><i class="bi bi-house-door-fill h5 text-secondary"></i> <texto class="lbl lblDireccion2"></texto></td>
+                            </tr>
+                            <tr>
+                                <td><i class="bi bi-pin-map-fill h5 text-secondary"></i> <texto class="lbl lblCiudad"></texto></td>
                             </tr>
                         </tbody>
                     </table>
@@ -75,11 +78,11 @@
                 </div>
                 <div class="col-2 mb-3">
                     <label for="inputPrecio" class="form-label labelPrecio">Price</label>
-                    <input type="text" id="inputPrecio" name="inputPrecio" class="form-control" autocomplete="off" maxlength="50" required>
+                    <input type="number" id="inputPrecio" name="inputPrecio" class="form-control" autocomplete="off" maxlength="50" required>
                 </div>
                 <div class="col-2 mb-3">
                     <label for="inputQuantity" class="form-label labelQuantity">Quantity</label>
-                    <input type="text" id="inputQuantity" name="inputQuantity" class="form-control" autocomplete="off" maxlength="50" required>
+                    <input type="number" id="inputQuantity" name="inputQuantity" class="form-control" autocomplete="off" maxlength="50" required>
                 </div>
                 <div class="col-2 mb-3 d-flex align-items-end justify-content-center">
                     <button class="btn btn-success btn-lg" type="button" id="addConcepto">
@@ -88,7 +91,7 @@
                 </div>
             </div>
 
-            <table class="table">
+            <table class="table align-middle">
                 <thead class="table-light">
                     <tr>
                         <th scope="col">#</th>
@@ -123,32 +126,40 @@
 
 
 <script type="text/javascript">
-    var myOffcanvas     = document.getElementById('offcanvasInvoice'),
-        dataTableInvoice = null,
+    var myOffcanvas         = document.getElementById('offcanvasInvoice'),
+        dataTableInvoice    = null,
         clienteSeleccionado = 0,
-        arrayConcepto = [],
-        formatter = new Intl.NumberFormat('en-US', {
+        arrayConcepto       = [],
+        importeTotal        = 0,
+        formatter           = new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'USD',
             minimumFractionDigits: 2
-        }),
-        importeTotal = 0;
+        });
 
     $(document).ready(function(){
         currentPage = "Invoice";
 
+        // Funcion para resetear el formulario despues de su ultimo uso
         myOffcanvas.addEventListener('hidden.bs.offcanvas', function () {
             $("#invoiceId").val("0");
             $("#addInvoiceForm")[0].reset();
             $("#addInvoiceForm").removeClass("was-validated");
+            $("#tblConceptos").html("");
+            $(".lblTotal").html("$0.00");
+            $(".lbl ").html("");
+            importeTotal = 0;
         });
 
+        // Acciones para los botones principales
         $("#addConcepto").click( addConcept);
         $("#addFactura").click( addFactura);
 
+        // Cargar clientes
         loadClients();
     });
 
+    // Metodo para cargar los clientes al inputSearch
     function loadClients(){
         let objData = {
             "_method":"_GET"
@@ -169,6 +180,7 @@
                         data    = JSON.parse(option.data("client").replace(/'/g, '"'));
 
                     $(".lblNombre").html(`${data.nombre} ${data.apellido}`);
+                    $(".lblEmail").html(`${data.email}`);
                     $(".lblTelefono").html(`${data.telefono}`);
                     $(".lblDireccion1").html(`${data.direccion_a}`);
                     $(".lblDireccion2").html(`${data.direccion_b}`);
@@ -180,6 +192,7 @@
         });
     }
 
+    // Metodo para agregar nuevos conceptos al areglo
     function addConcept(){
         let concepto    = $("#inputConcepto").val(),
             precio      = $("#inputPrecio").val(),
@@ -187,49 +200,28 @@
 
         if(concepto.trim() != "" && precio.trim() != "" && cantidad.trim() != ""){
             let objItm = {
-                    concepto:concepto,
-                    precio:precio,
-                    cantidad:cantidad
-                },
-                filas = "";
+                concepto:concepto,
+                precio:precio,
+                cantidad:cantidad
+            };
 
             arrayConcepto.push(objItm);
-            $("#tblConceptos").html("");
-            $.each(arrayConcepto, function(index, item){
-                filas += `
-                    <tr>
-                        <td>${index +1}</td>
-                        <td>${item.concepto}</td>
-                        <td>${formatter.format(item.precio)}</td>
-                        <td>${item.cantidad}</td>
-                        <td>${formatter.format(parseFloat(item.precio) * parseFloat(item.cantidad))}</td>
-                        <td>
-                            <a href="javascript:void(0);" class="btn btn-outline-danger btn-sm btnDeleteCocept me-2" title="Delete"><i class="bi bi-trash"></i></a>
-                            <a href="javascript:void(0);" class="btn btn-outline-warning btn-sm btnModifyConcept" title="Modify"><i class="bi bi-pencil"></i></a>
-                        </td>
-                    </tr>
-                `;
-
-                importeTotal += parseFloat(item.precio) * parseFloat(item.cantidad);
-            });
-
-            $("#tblConceptos").append(filas);
-            $(".lblTotal").html(formatter.format(importeTotal));
+            listarConceptos();           
 
             $("#inputConcepto").val("");
             $("#inputPrecio").val("");
             $("#inputQuantity").val("");
-
             $("#inputConcepto").focus();
         }
     }
 
+    // Metodo para almacenar la factura en base de datos
     function addFactura(){
         // se bloqueda el boton para evitar doble accion
         $("#addFactura").attr("disabled","disabled");
         $("#addFactura").html('<i class="bi bi-clock-history"></i> Saving...');
 
-        let form        = $("#addClientForm")[0],
+        let form        = $("#addInvoiceForm")[0],
             formData    = new FormData(form);
 
         formData.append("_method", "POST");
@@ -245,6 +237,57 @@
         $("#addFactura").html('<i class="bi bi-check2"></i> Save information');
 
         $(".btnPanel").click();
+    }
+
+    // Metodo para dibujar en la tabla los conceptos agregados
+    function listarConceptos(){
+        let filas = "";
+
+        $("#tblConceptos").html("");
+        importeTotal = 0;
+
+        // Se recore el contenido del array de conceptos
+        $.each(arrayConcepto, function(index, item){
+            filas += `
+                <tr>
+                    <td>${index +1}</td>
+                    <td>${item.concepto}</td>
+                    <td class="text-end">${formatter.format(item.precio)}</td>
+                    <td class="text-end">${item.cantidad}</td>
+                    <td class="text-end">${formatter.format(parseFloat(item.precio) * parseFloat(item.cantidad))}</td>
+                    <td class="text-center">
+                        <a href="javascript:void(0);" data-index="${index}" class="btn btn-outline-danger btn-sm btnDeleteCocept me-2" title="Delete"><i class="bi bi-trash"></i></a>
+                        <a href="javascript:void(0);" data-index="${index}" class="btn btn-outline-warning btn-sm btnModifyConcept" title="Modify"><i class="bi bi-pencil"></i></a>
+                    </td>
+                </tr>
+            `;
+
+            importeTotal += parseFloat(item.precio) * parseFloat(item.cantidad);
+        });
+
+        // Se agrega el contenido del HTML en el body de la tabla contenedora
+        $("#tblConceptos").append(filas);
+        $(".lblTotal").html(formatter.format(importeTotal));
+
+        // Accion del boton para eliminar un elemento del array y redibujar la tabla
+        $(".btnDeleteCocept").unbind().click( function(){
+            let index = $(this).data("index");
+            arrayConcepto.splice(index, 1);
+            listarConceptos();
+        });
+
+        // Accion para setear los valores de un elemento del array, eliminarlo para poder coregirlos y redibujar la tabla
+        $(".btnModifyConcept").unbind().click( function(){
+            let index = $(this).data("index"),
+                concepto = arrayConcepto[index];
+
+            $("#inputConcepto").val(concepto.concepto);
+            $("#inputPrecio").val(concepto.precio);
+            $("#inputQuantity").val(concepto.cantidad);
+
+            arrayConcepto.splice(index, 1);
+            listarConceptos();
+        });
     }
 
     function changePageLang(argument) {

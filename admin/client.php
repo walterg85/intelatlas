@@ -33,6 +33,16 @@
                     <input type="text" id="inputLastname" name="inputLastname" class="form-control" autocomplete="off" maxlength="50" required>
                 </div>
             </div>
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="inputEmail" class="form-label labelMail">Email</label>
+                    <input type="text" id="inputEmail" name="inputEmail" class="form-control" autocomplete="off" maxlength="20" required>
+                </div>
+                <div class="col mb-3">
+                    <label for="inputPhone" class="form-label labelPhone">Phone</label>
+                    <input type="text" id="inputPhone" name="inputPhone" class="form-control" autocomplete="off" maxlength="20" required>
+                </div>
+            </div>
             <div class="mb-3">
                 <label for="inputAddress" class="form-label labelAddress">Address</label>
                 <input type="text" id="inputAddress" name="inputAddress" class="form-control" autocomplete="off" maxlength="500" required>
@@ -40,10 +50,6 @@
             <div class="mb-3">
                 <label for="inputAddress2" class="form-label labelAddress2">Address 2</label>
                 <input type="text" id="inputAddress2" name="inputAddress2" class="form-control" autocomplete="off" maxlength="500">
-            </div>
-            <div class="mb-3">
-                <label for="inputPhone" class="form-label labelPhone">Phone</label>
-                <input type="text" id="inputPhone" name="inputPhone" class="form-control" autocomplete="off" maxlength="20" required>
             </div>
             <div class="row">
                 <div class="col-5 mb-3">
@@ -163,6 +169,9 @@
                         data: 'telefono'
                     },
                     {
+                        data: 'email'
+                    },
+                    {
                         data: null,
                         orderable: false,
                         class: "text-center",
@@ -214,6 +223,7 @@
                         $("#inputState").val(data.estado);
                         $("#inputZip").val(data.codigo_postal);
                         $("#inputInfo").val(data.adicional);
+                        $("#inputEmail").val(data.email);
 
                         $(".btnPanel").click();
                     });
