@@ -39,7 +39,7 @@
             </div>
             <div class="mb-3">
                 <label for="inputAddress2" class="form-label labelAddress2">Address 2</label>
-                <input type="text" id="inputAddress2" name="inputAddress2" class="form-control" autocomplete="off" maxlength="500" required>
+                <input type="text" id="inputAddress2" name="inputAddress2" class="form-control" autocomplete="off" maxlength="500">
             </div>
             <div class="mb-3">
                 <label for="inputPhone" class="form-label labelPhone">Phone</label>

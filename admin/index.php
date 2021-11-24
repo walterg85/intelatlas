@@ -65,7 +65,7 @@
         <!-- <input class="form-control form-control-dark w-100 lblInputSearch" type="text" placeholder="Search" aria-label="Search"> -->
         <div class="dropdown w-100">
             <input type="text" class="form-control dropdown-toggle form-control-dark w-100 lblInputSearch" id="inputSearch" placeholder="Search..." autocomplete="off" >
-            <ul class="dropdown-menu" aria-labelledby="inputSearch"></ul>
+            <ul class="dropdown-menu dropdownBuscar" aria-labelledby="inputSearch"></ul>
         </div>
         <div class="navbar-nav">
             <div class="nav-item text-nowrap">
@@ -209,7 +209,7 @@
                             `;
                         });
 
-                        $(".dropdown-menu")
+                        $(".dropdownBuscar")
                             .html(items)
                             .addClass("show");
                     }
@@ -221,7 +221,7 @@
                 if(searchRequest)
                     searchRequest.abort();
 
-                $(".dropdown-menu")
+                $(".dropdownBuscar")
                     .html("")
                     .removeClass("show");
             });
