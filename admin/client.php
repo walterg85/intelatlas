@@ -117,25 +117,10 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col mb-3">
-                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                    <button type="button" id="btnDeleteclient" data-clientid="0" class="btn btn-outline-secondary">Delete</button>
-                    <button type="button" class="btn btn-outline-secondary">Edit</button>
-                    <div class="btn-group" role="group">
-                        <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            Options
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                            <li><a class="dropdown-item" href="javascript:void(0);">Option1</a></li>
-                            <li><a class="dropdown-item" href="javascript:void(0);">Option2</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <table class="table align-middle caption-top">
-            <caption>Invoice list</caption>
+            <caption class="labelCaption">Invoice list</caption>
             <tbody id="tblInvoices"></tbody>
         </table>
       
@@ -347,8 +332,26 @@
         });
     }
 
-    function changePageLang(argument) {
-        console.log(argument);
+    function changePageLang(myLang) {
+        $(".lblNamePage").html(myLang.pageTitle);
+        $(".btnPanel").html(`<i class="bi bi-plus-lg"></i> ${myLang.buton1}`);
+        $("#offcanvasWithBackdropLabel").html(myLang.panel1);
+        $("#offcanvasWithBackdropLabel2").html(myLang.panel2);
+        $("#addClient").html(`<i class="bi bi-check2"></i> ${myLang.buton2}`);
+        $(".labelCaption").html(myLang.labelCaption);
+
+        $(".labelName").html(myLang.labelName);
+        $(".labelLastname").html(myLang.labelLastname);
+        $(".labelMail").html(myLang.labelMail);
+        $(".labelPhone").html(myLang.labelPhone);
+        $(".labelAddress").html(myLang.labelAddress);
+        $(".labelAddress2").html(myLang.labelAddress2);
+        $(".labelCity").html(myLang.labelCity);
+        $(".labelState").html(myLang.labelState);
+        $(".labelZip").html(myLang.labelZip);
+        $(".labelOtionalInfo").html(myLang.labelOtionalInfo);
+
+
     }
 </script>
 

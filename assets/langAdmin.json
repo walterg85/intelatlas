@@ -109,7 +109,22 @@
 			"btnSend": "Send"
 		},
 		"Clients":{
-			"label": "value"
+			"pageTitle": "Clients",
+			"panel1": "Add a new client",
+			"panel2": "Client details and invoice list",
+			"buton1": "Add new client",
+			"buton2": "Save information",
+			"labelCaption": "Invoice list",
+			"labelName": "Name",
+			"labelLastname": "Last name",
+			"labelMail": "Email",
+			"labelPhone": "Phone",
+			"labelAddress": "Address",
+			"labelAddress2": "Address 2",
+			"labelCity": "City",
+			"labelState": "State",
+			"labelZip": "Zip",
+			"labelOtionalInfo": "Optional info"
 		},
 		"Invoice":{
 			"label": "value"
@@ -225,7 +240,22 @@
 			"btnSend": "Enviar"
 		},
 		"Clients":{
-			"label": "value"
+			"pageTitle": "Clientes",
+			"panel1": "Detalles del cliente",
+			"panel2": "Informacion del cliente y lista de facturas",
+			"buton1": "Registrar nuevo cliente",
+			"buton2": "Guardar informacion",
+			"labelCaption": "Lista de facturas",
+			"labelName": "Nombre",
+			"labelLastname": "Apellido",
+			"labelMail": "Correo electrónico",
+			"labelPhone": "Telefono",
+			"labelAddress": "Dirreccion 1",
+			"labelAddress2": "Dirreccion 2",
+			"labelCity": "Ciudad",
+			"labelState": "Estado",
+			"labelZip": "Codigo postal",
+			"labelOtionalInfo": "Informacion adicional"
 		},
 		"Invoice":{
 			"label": "value"
