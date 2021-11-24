@@ -47,8 +47,16 @@
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
-		}
-		else if($vars['_method'] == 'Delete'){
+		} else if($vars['_method'] == '_GetClient'){
+			$response = array(
+				'codeResponse' 	=> 200,
+				'data' 			=> $invoiceModel->getInvoiceClient( $vars['clientId'] )
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");			
+			exit(json_encode($response));
+		} else if($vars['_method'] == 'Delete'){
 			$response = array(
 				'codeResponse' 	=> 200,
 				'data' 			=> $invoiceModel->deleteInvoice( $vars['invoiceId'] )

@@ -71,6 +71,31 @@
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
 		}
 
+		public function getInvoiceClient($clientId){
+			$pdo = new Conexion();
+			$cmd = '
+				SELECT 
+					id,
+					client_id, 
+					(select concat(nombre, " ", apellido) from client where id = client_id) AS clientName,
+					detalles, 
+					importe, 
+					fecha, 
+					estatus
+				FROM invoice
+				WHERE activo = 1 AND client_id =:client_id;
+			';
+
+			$parametros = array(
+				'client_id' => $clientId
+			);
+			
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
+
 		public function deleteInvoice($invoiceId){
 			$pdo = new Conexion();
 			$cmd = '

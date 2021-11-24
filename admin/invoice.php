@@ -45,8 +45,8 @@
                                     Status
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                    <li><a class="dropdown-item" href="#">Debt</a></li>
-                                    <li><a class="dropdown-item" href="#">Paid out</a></li>
+                                    <li><a class="dropdown-item btnChangeStatus" data-estatus="1" href="javascript:void(0);">Debt</a></li>
+                                    <li><a class="dropdown-item btnChangeStatus" data-estatus="2" href="javascript:void(0);">Paid out</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -157,6 +157,7 @@
             $(".lblTotal").html("$0.00");
             $(".lbl ").html("");
             importeTotal = 0;
+            arrayConcepto = [];
             $(".pnlAdmon").addClass("d-none");
         });
 
@@ -164,6 +165,12 @@
         $("#addConcepto").click( addConcept);
         $("#addFactura").click( addFactura);
         $("#btnDeleteInvoice").click( deleteInvoice);
+
+        // Metodo para cambiar el estatus de una factura
+        $(".btnChangeStatus").click( function(){
+            let estatus = $(this).data("estatus");
+            $("#estatus").val(estatus);
+        });
 
         // Cargar clientes
         loadClients();
@@ -338,7 +345,7 @@
         let invoiceId   = $(this).data("invoiceid"),
             buton       = $(this);
 
-        if (confirm(`You want to delete this invoice (#${invoiceId})?`)){
+        if (confirm(`You want to delete this invoice (#${pad(invoiceId,5)})?`)){
             buton.attr("disabled","disabled");
             buton.html('<i class="bi bi-clock-history"></i>');
 
