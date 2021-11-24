@@ -29,12 +29,28 @@
     <div class="offcanvas-body">
         <form id="addInvoiceForm" class="needs-validation" novalidate>
             <input type="hidden" name="invoiceId" id="invoiceId" value="0">
+            <input type="hidden" name="estatus" id="estatus" value="1">
 
             <div class="row">
                 <div class="col-6 mb-3">
                     <label for="clientList" class="form-label">Client</label>
                     <input class="form-control" list="datalistOptions" id="clientList" placeholder="Type to search...">
-                    <datalist id="datalistOptions"></datalist>                    
+                    <datalist id="datalistOptions"></datalist>
+                    <div class="mt-3 pnlAdmon d-none">
+                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                            <button type="button" id="btnDeleteInvoice" data-invoiceid="0" class="btn btn-outline-secondary">Delete</button>
+                            <button type="button" class="btn btn-outline-secondary">Print</button>
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Status
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                    <li><a class="dropdown-item" href="#">Debt</a></li>
+                                    <li><a class="dropdown-item" href="#">Paid out</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-6 mb-3">
                     <table class="table table-sm">
@@ -59,21 +75,6 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
-                <div class="col mb-3 pnlAdmon d-none">
-                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                        <button type="button" class="btn btn-secondary">Delete</button>
-                        <button type="button" class="btn btn-secondary">Print</button>
-                        <div class="btn-group" role="group">
-                            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                Status
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <li><a class="dropdown-item" href="#">Debt</a></li>
-                                <li><a class="dropdown-item" href="#">Paid out</a></li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -149,17 +150,20 @@
         // Funcion para resetear el formulario despues de su ultimo uso
         myOffcanvas.addEventListener('hidden.bs.offcanvas', function () {
             $("#invoiceId").val("0");
+            $("#estatus").val("1");
             $("#addInvoiceForm")[0].reset();
             $("#addInvoiceForm").removeClass("was-validated");
             $("#tblConceptos").html("");
             $(".lblTotal").html("$0.00");
             $(".lbl ").html("");
             importeTotal = 0;
+            $(".pnlAdmon").addClass("d-none");
         });
 
         // Acciones para los botones principales
         $("#addConcepto").click( addConcept);
         $("#addFactura").click( addFactura);
+        $("#btnDeleteInvoice").click( deleteInvoice);
 
         // Cargar clientes
         loadClients();
@@ -246,43 +250,10 @@
                         render: function(data, type, row){
                             return formatter.format(data);
                         }
-                    },
-                    {
-                        data: null,
-                        orderable: false,
-                        class: "text-center",
-                        render: function ( data, type, row ){
-                            return `
-                                <a href="javascript:void(0);" class="btn btn-outline-danger btnDeleteInvoice" title="Delete"><i class="bi bi-trash"></i></a>
-                            `;
-                        }
                     }
                 ],
                 "fnDrawCallback":function(oSettings){
                     $("#invoiceList thead").remove();
-
-                    $(".btnDeleteInvoice").unbind().click(function(){
-                        let data = getData($(this), dataTableInvoice),
-                            buton = $(this);
-
-                        if (confirm(`You want to delete this invoice (#${data.id})?`)){
-                            buton.attr("disabled","disabled");
-                            buton.html('<i class="bi bi-clock-history"></i>');
-
-                            let objData = {
-                                "_method":"Delete",
-                                "invoiceId": data.id
-                            };
-
-                            $.post("../core/controllers/invoice.php", objData, function(result) {
-                                buton.removeAttr("disabled");
-                                buton.html('<i class="bi bi-trash"></i>');
-
-                                loadInvoices();
-                            });
-
-                        }
-                    });
 
                     $(".btnEditInvoice").unbind().click(function(){
                         let data = getData($(this), dataTableInvoice);
@@ -295,9 +266,14 @@
                             .val(data.clientName.toUpperCase())
                             .trigger('change');
 
-                        $(".btnPanel").click();
+                        $("#btnDeleteInvoice").data("invoiceid", data.id);
+                        $("#estatus").val(data.estatus);
+                        $("#invoiceId").val(data.id);
 
+                        $(".pnlAdmon").removeClass("d-none");
                         listarConceptos();
+
+                        $(".btnPanel").click();
                     });
                 },
                 searching: false,
@@ -355,6 +331,31 @@
 
         $(".btnPanel").click();
         loadInvoices();
+    }
+
+    // Metodo para eliminar una factura
+    function deleteInvoice(){
+        let invoiceId   = $(this).data("invoiceid"),
+            buton       = $(this);
+
+        if (confirm(`You want to delete this invoice (#${invoiceId})?`)){
+            buton.attr("disabled","disabled");
+            buton.html('<i class="bi bi-clock-history"></i>');
+
+            let objData = {
+                "_method":"Delete",
+                "invoiceId": invoiceId
+            };
+
+            $.post("../core/controllers/invoice.php", objData, function(result) {
+                buton.removeAttr("disabled");
+                buton.html('Delete');
+
+                loadInvoices();
+                $(".btnPanel").click();
+            });
+
+        }
     }
 
     // Metodo para dibujar en la tabla los conceptos agregados

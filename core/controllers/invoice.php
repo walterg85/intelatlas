@@ -16,15 +16,16 @@
 
 		if($vars['_method'] == 'POST'){
 			$invoiceData = array(
-				'clienteId' 	=> $vars['clienteSeleccionado'],
+				'clienteId' => $vars['clienteSeleccionado'],
 				'conceptos' => $vars['arrayConcepto'],
-				'importe'	=> $vars['importeTotal']
+				'importe'	=> $vars['importeTotal'],
+				'estatus'	=> $vars['estatus']
 			);
 
 			if($vars['invoiceId'] == 0){
 				$tmpResponse = $invoiceModel->register($invoiceData);
 			}else{
-				$invoiceData['invoiceId'] 	= $vars['invoiceId'];				
+				$invoiceData['invoiceId'] 	= $vars['invoiceId'];
 				$tmpResponse 				= $invoiceModel->updates($invoiceData);
 			}
 
