@@ -16,15 +16,16 @@
 
 		if($vars['_method'] == 'POST'){
 			$invoiceData = array(
-				'clienteId' 	=> $vars['clienteSeleccionado'],
+				'clienteId' => $vars['clienteSeleccionado'],
 				'conceptos' => $vars['arrayConcepto'],
-				'importe'	=> $vars['importeTotal']
+				'importe'	=> $vars['importeTotal'],
+				'estatus'	=> $vars['estatus']
 			);
 
 			if($vars['invoiceId'] == 0){
 				$tmpResponse = $invoiceModel->register($invoiceData);
 			}else{
-				$invoiceData['invoiceId'] 	= $vars['invoiceId'];				
+				$invoiceData['invoiceId'] 	= $vars['invoiceId'];
 				$tmpResponse 				= $invoiceModel->updates($invoiceData);
 			}
 
@@ -46,8 +47,16 @@
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
-		}
-		else if($vars['_method'] == 'Delete'){
+		} else if($vars['_method'] == '_GetClient'){
+			$response = array(
+				'codeResponse' 	=> 200,
+				'data' 			=> $invoiceModel->getInvoiceClient( $vars['clientId'] )
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");			
+			exit(json_encode($response));
+		} else if($vars['_method'] == 'Delete'){
 			$response = array(
 				'codeResponse' 	=> 200,
 				'data' 			=> $invoiceModel->deleteInvoice( $vars['invoiceId'] )

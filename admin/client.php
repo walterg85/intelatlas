@@ -3,18 +3,25 @@
     ob_start();
 ?>
 
+<style type="text/css">
+    .cursor-pointer{
+        cursor: pointer !important;
+    }
+</style>
+
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2 lblNamePage">Clients</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group me-2">
             <button type="button" class="btn btn-outline-secondary btnPanel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasClient"><i class="bi bi-plus-lg"></i> Add new client</button>
+            <button type="button" class="btnPanelDetalle d-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDetail">Show details</button>
         </div>
     </div>
 </div>
 
 <table class="table table-striped align-middle" id="clientList"></table>
 
-<!-- Panel lateral para agregar nuevo producto -->
+<!-- Panel lateral para agregar y editar cliente -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasClient" aria-labelledby="offcanvasWithBackdropLabel"  >
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">Add a new client</h5>
@@ -78,9 +85,71 @@
     </div>
 </div>
 
+<!-- Panel lateral para ver los detalles del cliente -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasDetail" aria-labelledby="offcanvasWithBackdropLabel2"  >
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel2">Client details and invoice list</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="row">
+            <div class="col-8 mb-3">
+                <table class="table table-sm">
+                    <tbody>
+                        <tr>
+                            <td><i class="bi bi-person-fill h4 text-secondary me-2"></i> <texto class="lbl lblNombre"></texto></td>
+                        </tr>
+                        <tr>
+                            <td><i class="bi bi-at  h5 text-secondary me-2"></i> <texto class="lbl lblEmail"></texto></td>
+                        </tr>
+                        <tr>
+                            <td><i class="bi bi-telephone-fill h5 text-secondary me-2"></i> <texto class="lbl lblTelefono"></texto></td>
+                        </tr>
+                        <tr>
+                            <td><i class="bi bi-house-door-fill h5 text-secondary me-2"></i> <texto class="lbl lblDireccion1"></texto></td>
+                        </tr>
+                        <tr>
+                            <td><i class="bi bi-house-door-fill h5 text-secondary me-2"></i> <texto class="lbl lblDireccion2"></texto></td>
+                        </tr>
+                        <tr>
+                            <td><i class="bi bi-pin-map-fill h5 text-secondary me-2"></i> <texto class="lbl lblCiudad"></texto></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col mb-3">
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                    <button type="button" id="btnDeleteclient" data-clientid="0" class="btn btn-outline-secondary">Delete</button>
+                    <button type="button" class="btn btn-outline-secondary">Edit</button>
+                    <div class="btn-group" role="group">
+                        <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            Options
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                            <li><a class="dropdown-item" href="javascript:void(0);">Option1</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Option2</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table align-middle caption-top">
+            <caption>Invoice list</caption>
+            <tbody id="tblInvoices"></tbody>
+        </table>
+      
+    </div>
+</div>
+
 <script type="text/javascript">
     var myOffcanvas     = document.getElementById('offcanvasClient'),
-        dataTableClient = null;
+        dataTableClient = null,
+        formatter       = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2
+        });
 
     $(document).ready(function(){
         currentPage = "Clients";
@@ -160,7 +229,11 @@
                         }
                     },
                     {
-                        data: 'nombre'
+                        data: 'nombre',
+                        class: 'fw-bolder',
+                        render: function(data, type, row){
+                            return `<text class="btnDetailClient cursor-pointer">${data}</text>`;
+                        }
                     },
                     {
                         data: 'apellido'
@@ -226,6 +299,43 @@
                         $("#inputEmail").val(data.email);
 
                         $(".btnPanel").click();
+                    });
+
+                    $(".btnDetailClient").unbind().click(function(){
+                        let data = getData($(this), dataTableClient);
+
+                        $("#btnDeleteclient").data("clientid", data.id);
+                        $(".lblNombre").html(`${data.nombre} ${data.apellido}`);
+                        $(".lblEmail").html(`${data.email}`);
+                        $(".lblTelefono").html(`${data.telefono}`);
+                        $(".lblDireccion1").html(`${data.direccion_a}`);
+                        $(".lblDireccion2").html(`${data.direccion_b}`);
+                        $(".lblCiudad").html(`${data.ciudad} ${data.estado} ${data.codigo_postal}`);
+
+                        let objData = {
+                            "_method":"_GetClient",
+                            "clientId": data.id
+                        };
+
+                        $.post("../core/controllers/invoice.php", objData, function(result){
+                            $("#tblInvoices").html("");
+
+                            let row = '';
+                            $.each( result.data, function( index, item){
+                                row += `
+                                    <tr>
+                                        <td class="fw-bolder">#${pad(item.id, 5)}</td>
+                                        <td>${item.fecha}</td>
+                                        <td>${(item.estatus == 1) ? '<text class="text-danger">Debt</text>' : '<text class="text-success">Paid out</text>'}</td>
+                                        <td class="text-end text-danger">${formatter.format(item.importe)}</td>
+                                    </tr>
+                                `;
+                            });
+
+                            $(row).appendTo("#tblInvoices");
+                        });
+
+                        $(".btnPanelDetalle").click();
                     });
                 },
                 searching: false,
