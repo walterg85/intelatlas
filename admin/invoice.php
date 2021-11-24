@@ -30,7 +30,7 @@
                     <input class="form-control" list="datalistOptions" id="clientList" placeholder="Type to search...">
                     <datalist id="datalistOptions"></datalist>                    
                 </div>
-                <div class="col-6">
+                <div class="col-6 mb-3">
                     <table class="table table-sm">
                         <tbody>
                             <tr>
@@ -82,7 +82,7 @@
                     <input type="text" id="inputQuantity" name="inputQuantity" class="form-control" autocomplete="off" maxlength="50" required>
                 </div>
                 <div class="col-2 mb-3 d-flex align-items-end justify-content-center">
-                    <button class="btn btn-success btn-lg" type="button" id="addClient">
+                    <button class="btn btn-success btn-lg" type="button" id="addConcepto">
                         <i class="bi bi-plus-lg"></i>
                     </button>
                 </div>
@@ -96,6 +96,7 @@
                         <th scope="col">Price</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Amount</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody id="tblConceptos"></tbody>
@@ -109,6 +110,13 @@
                     </tr>
                 </tbody>
             </table>
+
+            <div class="float-none"></div><br><br>
+            <div class="d-grid gap-2 my-5">
+                <button class="btn btn-success btn-lg" type="button" id="addFactura">
+                    <i class="bi bi-check2"></i> Save information
+                </button>
+            </div>
         </form>
     </div>
 </div>
@@ -116,7 +124,15 @@
 
 <script type="text/javascript">
     var myOffcanvas     = document.getElementById('offcanvasInvoice'),
-        dataTableClient = null;
+        dataTableInvoice = null,
+        clienteSeleccionado = 0,
+        arrayConcepto = [],
+        formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2
+        }),
+        importeTotal = 0;
 
     $(document).ready(function(){
         currentPage = "Invoice";
@@ -127,6 +143,9 @@
             $("#addInvoiceForm").removeClass("was-validated");
         });
 
+        $("#addConcepto").click( addConcept);
+        $("#addFactura").click( addFactura);
+
         loadClients();
     });
 
@@ -134,9 +153,6 @@
         let objData = {
             "_method":"_GET"
         };
-
-        if (dataTableClient != null)
-            dataTableClient.destroy();
 
         $.post("../core/controllers/client.php", objData, function(result) {
             $("#datalistOptions").html("");
@@ -148,7 +164,7 @@
             $("#datalistOptions").html(options);
 
             $("input").on('input', function () {
-                if(this.value != "" && $('datalist').find('option[value="'+this.value+'"]')){
+                if(this.value != "" && this.id == "clientList" && $('datalist').find('option[value="'+this.value+'"]')){
                     let option  = $('datalist').find('option[value="'+this.value+'"]'),
                         data    = JSON.parse(option.data("client").replace(/'/g, '"'));
 
@@ -157,13 +173,79 @@
                     $(".lblDireccion1").html(`${data.direccion_a}`);
                     $(".lblDireccion2").html(`${data.direccion_b}`);
                     $(".lblCiudad").html(`${data.ciudad} ${data.estado} ${data.codigo_postal}`);
+
+                    clienteSeleccionado = data.id;
                 }                
             });
-
         });
     }
 
-    
+    function addConcept(){
+        let concepto    = $("#inputConcepto").val(),
+            precio      = $("#inputPrecio").val(),
+            cantidad    = $("#inputQuantity").val();
+
+        if(concepto.trim() != "" && precio.trim() != "" && cantidad.trim() != ""){
+            let objItm = {
+                    concepto:concepto,
+                    precio:precio,
+                    cantidad:cantidad
+                },
+                filas = "";
+
+            arrayConcepto.push(objItm);
+            $("#tblConceptos").html("");
+            $.each(arrayConcepto, function(index, item){
+                filas += `
+                    <tr>
+                        <td>${index +1}</td>
+                        <td>${item.concepto}</td>
+                        <td>${formatter.format(item.precio)}</td>
+                        <td>${item.cantidad}</td>
+                        <td>${formatter.format(parseFloat(item.precio) * parseFloat(item.cantidad))}</td>
+                        <td>
+                            <a href="javascript:void(0);" class="btn btn-outline-danger btn-sm btnDeleteCocept me-2" title="Delete"><i class="bi bi-trash"></i></a>
+                            <a href="javascript:void(0);" class="btn btn-outline-warning btn-sm btnModifyConcept" title="Modify"><i class="bi bi-pencil"></i></a>
+                        </td>
+                    </tr>
+                `;
+
+                importeTotal += parseFloat(item.precio) * parseFloat(item.cantidad);
+            });
+
+            $("#tblConceptos").append(filas);
+            $(".lblTotal").html(formatter.format(importeTotal));
+
+            $("#inputConcepto").val("");
+            $("#inputPrecio").val("");
+            $("#inputQuantity").val("");
+
+            $("#inputConcepto").focus();
+        }
+    }
+
+    function addFactura(){
+        // se bloqueda el boton para evitar doble accion
+        $("#addFactura").attr("disabled","disabled");
+        $("#addFactura").html('<i class="bi bi-clock-history"></i> Saving...');
+
+        let form        = $("#addClientForm")[0],
+            formData    = new FormData(form);
+
+        formData.append("_method", "POST");
+        formData.append("clienteSeleccionado", clienteSeleccionado);
+        formData.append("arrayConcepto", JSON.stringify(arrayConcepto));
+        formData.append("importeTotal", importeTotal);
+
+        var request = new XMLHttpRequest();
+        request.open("POST", "../core/controllers/invoice.php");
+        request.send(formData);
+        
+        $("#addFactura").removeAttr("disabled");
+        $("#addFactura").html('<i class="bi bi-check2"></i> Save information');
+
+        $(".btnPanel").click();
+    }
 
     function changePageLang(argument) {
         console.log(argument);
