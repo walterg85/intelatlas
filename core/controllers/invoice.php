@@ -19,7 +19,8 @@
 				'clienteId' => $vars['clienteSeleccionado'],
 				'conceptos' => $vars['arrayConcepto'],
 				'importe'	=> $vars['importeTotal'],
-				'estatus'	=> $vars['estatus']
+				'estatus'	=> $vars['estatus'],
+				'cupon'		=> $vars['cupon']
 			);
 
 			if($vars['invoiceId'] == 0){
