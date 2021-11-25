@@ -8,15 +8,16 @@
 			$pdo = new Conexion();
 			$cmd = '
 				INSERT INTO invoice
-						(client_id, detalles, importe, fecha, estatus, activo)
+						(client_id, detalles, importe, fecha, estatus, activo, cupon)
 				VALUES
-					(:client_id, :detalles, :importe, now(), 1, 1)
+					(:client_id, :detalles, :importe, now(), 1, 1, :cupon)
 			';
 
 			$parametros = array(
 				':client_id' 	=> $data['clienteId'],
 				':detalles' 	=> $data['conceptos'],
-				':importe' 		=> $data['importe']
+				':importe' 		=> $data['importe'],
+				':cupon' 		=> $data['cupon']
 			);
 
 			try{
@@ -32,7 +33,7 @@
 			$pdo = new Conexion();
 			$cmd = '
 				UPDATE invoice
-				SET client_id =:client_id, detalles =:detalles, importe =:importe, estatus =:estatus
+				SET client_id =:client_id, detalles =:detalles, importe =:importe, estatus =:estatus, cupon =:cupon
 				WHERE id =:invoiceId
 			';
 
@@ -41,7 +42,8 @@
 				':client_id' 	=> $data['clienteId'],
 				':detalles' 	=> $data['conceptos'],
 				':importe' 		=> $data['importe'],
-				':estatus' 		=> $data['estatus']
+				':estatus' 		=> $data['estatus'],
+				':cupon' 		=> $data['cupon']
 			);
 
 			$sql = $pdo->prepare($cmd);
@@ -60,7 +62,8 @@
 					detalles, 
 					importe, 
 					fecha, 
-					estatus
+					estatus,
+					cupon
 				FROM invoice
 				WHERE activo = 1;
 			';
@@ -81,7 +84,8 @@
 					detalles, 
 					importe, 
 					fecha, 
-					estatus
+					estatus,
+					cupon
 				FROM invoice
 				WHERE activo = 1 AND client_id =:client_id;
 			';

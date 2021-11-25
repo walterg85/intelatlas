@@ -7,6 +7,11 @@
     .cursor-pointer{
         cursor: pointer !important;
     }
+
+    a.disabled {
+      pointer-events: none;
+      cursor: default;
+    }
 </style>
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -36,13 +41,6 @@
                     <label for="clientList" class="form-label labelControl1">Client</label>
                     <input class="form-control" list="datalistOptions" id="clientList" placeholder="Type to search...">
                     <datalist id="datalistOptions"></datalist>
-
-                    <div class="input-group mt-3">
-                        <input type="text" class="form-control" placeholder="Coupon Code" id="inputCode" autocomplete="off">
-                        <button class="btn btn-outline-secondary" type="button" id="applyCoupon">
-                            Apply coupon
-                        </button>
-                    </div>
 
                     <div class="mt-3 pnlAdmon d-none">
                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
@@ -121,16 +119,33 @@
                 <tbody id="tblConceptos"></tbody>
             </table>
 
-            <table class="table w-50 float-end">
-                <tbody>
-                    <tr>
-                        <td class="text-end h4 text-dark">Total</td>
-                        <td class="lblTotal text-end text-danger h3">$0.00</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="row">
+                <div class="col">
+                    <table class="table w-50 float-end">
+                        <tbody>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Coupon Code" id="inputCode" autocomplete="off">
+                                        <button class="btn btn-outline-secondary" type="button" id="applyCoupon">
+                                            Apply coupon
+                                        </button>
+                                    </div>                            
+                                </td>
+                            </tr>
+                            <tr class="filaDescuento d-none">
+                                <td class="text-end text-dark labelMontoDescuento">Discount</td>
+                                <td class="lblDescuento text-end">$0.00</td>
+                            </tr>
+                            <tr>
+                                <td class="text-end h4 text-dark">Total</td>
+                                <td class="lblTotal text-end text-danger h3">$0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-            <div class="float-none"></div><br><br>
             <div class="d-grid gap-2 my-5">
                 <button class="btn btn-success btn-lg" type="button" id="addFactura">
                     <i class="bi bi-check2"></i> Save information
@@ -169,6 +184,9 @@
             importeTotal = 0;
             arrayConcepto = [];
             $(".pnlAdmon").addClass("d-none");
+            $(".filaDescuento").addClass("d-none");
+            objDescuento = {};
+            $("#clientList, #inputConcepto, #inputPrecio, #inputQuantity, #addConcepto, #inputCode, #applyCoupon").removeAttr("disabled", "disabled");
         });
 
         // Acciones para los botones principales
@@ -259,7 +277,7 @@
                     {
                         data: 'estatus',
                         render: function(data, type, row){
-                            return (data == 1) ? '<text class="text-danger">Debt</text>' : '<text class="text-success">Paid out</text>';
+                            return (data == 1) ? '<text class="text-danger">Debt</text>' : (data == 2) ? '<text class="text-success">Paid out</text>' : '<text class="text-warning">Refound</text>';
                         }
                     },
                     {
@@ -278,6 +296,7 @@
 
                         clienteSeleccionado = data.client_id;
                         arrayConcepto       = JSON.parse(data.detalles);
+                        objDescuento        = (data.cupon) ? JSON.parse(data.cupon) : {};
                         importeTotal        = data.importe;
 
                         $("#clientList")
@@ -288,8 +307,12 @@
                         $("#estatus").val(data.estatus);
                         $("#invoiceId").val(data.id);
 
+                        if(data.estatus == 2){
+                            $("#clientList, #inputConcepto, #inputPrecio, #inputQuantity, #addConcepto, #inputCode, #applyCoupon").attr("disabled", "disabled");
+                        }
+
                         $(".pnlAdmon").removeClass("d-none");
-                        listarConceptos();
+                        listarConceptos(data.estatus);
 
                         $(".btnPanel").click();
                     });
@@ -317,7 +340,7 @@
             };
 
             arrayConcepto.push(objItm);
-            listarConceptos();           
+            listarConceptos(0);           
 
             $("#inputConcepto").val("");
             $("#inputPrecio").val("");
@@ -339,6 +362,7 @@
         formData.append("clienteSeleccionado", clienteSeleccionado);
         formData.append("arrayConcepto", JSON.stringify(arrayConcepto));
         formData.append("importeTotal", importeTotal);
+        formData.append("cupon", JSON.stringify(objDescuento));
 
         var request = new XMLHttpRequest();
         request.open("POST", "../core/controllers/invoice.php");
@@ -377,7 +401,7 @@
     }
 
     // Metodo para dibujar en la tabla los conceptos agregados
-    function listarConceptos(){
+    function listarConceptos(estadoInvoice){
         let filas = "";
 
         $("#tblConceptos").html("");
@@ -393,14 +417,31 @@
                     <td class="text-end">${item.cantidad}</td>
                     <td class="text-end">${formatter.format(parseFloat(item.precio) * parseFloat(item.cantidad))}</td>
                     <td class="text-center">
-                        <a href="javascript:void(0);" data-index="${index}" class="btn btn-outline-danger btn-sm btnDeleteCocept me-2" title="Delete"><i class="bi bi-trash"></i></a>
-                        <a href="javascript:void(0);" data-index="${index}" class="btn btn-outline-warning btn-sm btnModifyConcept" title="Modify"><i class="bi bi-pencil"></i></a>
+                        <a href="javascript:void(0);" data-index="${index}" class="btn btn-outline-danger btn-sm btnDeleteCocept me-2 ${(estadoInvoice == 2) ? 'disabled' : ''}" title="Delete"><i class="bi bi-trash"></i></a>
+                        <a href="javascript:void(0);" data-index="${index}" class="btn btn-outline-warning btn-sm btnModifyConcept ${(estadoInvoice == 2) ? 'disabled' : ''}" title="Modify"><i class="bi bi-pencil"></i></a>
                     </td>
                 </tr>
             `;
 
             importeTotal += parseFloat(item.precio) * parseFloat(item.cantidad);
         });
+
+        if('cupon' in objDescuento){
+            let fDescuento = 0;
+            if(objDescuento.tipo == 1){
+                fDescuento = parseFloat(objDescuento.importe) * importeTotal;
+            }else{
+                fDescuento = parseFloat(objDescuento.importe);
+            }
+            
+            importeTotal = importeTotal - fDescuento;
+
+            $(".filaDescuento").removeClass("d-none");
+            $(".lblDescuento").html(formatter.format(fDescuento));
+            $(".labelMontoDescuento").html(`Discount ${objDescuento.valor}`);
+        }else{
+            $(".filaDescuento").addClass("d-none");
+        }
 
         // Se agrega el contenido del HTML en el body de la tabla contenedora
         $("#tblConceptos").append(filas);
@@ -410,7 +451,7 @@
         $(".btnDeleteCocept").unbind().click( function(){
             let index = $(this).data("index");
             arrayConcepto.splice(index, 1);
-            listarConceptos();
+            listarConceptos(0);
         });
 
         // Accion para setear los valores de un elemento del array, eliminarlo para poder coregirlos y redibujar la tabla
@@ -423,7 +464,7 @@
             $("#inputQuantity").val(concepto.cantidad);
 
             arrayConcepto.splice(index, 1);
-            listarConceptos();
+            listarConceptos(0);
         });
     }
 
@@ -464,6 +505,8 @@
 
                 objDescuento.cupon =  $("#inputCode").val();
                 objDescuento.id    = codigo.id;
+                objDescuento.tipo  = codigo.tipo;
+
                 if(codigo.tipo == 1){
                     objDescuento.importe    = parseFloat( codigo.valor / 100).toString().match(/^-?\d+(?:\.\d{0,2})?/)[0];
                     objDescuento.valor      = `${codigo.valor}%`;
@@ -477,7 +520,7 @@
                 alert("This coupon does not exist.");
             }
 
-            listarConceptos();
+            listarConceptos(0);
         });
     }
 </script>
