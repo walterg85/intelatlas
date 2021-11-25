@@ -127,7 +127,24 @@
 			"labelOtionalInfo": "Optional info"
 		},
 		"Invoice":{
-			"label": "value"
+			"pageTitle": "Invoices",
+			"buton1": "Add new invoice",
+			"buton2": "Save information",
+			"buton3": "Delete",
+			"buton4": "Status",
+			"buton5": "Print",
+			"buton6": "Apply coupon",
+			"panel1": "Invoice details",
+			"labelControl1": "Client",
+			"labelControl2": "Concept",
+			"labelControl3": "Price",
+			"labelControl4": "Quantity",
+			"labelControl5": "Type to search...",
+			"labelControl6": "Amount",
+			"labelControl7": "Coupon Code",
+			"opc1": "Debt",
+			"opc2": "Paid out",
+			"opc3": "Refound"
 		}
 	},
 	"es":{
@@ -258,7 +275,24 @@
 			"labelOtionalInfo": "Informacion adicional"
 		},
 		"Invoice":{
-			"label": "value"
+			"pageTitle": "Facturas",
+			"buton1": "Agregar nueva factura",
+			"buton2": "Guardar informacion",
+			"buton3": "Eliminar",
+			"buton4": "Estado",
+			"buton5": "Imprimir",
+			"buton6": "Aplicar cupon",
+			"panel1": "Detalles de la factura",
+			"labelControl1": "Cliente",
+			"labelControl2": "Concepto",
+			"labelControl3": "Precio",
+			"labelControl4": "Cantidad",
+			"labelControl5": "Escribe para buscar...",
+			"labelControl6": "Importe",
+			"labelControl7": "Codigo de cupon",
+			"opc1": "Adeudo",
+			"opc2": "Pagado",
+			"opc3": "Reembolso"
 		}
 	}
 }
