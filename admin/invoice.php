@@ -258,11 +258,22 @@
 
             dataTableInvoice = $("#invoiceList").DataTable({
                 data: result.data,
-                order: [[ 0, "desc" ]],
+                order: [[ 1, "desc" ]],
                 columns: [
                     {
+                        data: null,
+                        orderable: false,
+                        class: "text-center botonesOpcion",
+                        render: function ( data, type, row )
+                        {
+                            return `
+                                <a href="javascript:void(0);" class="btn btn-outline-secondary btnPublicInvoice" title="View invoice"><i class="bi bi-eye-fill"></i></a>
+                                <a href="javascript:void(0);" class="btn btn-outline-secondary btnDownloadPdf" title="View pdf"><i class="bi bi-file-earmark-pdf"></i></a>
+                            `;
+                        }
+                    },
+                    {
                         data: 'id',
-                        width: "20px",
                         class: 'fw-bolder',
                         render: function(data, type, row){
                             return `<text class="btnEditInvoice cursor-pointer">#${pad(data, 5)}</text>`;
@@ -316,6 +327,8 @@
 
                         $(".btnPanel").click();
                     });
+
+                    $("#invoiceList tbody tr").find(".botonesOpcion").css("width", "110px");
                 },
                 searching: false,
                 pageLength: 20,
