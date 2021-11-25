@@ -39,7 +39,7 @@
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
-		}else if($vars['_method'] == 'GET'){
+		} else if($vars['_method'] == 'GET'){
 			$response = array(
 				'codeResponse' 	=> 200,
 				'data' 			=> $invoiceModel->getInvoice()
@@ -66,6 +66,26 @@
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
+		} else if($vars['_method'] == 'generatePdf'){
+			require_once(dirname(__FILE__).'/../utils/html2pdf/html2pdf.class.php');
+
+			$content = "<h1>Generado factura</h1>";
+			$rutaPDF = "miFactura.pdf";
+
+			try{
+	            $html2pdf = new HTML2PDF('P', 'letter', 'es', true, 'UTF-8', 3); //Configura la hoja
+	            $html2pdf->pdf->SetDisplayMode('fullpage'); //Ver otros parámetros para SetDisplaMode
+	            $html2pdf->writeHTML($content); //Se escribe el contenido 
+	            $html2pdf->Output($rutaPDF, "F");
+	            //$html2pdf->Output('factura.pdf'); //Nombre default del PDF
+	        }
+	        catch(HTML2PDF_exception $e) {
+	            return $e;
+	            echo $e;
+	            exit;
+	        }
+
+	        exit("ok");
 		}
 	}
 
