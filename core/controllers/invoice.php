@@ -67,25 +67,72 @@
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
 		} else if($vars['_method'] == 'generatePdf'){
-			require_once(dirname(__FILE__).'/../utils/html2pdf/html2pdf.class.php');
+			$data 		= $invoiceModel->getInvoiceId( $vars['invoiceId'] );
+			$htmlBoddy 	= "<h1>No found data</h1>";
 
-			$content = "<h1>Generado factura</h1>";
-			$rutaPDF = "miFactura.pdf";
+			if($data){
+				$htmlBoddy = '
+					<!DOCTYPE html>
+					<html>
+					<head>
+						<meta charset="utf-8">
+						<meta name="viewport" content="width=device-width, initial-scale=1">
+					</head>
+					<body>
+						<h1 style="text-align: right;">My invoice #'. str_pad($data['invoiceData']['id'], 5, "0", STR_PAD_LEFT) .'</h1>
+						<p style="text-align: right;">'. $data['invoiceData']['fecha'] .'</p>
 
-			try{
-	            $html2pdf = new HTML2PDF('P', 'letter', 'es', true, 'UTF-8', 3); //Configura la hoja
-	            $html2pdf->pdf->SetDisplayMode('fullpage'); //Ver otros parámetros para SetDisplaMode
-	            $html2pdf->writeHTML($content); //Se escribe el contenido 
-	            $html2pdf->Output($rutaPDF, "F");
-	            //$html2pdf->Output('factura.pdf'); //Nombre default del PDF
-	        }
-	        catch(HTML2PDF_exception $e) {
-	            return $e;
-	            echo $e;
-	            exit;
-	        }
+						<table>
+							<tbody>
+								<tr>
+									<td width="30%">&#8226; '. $data['clientData']['nombre'] .' '. $data['clientData']['apellido'] .'</td>
+								</tr>
+								<tr>
+									<td width="30%">&#8226; '. $data['clientData']['direccion_a'] .'</td>
+								</tr>
+								<tr>
+									<td width="30%">&#8226; '. $data['clientData']['direccion_b'] .'</td>
+								</tr>
+								<tr>
+									<td width="30%">&#8226; '. $data['clientData']['telefono'] .'</td>
+								</tr>
+								<tr>
+									<td width="30%">&#8226; '. $data['clientData']['ciudad'] .' '. $data['clientData']['estado'] .' '. $data['clientData']['codigo_postal'] .'</td>
+								</tr>
+								<tr>
+									<td width="30%">&#8226; '. $data['clientData']['adicional'] .'</td>
+								</tr>
+							</tbody>
+						</table>
 
-	        exit("ok");
+						<hr>
+
+						<table>
+							<thead>
+								<tr style="background-color: #d7d7d7;">
+									<th>#</th>
+									<th>Concept</th>
+									<th>Price</th>
+									<th>Quantity</th>
+									<th>Amount</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</body>
+					</html>
+				';
+			}
+
+			exit($htmlBoddy);
 		}
 	}
 

@@ -155,6 +155,7 @@
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script type="text/javascript">
     var myOffcanvas         = document.getElementById('offcanvasInvoice'),
@@ -329,12 +330,21 @@
                     });
 
                     $(".btnDownloadPdf").unbind().click( function(){
-                        let objData = {
-                                "_method":"generatePdf"
+                        let data    = getData($(this), dataTableInvoice),
+                            objData = {
+                                "_method":"generatePdf",
+                                "invoiceId": data.id
                             };
 
                         $.post("../core/controllers/invoice.php", objData, function(result){
-                            console.log(result);
+                            let element = result,
+                                opt     = {
+                                    margin:       1,
+                                    filename:     `My invoice ${pad(data.id, 5)}`,
+                                    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                                };
+
+                            html2pdf(element, opt);
                         });
                     });
 

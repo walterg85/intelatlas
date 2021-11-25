@@ -100,6 +100,65 @@
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
 		}
 
+		public function getInvoiceId($invoiceId){
+			$pdo = new Conexion();
+			$cmd = '
+				SELECT 
+					id,
+					client_id,
+					detalles, 
+					importe, 
+					fecha, 
+					estatus,
+					cupon
+				FROM invoice
+				WHERE id =:invoiceId;
+			';
+
+			$parametros = array(
+				'invoiceId' => $invoiceId
+			);
+			
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			$invoiceData = $sql->fetch(PDO::FETCH_ASSOC);
+			$data = [];
+			if($invoiceData){
+				$data['invoiceData'] = $invoiceData;
+
+				$cmd = '
+					SELECT
+						id,
+						nombre, 
+						apellido, 
+						direccion_a, 
+						direccion_b, 
+						telefono, 
+						ciudad, 
+						estado, 
+						codigo_postal, 
+						adicional, 
+						registro,
+						email
+					FROM 
+						client
+					WHERE id =:clientId;
+				';
+
+				$parametros = array(
+					'clientId' => $invoiceData['client_id']
+				);
+				
+				$sql = $pdo->prepare($cmd);
+				$sql->execute($parametros);
+
+				$data['clientData'] = $sql->fetch(PDO::FETCH_ASSOC);
+			}			
+
+			return $data;
+		}
+
 		public function deleteInvoice($invoiceId){
 			$pdo = new Conexion();
 			$cmd = '
