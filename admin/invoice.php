@@ -23,7 +23,7 @@
 <!-- Panel lateral para agregar nueva factura -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasInvoice" aria-labelledby="offcanvasWithBackdropLabel"  >
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">Add a new invoice</h5>
+        <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">Invoice details</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
@@ -33,20 +33,29 @@
 
             <div class="row">
                 <div class="col-6 mb-3">
-                    <label for="clientList" class="form-label">Client</label>
+                    <label for="clientList" class="form-label labelControl1">Client</label>
                     <input class="form-control" list="datalistOptions" id="clientList" placeholder="Type to search...">
                     <datalist id="datalistOptions"></datalist>
+
+                    <div class="input-group mt-3">
+                        <input type="text" class="form-control" placeholder="Coupon Code" id="inputCode" autocomplete="off">
+                        <button class="btn btn-outline-secondary" type="button" id="applyCoupon">
+                            Apply coupon
+                        </button>
+                    </div>
+
                     <div class="mt-3 pnlAdmon d-none">
                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                             <button type="button" id="btnDeleteInvoice" data-invoiceid="0" class="btn btn-outline-secondary">Delete</button>
-                            <button type="button" class="btn btn-outline-secondary">Print</button>
+                            <button type="button" class="btn btn-outline-secondary" id="btnPrintInvoice">Print</button>
                             <div class="btn-group" role="group">
                                 <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                     Status
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                    <li><a class="dropdown-item btnChangeStatus" data-estatus="1" href="javascript:void(0);">Debt</a></li>
-                                    <li><a class="dropdown-item btnChangeStatus" data-estatus="2" href="javascript:void(0);">Paid out</a></li>
+                                    <li><a class="dropdown-item btnChangeStatus" data-estatus="1" href="javascript:void(0);" id="opc1">Debt</a></li>
+                                    <li><a class="dropdown-item btnChangeStatus" data-estatus="2" href="javascript:void(0);" id="opc2">Paid out</a></li>
+                                    <li><a class="dropdown-item btnChangeStatus" data-estatus="3" href="javascript:void(0);" id="opc3">Reversal</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -80,15 +89,15 @@
 
             <div class="row">
                 <div class="col mb-3">
-                    <label for="inputConcepto" class="form-label labelCancepto">Concept</label>
+                    <label for="inputConcepto" class="form-label labelControl2">Concept</label>
                     <input type="text" id="inputConcepto" name="inputConcepto" class="form-control" autocomplete="off" maxlength="250" required>
                 </div>
                 <div class="col-2 mb-3">
-                    <label for="inputPrecio" class="form-label labelPrecio">Price</label>
+                    <label for="inputPrecio" class="form-label labelControl3">Price</label>
                     <input type="number" id="inputPrecio" name="inputPrecio" class="form-control" autocomplete="off" maxlength="50" required>
                 </div>
                 <div class="col-2 mb-3">
-                    <label for="inputQuantity" class="form-label labelQuantity">Quantity</label>
+                    <label for="inputQuantity" class="form-label labelControl4">Quantity</label>
                     <input type="number" id="inputQuantity" name="inputQuantity" class="form-control" autocomplete="off" maxlength="50" required>
                 </div>
                 <div class="col-2 mb-3 d-flex align-items-end justify-content-center">
@@ -102,10 +111,10 @@
                 <thead class="table-light">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Concept</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Amount</th>
+                        <th class="labelControl2" scope="col">Concept</th>
+                        <th class="labelControl3" scope="col">Price</th>
+                        <th class="labelControl4" scope="col">Quantity</th>
+                        <th class="labelControl6" scope="col">Amount</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -138,6 +147,7 @@
         clienteSeleccionado = 0,
         arrayConcepto       = [],
         importeTotal        = 0,
+        objDescuento        = {},
         formatter           = new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'USD',
@@ -165,6 +175,7 @@
         $("#addConcepto").click( addConcept);
         $("#addFactura").click( addFactura);
         $("#btnDeleteInvoice").click( deleteInvoice);
+        $("#applyCoupon").click( applyCoupon);
 
         // Metodo para cambiar el estatus de una factura
         $(".btnChangeStatus").click( function(){
@@ -417,8 +428,57 @@
     }
 
     // Metodo para cambiar de idioma la pagina
-    function changePageLang(argument) {
-        console.log(argument);
+    function changePageLang(myLang) {
+        $(".lblNamePage").html(myLang.pageTitle);
+        $(".btnPanel").html(`<i class="bi bi-plus-lg"></i> ${myLang.buton1}`);
+        $("#offcanvasWithBackdropLabel").html(myLang.panel1);
+        $("#addFactura").html(`<i class="bi bi-check2"></i> ${myLang.buton2}`);
+        $(".labelControl1").html(myLang.labelControl1);
+        $(".labelControl2").html(myLang.labelControl2);
+        $(".labelControl3").html(myLang.labelControl3);
+        $(".labelControl4").html(myLang.labelControl4);
+        $("#clientList").attr("placeholder", myLang.labelControl5);
+        $(".labelControl6").html(myLang.labelControl6);
+        $("#inputCode").attr("placeholder", myLang.labelControl7);
+
+        $("#btnDeleteInvoice").html(myLang.buton3);
+        $("#btnGroupDrop1").html(myLang.buton4);
+        $("#btnPrintInvoice").html(myLang.buton5);
+        $("#applyCoupon").html(myLang.buton6);
+
+        $("#opc1").html(myLang.opc1);
+        $("#opc2").html(myLang.opc2);
+        $("#opc3").html(myLang.opc3);
+    }
+
+    // Metodo para aplicar cupon de descuento
+    function applyCoupon(){
+        let objData = {
+            "_method":"GetCoupon",
+            "code": $("#inputCode").val()
+        };
+
+        $.post("../core/controllers/checkout.php", objData, function(result) {
+            if(result.data){
+                let codigo = result.data;
+
+                objDescuento.cupon =  $("#inputCode").val();
+                objDescuento.id    = codigo.id;
+                if(codigo.tipo == 1){
+                    objDescuento.importe    = parseFloat( codigo.valor / 100).toString().match(/^-?\d+(?:\.\d{0,2})?/)[0];
+                    objDescuento.valor      = `${codigo.valor}%`;
+                }else{
+                    objDescuento.importe    = parseFloat( codigo.valor );
+                    objDescuento.valor      = formatter.format(codigo.valor);
+                }                    
+            }else{
+                objDescuento = {};
+                $("#inputCode").val("");
+                alert("This coupon does not exist.");
+            }
+
+            listarConceptos();
+        });
     }
 </script>
 
