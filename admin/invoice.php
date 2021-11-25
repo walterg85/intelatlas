@@ -328,6 +328,16 @@
                         $(".btnPanel").click();
                     });
 
+                    $(".btnDownloadPdf").unbind().click( function(){
+                        let objData = {
+                                "_method":"generatePdf"
+                            };
+
+                        $.post("../core/controllers/invoice.php", objData, function(result){
+                            console.log(result);
+                        });
+                    });
+
                     $("#invoiceList tbody tr").find(".botonesOpcion").css("width", "110px");
                 },
                 searching: false,
