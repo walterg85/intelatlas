@@ -71,7 +71,18 @@
 			$htmlBoddy 	= "<h1>No found data</h1>";
 
 			if($data){
-				$htmlBoddy = '
+				$statusInvoice 	= "";
+
+				if($data['invoiceData']['estatus'] == "1")
+					$statusInvoice = '<text style="color:red;">Debt</text>';
+
+				if($data['invoiceData']['estatus'] == "2")
+					$statusInvoice = '<text style="color:green;">Paid out</text>';
+
+				if($data['invoiceData']['estatus'] == "3")
+					$statusInvoice = '<text style="color:orange;">Refound</text>';
+
+				$htmlBoddy 		= '
 					<!DOCTYPE html>
 					<html>
 					<head>
@@ -79,8 +90,16 @@
 						<meta name="viewport" content="width=device-width, initial-scale=1">
 					</head>
 					<body>
-						<h1 style="text-align: right;">My invoice #'. str_pad($data['invoiceData']['id'], 5, "0", STR_PAD_LEFT) .'</h1>
-						<p style="text-align: right;">'. $data['invoiceData']['fecha'] .'</p>
+						<div>
+							<img style="float: left;" src="https://cdn.dribbble.com/users/27903/screenshots/5370954/v_2x.png" width="200"/>
+							<div style="float: right;">
+								<h1 style="text-align: right;">My invoice #'. str_pad($data['invoiceData']['id'], 5, "0", STR_PAD_LEFT) .'</h1>
+								<p style="text-align: right; margin-bottom: 0px;">'. $data['invoiceData']['fecha'] .'</p>
+								<p style="text-align: right; margin-top: 0px;">'. $statusInvoice .'</p>
+							</div>
+						</div>
+
+						<div style="clear: left;"></div>
 
 						<table>
 							<tbody>
@@ -106,8 +125,30 @@
 						</table>
 
 						<hr>
+				';
 
-						<table>
+				$conceptos 	= json_decode($data['invoiceData']['detalles']);
+				$filas		= '';
+				$total 		= 0;
+				$grantotal	= 0;
+
+				foreach ($conceptos as $key => $item) {
+					$total = $item->cantidad * $item->precio;
+					$filas .= '
+						<tr>
+							<td>'. ($key + 1) .'</td>
+							<td>'. $item->concepto .'</td>
+							<td style="text-align: center;">$ '. $item->precio .'</td>
+							<td style="text-align: center;">'. $item->cantidad .'</td>
+							<td style="text-align: center;">$ '. $total .'</td>
+						</tr>
+					';
+
+					$grantotal += $total;
+				}
+
+				$htmlBoddy .= '
+						<table id="conceptos" style="width: 100%; border: 1px solid #d7d7d7;">
 							<thead>
 								<tr style="background-color: #d7d7d7;">
 									<th>#</th>
@@ -118,15 +159,13 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
+								'. $filas .'
 							</tbody>
 						</table>
+
+						<hr>
+
+						<h1 style="text-align: right; color: red; font-weight: 600;">Total $'. $grantotal .'</h1>
 					</body>
 					</html>
 				';
