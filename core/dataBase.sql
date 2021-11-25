@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 25-11-2021 a las 01:02:03
+-- Tiempo de generación: 25-11-2021 a las 19:57:24
 -- Versión del servidor: 8.0.17
 -- Versión de PHP: 7.3.10
 
@@ -94,7 +94,8 @@ CREATE TABLE `invoice` (
   `fecha` datetime NOT NULL,
   `estatus` int(11) NOT NULL,
   `activo` int(11) NOT NULL,
-  `cupon` varchar(250) NOT NULL
+  `cupon` varchar(250) NOT NULL,
+  `payload` varchar(1500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
