@@ -268,7 +268,7 @@
                         render: function ( data, type, row )
                         {
                             return `
-                                <a href="javascript:void(0);" class="btn btn-outline-secondary btnPublicInvoice" title="View invoice"><i class="bi bi-eye-fill"></i></a>
+                                <a href="../invoice/index.php?id=${row.id}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-secondary" title="View invoice"><i class="bi bi-eye-fill"></i></a>
                                 <a href="javascript:void(0);" class="btn btn-outline-secondary btnDownloadPdf" title="View pdf"><i class="bi bi-file-earmark-pdf"></i></a>
                             `;
                         }
@@ -330,6 +330,11 @@
                     });
 
                     $(".btnDownloadPdf").unbind().click( function(){
+                        let button = $(this);
+
+                        button.prop("disabled","disabled");
+                        button.html('<i class="bi bi-clock-history"></i>');
+
                         let data    = getData($(this), dataTableInvoice),
                             objData = {
                                 "_method":"generatePdf",
@@ -345,6 +350,9 @@
                                 };
 
                             html2pdf(element, opt);
+
+                            button.removeAttr("disabled");
+                            button.html('<i class="bi bi-file-earmark-pdf"></i>');
                         });
                     });
 

@@ -72,6 +72,8 @@
 
 			if($data){
 				$statusInvoice 	= "";
+				$payload 		= json_decode($data['invoiceData']['payload']);
+				$infoPay		= "";
 
 				if($data['invoiceData']['estatus'] == "1")
 					$statusInvoice = '<text style="color:red;">Debt</text>';
@@ -81,6 +83,17 @@
 
 				if($data['invoiceData']['estatus'] == "3")
 					$statusInvoice = '<text style="color:orange;">Refound</text>';
+
+				if($payload){
+					if($payload->purchase_units){
+						$infoPay .= '<p style="text-align: left; margin-bottom: 0px;"><text style="font-weight: 500;">Payment date:</text> '. $payload->create_time .'</p>';
+						$infoPay .= '<p style="text-align: left; margin-bottom: 0px; margin-top: 0px;"><text style="font-weight: 500;">Paypal Id:</text> '. $payload->purchase_units[0]->payments->captures[0]->id .'</p>';
+						$infoPay .= '<p style="text-align: left; margin-bottom: 0px; margin-top: 0px;"><text style="font-weight: 500;">Payer name:</text> '. $payload->payer->name->given_name .' '. $payload->payer->name->surname .'</p>';
+						$infoPay .= '<p style="text-align: left; margin-bottom: 0px; margin-top: 0px;"><text style="font-weight: 500;">Payer e-mail:</text> '. $payload->payer->email_address .'</p>';
+					}
+				}
+
+
 
 				$htmlBoddy 		= '
 					<!DOCTYPE html>
@@ -94,25 +107,26 @@
 						<p style="text-align: right; margin-bottom: 0px;">'. $data['invoiceData']['fecha'] .'</p>
 						<p style="text-align: right; margin-top: 0px;">'. $statusInvoice .'</p>
 
-						<table>
+						<table style="width: 100%;"">
 							<tbody>
 								<tr>
-									<td width="30%">&#8226; '. $data['clientData']['nombre'] .' '. $data['clientData']['apellido'] .'</td>
+									<td width="50%">&#8226; '. $data['clientData']['nombre'] .' '. $data['clientData']['apellido'] .'</td>
+									<td width="50%" rowspan="6" style="vertical-align: top;">'. $infoPay .'</td>
 								</tr>
 								<tr>
-									<td width="30%">&#8226; '. $data['clientData']['direccion_a'] .'</td>
+									<td width="50%">&#8226; '. $data['clientData']['direccion_a'] .'</td>
 								</tr>
 								<tr>
-									<td width="30%">&#8226; '. $data['clientData']['direccion_b'] .'</td>
+									<td width="50%">&#8226; '. $data['clientData']['direccion_b'] .'</td>
 								</tr>
 								<tr>
-									<td width="30%">&#8226; '. $data['clientData']['telefono'] .'</td>
+									<td width="50%">&#8226; '. $data['clientData']['telefono'] .'</td>
 								</tr>
 								<tr>
-									<td width="30%">&#8226; '. $data['clientData']['ciudad'] .' '. $data['clientData']['estado'] .' '. $data['clientData']['codigo_postal'] .'</td>
+									<td width="50%">&#8226; '. $data['clientData']['ciudad'] .' '. $data['clientData']['estado'] .' '. $data['clientData']['codigo_postal'] .'</td>
 								</tr>
 								<tr>
-									<td width="30%">&#8226; '. $data['clientData']['adicional'] .'</td>
+									<td width="50%">&#8226; '. $data['clientData']['adicional'] .'</td>
 								</tr>
 							</tbody>
 						</table>
@@ -190,6 +204,23 @@
 
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");
+			exit(json_encode($response));
+		} else if($vars['_method'] == 'invoicePaymen'){
+			$invoiceData = array(
+				'invoiceId' => $vars['invoiceId'],
+				'payload'	=> $vars['payload']
+			);
+
+			$invoiceModel->invoicePaymen($invoiceData);
+
+			if($tmpResponse){
+				$response = array(
+					'codeResponse' => 200
+				);
+			}
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
 		}
 	}
