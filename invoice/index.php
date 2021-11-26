@@ -121,6 +121,7 @@
                     </div>
                 </div>
             </div>
+            <div class="myInvoice d-none"></div>
         </main>
 
         <footer class="my-5 pt-5 text-muted text-center text-small">
@@ -161,6 +162,9 @@
         $.post("../core/controllers/invoice.php", objData, function(result){
             // Recuperar el importe a cobrar
             grantotal   = result.importeTotal;
+
+            // Cargar el contenido en el div maestro
+            $(".myInvoice").html(result.htmlBoddy);
 
             // Pintar informacion del cliente
             let data = result.allData.clientData;
@@ -218,7 +222,7 @@
 
             // Activar evento para descargar el pdf
             $("#downLoadPdf").click( function(){
-                let element = result.htmlBoddy,
+                let element = $(".myInvoice").html(),
                     opt     = {
                         margin:       1,
                         filename:     `My invoice ${pad(currentInvoiceId, 5)}`,
@@ -229,7 +233,7 @@
             });
 
             // Si la factura ya esta pagada no se muestra ni inica el boton de paypay
-            if(data.estatus == 1){
+            if(data.estatus == 1 || data.estatus == 3){
                 paypal.Buttons({
                     // Sets up the transaction when a payment button is clicked
                     createOrder: function(data, actions) {

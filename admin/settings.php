@@ -2,6 +2,11 @@
     @session_start();
     ob_start();
 ?>
+<!-- cropperCSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.css" integrity="sha512-w+u2vZqMNUVngx+0GVZYM21Qm093kAexjueWOv9e9nIeYJb1iEfiHC7Y+VvmP/tviQyA5IR32mwN/5hTEJx6Ng==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<!-- cropperJS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.js" integrity="sha512-9pGiHYK23sqK5Zm0oF45sNBAX/JqbZEP7bSDHyt+nT3GddF+VFIcYNqREt0GDpmFVZI3LZ17Zu9nMMc9iktkCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2 lblNamePage">Settings</h1>
@@ -11,52 +16,94 @@
         </div>
     </div>
 </div>
+
 <form id="configForm" class="needs-validation" novalidate>
-    <div class="row g-3">
+    <div class="row">
         <div class="col-3">
-            <label for="inputshipingCost" class="form-label lblShipCost">Shipping Cost</label>
-            <input type="text" class="form-control" placeholder="Shipping Cost" aria-label="Shipping Cost" id="inputshipingCost" required>
+            <center>
+                <figure class="figure">
+                    <img src="../assets/img/logo.png" class="figure-img img-fluid rounded imgPreview">
+                    <figcaption class="figure-caption labelCaption">Change your logo</figcaption>
+                </figure>
+            </center>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputPhoto"><i class="bi bi-camera"></i></label>
+                <input type="file" class="form-control" id="inputPhoto">
+            </div>
         </div>
-        <div class="col-3">
-            <label for="inputshipingFree" class="form-label lblShipFree">Free Shipping</label>
-            <input type="text" class="form-control" placeholder="Free Shipping" aria-label="Free Shipping" id="inputshipingFree" required>
-        </div>
-        <div class="col-3">
-            <label for="inputtax" class="form-label lblTax">Tax</label>
-            <input type="text" class="form-control" placeholder="Tax" aria-label="Tax" id="inputtax" required>
-        </div>
-    </div>
+        <div class="col-9">
+            <div class="row g-3">
+                <div class="col-3">
+                    <label for="inputshipingCost" class="form-label lblShipCost">Shipping Cost</label>
+                    <input type="text" class="form-control" placeholder="Shipping Cost" aria-label="Shipping Cost" id="inputshipingCost" required>
+                </div>
+                <div class="col-3">
+                    <label for="inputshipingFree" class="form-label lblShipFree">Free Shipping</label>
+                    <input type="text" class="form-control" placeholder="Free Shipping" aria-label="Free Shipping" id="inputshipingFree" required>
+                </div>
+                <div class="col-3">
+                    <label for="inputtax" class="form-label lblTax">Tax</label>
+                    <input type="text" class="form-control" placeholder="Tax" aria-label="Tax" id="inputtax" required>
+                </div>
+            </div>
 
-    <hr>
+            <hr>
 
-    <div class="row g-3">
-        <div class="col-3">
-            <label for="inputUname" class="form-label lblUname">User name</label>
-            <input type="text" class="form-control" placeholder="User name" aria-label="User name" id="inputUname" readonly value="<?php echo $_SESSION['authData']->owner; ?>" required>
-        </div>
-        <div class="col-4">
-            <label for="inputMail" class="form-label lblEmail">Email</label>
-            <input type="mail" class="form-control" placeholder="Enter a email" aria-label="Enter a email" id="inputMail" value="<?php echo $_SESSION['authData']->email; ?>" required>
-        </div>
-        <div class="col-3">
-            <label for="inputPass" class="form-label lblPassword">Change Password</label>
-            <input type="password" class="form-control" placeholder="New Password" aria-label="New Password" id="inputPass">
-        </div>
-    </div>
+            <div class="row g-3">
+                <div class="col-3">
+                    <label for="inputUname" class="form-label lblUname">User name</label>
+                    <input type="text" class="form-control" placeholder="User name" aria-label="User name" id="inputUname" readonly value="<?php echo $_SESSION['authData']->owner; ?>" required>
+                </div>
+                <div class="col-4">
+                    <label for="inputMail" class="form-label lblEmail">Email</label>
+                    <input type="mail" class="form-control" placeholder="Enter a email" aria-label="Enter a email" id="inputMail" value="<?php echo $_SESSION['authData']->email; ?>" required>
+                </div>
+                <div class="col-3">
+                    <label for="inputPass" class="form-label lblPassword">Change Password</label>
+                    <input type="password" class="form-control" placeholder="New Password" aria-label="New Password" id="inputPass">
+                </div>
+            </div>
 
-    <hr>
+            <hr>
 
-    <div class="row g-3">
-        <div class="col-6">
-            <label for="inputpaypalid" class="form-label lblApiKey">Paypal cliente ID</label>
-            <input type="text" class="form-control" placeholder="Client ID" id="inputpaypalid" value="" required>
+            <div class="row g-3">
+                <div class="col-6">
+                    <label for="inputpaypalid" class="form-label lblApiKey">Paypal cliente ID</label>
+                    <input type="text" class="form-control" placeholder="Client ID" id="inputpaypalid" value="" required>
+                </div>
+            </div>
         </div>
+        
     </div>
 </form>
 
+<!-- Modal para editar las imagenes -->
+<div class="modal fade" id="modalCrop" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Edit / Crop the photo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="img-container mb-3" style="max-height: 500px">
+                    <img id="previewCrop" src="#">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary labelButonC" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="cropImage">Apply</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     var confButonText = "",
-        strMesage = "";
+        strMesage = "",
+        maxCroppedWidth     = 400,
+        maxCroppedHeight    = 400,
+        settingPhoto        = null;
     $(document).ready(function(){
         currentPage = "Settings";
 
@@ -64,6 +111,9 @@
 
         //listar Valores de configuracion
         fnGetconfig();
+
+        // Iniciar componentes del cropper js
+        initComponent();
     });
 
     function fnGetconfig(){
@@ -95,23 +145,129 @@
         $("#btnUpdateData").attr("disabled","disabled");
         $("#btnUpdateData").html('<i class="bi bi-clock-history"></i> Updating');
 
-        let objData = {
-            "_method":"updateData",
-            "shipingCost": $("#inputshipingCost").val(),
-            "shipingFree": $("#inputshipingFree").val(),
-            "owner": $("#inputUname").val(),
-            "email": $("#inputMail").val(),
-            "password": $("#inputPass").val(),
-            "tax": $("#inputtax").val(),
-            "paypalid": $("#inputpaypalid").val()
-        };
+        let form = $("#configForm")[0],
+            formData = new FormData(form);
 
-        $.post("../core/controllers/setting.php", objData, function(result) {
-            alert(strMesage);
-            isNew = <?php echo $_SESSION['authData']->isDefault; ?>;
+        formData.append("_method", "updateData");
+        formData.append("shipingCost", $("#inputshipingCost").val());
+        formData.append("shipingFree", $("#inputshipingFree").val());
+        formData.append("owner", $("#inputUname").val());
+        formData.append("email", $("#inputMail").val());
+        formData.append("password", $("#inputPass").val());
+        formData.append("tax", $("#inputtax").val());
+        formData.append("paypalid", $("#inputpaypalid").val());
 
-            $("#btnUpdateData").removeAttr("disabled");
-            $("#btnUpdateData").html('<i class="bi bi-check2"></i> ' + confButonText);
+        if(settingPhoto)
+            formData.append("settingPhoto", settingPhoto, `logo.png`);
+
+        $.ajax({
+            url: '../core/controllers/setting.php',
+            data: formData,
+            type: 'POST',
+            success: function(response){
+                alert(strMesage);
+                isNew = <?php echo $_SESSION['authData']->isDefault; ?>;
+
+                $("#btnUpdateData").removeAttr("disabled");
+                $("#btnUpdateData").html('<i class="bi bi-check2"></i> ' + confButonText);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus);
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    }
+
+    function initComponent() {
+        // Controlar tipo de objeto que intentan subir
+        $('input[type="file"]').unbind().change( function(){
+            let ext = $( this ).val().split('.').pop();
+
+            if ($( this ).val() != ''){
+                if($.inArray(ext, ["jpg", "jpeg", "png", "bmp", "raw", "tiff"]) != -1){
+                    if($(this)[0].files[0].size > 5242880){
+                        $( this ).val('');
+                        alert('Your selected file is larger than 5MB');
+                    }
+                }else{
+                    $( this ).val('');
+                    alert(`${ext} files not allowed, only images`);
+                }
+            }
+        });
+
+        // Image Cropper
+        let picture = $(".imgPreview"),
+            image       = $("#previewCrop")[0],
+            inputFile1   = $("#inputPhoto")[0],
+            $modal      = $('#modalCrop'),
+            cropper     = null;
+
+        inputFile1.addEventListener("change", function(e){
+            let files = e.target.files,
+                done  = function (url){
+                    inputFile1.value = "";
+                    image.src = url;
+                    $modal.modal('show');
+                },
+                reader,
+                file,
+                url;
+
+            if (files && files.length > 0){
+                file = files[0];
+
+                if (URL){
+                    done(URL.createObjectURL(file));
+                }
+                else if (FileReader){
+                    reader = new FileReader();
+                    reader.onload = function(e){
+                        done(reader.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
+        $modal.unbind().on('shown.bs.modal', function(){
+            let URL         = window.URL || window.webkitURL,
+                container   = document.querySelector('.img-container'),
+                download    = document.getElementById('download'),
+                actions     = document.getElementById('cropper-buttons'),
+                options     = {
+                    viewMode: 1,
+                    aspectRatio: maxCroppedWidth / maxCroppedHeight,
+                    background: false
+                };
+
+            cropper = new Cropper(image, options);
+        }).on('hidden.bs.modal', function(){
+            cropper.destroy();
+            cropper = null;
+        });
+
+        $("#cropImage").unbind().click( function(){
+            let canvas;
+
+            $modal.modal("hide");
+
+            if(cropper){
+                canvas = cropper.getCroppedCanvas({
+                    width: maxCroppedWidth,
+                    height: maxCroppedHeight,
+                });
+
+                picture
+                    .attr("src", canvas.toDataURL())
+                    .parent().removeClass('d-none');
+
+                canvas.toBlob(function (blob){
+                    settingPhoto = blob;
+                });
+            }
         });
     }
 

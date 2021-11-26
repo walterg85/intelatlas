@@ -46,6 +46,14 @@
 
 				$_SESSION['authData']->isDefault = (password_verify('12345', $tmpResponse->password)) ? 1 : 0;
 				$_SESSION['authData']->email = $vars['email'];
+
+				$folder = "assets/img";
+				if (!empty($_FILES['settingPhoto'])){
+					$filename = $_FILES['settingPhoto']['name'];
+					$tempname = $_FILES['settingPhoto']['tmp_name'];
+					       
+					move_uploaded_file($tempname, "../../{$folder}/{$filename}");
+				}
 			}else{
 				$response = array(
 					'codeResponse' 	=> 0,

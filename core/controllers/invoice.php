@@ -93,8 +93,6 @@
 					}
 				}
 
-
-
 				$htmlBoddy 		= '
 					<!DOCTYPE html>
 					<html>
@@ -103,11 +101,19 @@
 						<meta name="viewport" content="width=device-width, initial-scale=1">
 					</head>
 					<body>
-						<h1 style="text-align: right;">My invoice #'. str_pad($data['invoiceData']['id'], 5, "0", STR_PAD_LEFT) .'</h1>
-						<p style="text-align: right; margin-bottom: 0px;">'. $data['invoiceData']['fecha'] .'</p>
-						<p style="text-align: right; margin-top: 0px;">'. $statusInvoice .'</p>
+						<div id="dvHeader" style="width: 98%;">
+                            <div style="float: left;">
+                                <img src="../assets/img/logo.png?v='. rand(0,100) .'" width="160">
+                            </div>
+                            <div style="float: right;">
+                                <h1 style="text-align: right;">My invoice #'. str_pad($data['invoiceData']['id'], 5, "0", STR_PAD_LEFT) .'</h1>
+                                <p style="text-align: right; margin-bottom: 0px;">'. $data['invoiceData']['fecha'] .'</p>
+                                <p style="text-align: right; margin-top: 0px;">'. $statusInvoice .'</p>
+                            </div>
+                            <p style="float: none;"></p>
+                        </div>
 
-						<table style="width: 100%;"">
+						<table style="width: 98%;">
 							<tbody>
 								<tr>
 									<td width="50%">&#8226; '. $data['clientData']['nombre'] .' '. $data['clientData']['apellido'] .'</td>
@@ -170,7 +176,7 @@
 				}
 
 				$htmlBoddy .= '
-						<table id="conceptos" style="width: 100%; border: 1px solid #d7d7d7;">
+						<table id="conceptos" style="width: 98%; border: 1px solid #d7d7d7;">
 							<thead>
 								<tr style="background-color: #d7d7d7;">
 									<th>#</th>
@@ -188,12 +194,10 @@
 						<hr>
 
 						'. $filaCupon .'
-						<h1 style="text-align: right; color: red; font-weight: 600;">Total $'. $data['invoiceData']['importe'] .'</h1>
+						<h1 style="text-align: right; color: red; font-weight: 600; width: 98%;">Total $'. $data['invoiceData']['importe'] .'</h1>
 					</body>
 					</html>
 				';
-
-
 			}
 
 			$response = array(

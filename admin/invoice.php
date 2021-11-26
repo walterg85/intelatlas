@@ -24,6 +24,7 @@
 </div>
 
 <table class="table table-striped align-middle" id="invoiceList"></table>
+<div class="myInvoice d-none"></div>
 
 <!-- Panel lateral para agregar nueva factura -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasInvoice" aria-labelledby="offcanvasWithBackdropLabel"  >
@@ -342,12 +343,14 @@
                             };
 
                         $.post("../core/controllers/invoice.php", objData, function(result){
-                            let element = result.htmlBoddy,
-                                opt     = {
+                            $(".myInvoice").html(result.htmlBoddy);
+
+                            let opt     = {
                                     margin:       1,
                                     filename:     `My invoice ${pad(data.id, 5)}`,
                                     jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-                                };
+                                },
+                                element = $(".myInvoice").html();
 
                             html2pdf(element, opt);
 

@@ -311,7 +311,7 @@
                                     <tr>
                                         <td class="fw-bolder">#${pad(item.id, 5)}</td>
                                         <td>${item.fecha}</td>
-                                        <td>${(item.estatus == 1) ? '<text class="text-danger">Debt</text>' : '<text class="text-success">Paid out</text>'}</td>
+                                        <td>${(item.estatus == 1) ? '<text class="text-danger">Debt</text>' : (item.estatus == 2 ) ? '<text class="text-success">Paid out</text>' : '<text class="text-warning">Refound</text>'}</td>
                                         <td class="text-end text-danger">${formatter.format(item.importe)}</td>
                                     </tr>
                                 `;
