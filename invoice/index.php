@@ -50,55 +50,8 @@
                 <div class="col-md-7 col-lg-8">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
                         <span class="text-primary labelCart">Your invoice</span>
-                        <span class="badge bg-primary rounded-pill qtyCart">2</span>
                     </h4>
-                    <ul class="list-group mb-3" id="cartListItem"></ul>
-                    <li class="list-group-item d-flex justify-content-between lh-sm cartItemClone d-none">
-                        <img src="#" alt="twbs" height="32" class="rounded flex-shrink-0 prdImg">
-
-                        <div class="input-group input-group-sm contBtn ms-2" style="width:90px; height: fit-content;">
-                            <button class="btn btn-outline-secondary btnDown" type="button">-</button>
-                            <input type="text" class="form-control intQty text-center" disabled>
-                            <button class="btn btn-outline-secondary btnUp" type="button">+</button>
-                        </div>
-
-                        <div class="w-50 ms-2">
-                            <h6 class="my-0 prodName">Women's glove</h6>
-                        </div>
-                        <span class="text-muted prodPrice">$45.50</span>
-                        <a href="javascript:void(0);" class="text-danger btnRemove ms-2">X</a>
-                    </li>
-
-                    <div class="input-group mb-2 w-50 float-end">
-                        <input type="text" class="form-control" placeholder="Coupon Code" id="inputCode" autocomplete="off">
-                        <button class="btn btn-outline-secondary" type="button" id="applyCoupon"><i class="bi bi-check2"></i> <texto class="tdLabelCoupon">Apply coupon</texto></button>
-                    </div><br><br>
-                    
-                    <table class="table w-50 float-end">
-                        <tbody>
-                            <tr>
-                                <td class="text-end lalelShip">Shipping Cost</td>
-                                <td class="lblShipCost text-end"></td>
-                            </tr>
-                            <tr class="rowCoupon d-none">
-                                <td class="text-end labelCoupon">Coupon</td>
-                                <td class="lblCoupon text-end">0</td>
-                            </tr>
-                            <tr>
-                                <td class="text-end">Subtotal</td>
-                                <td class="lblsubtotal text-end">0</td>
-                            </tr>
-                            <tr class="rowTax d-none">
-                                <td class="text-end labelTax">Tax</td>
-                                <td class="lblTax text-end">0</td>
-                            </tr>
-                            <tr>
-                                <td class="text-end">Total</td>
-                                <td class="lblTotal text-end">0</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
+                    <embed id="pdfPreview" src="" type="application/pdf" width="100%" height="600px"/>
                 </div>
                 <div class="col-md-5 col-lg-4">
                     <div class="mt-md-5" id="paypal-button-container"></div>          
@@ -116,264 +69,57 @@
 <!-- Jquery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-<!-- <script type="text/javascript">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script type="text/javascript">
     var formatter = new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'USD',
             minimumFractionDigits: 2
         }),
-        subTotal = 0,
-        grantotal = 0,
-        ship_price = 0,
-        orderDetails = [],
-        descuento = 0,
         lang = "en",
-        strCupon = "",
-        strTax = "";
+        currentInvoiceId = 0,
+        grantotal = 0;
 
     $(document).ready(function(){
-        countCartItem();
+        let queryString = window.location.search,
+            urlParams   = new URLSearchParams(queryString);
+        currentInvoiceId= urlParams.get('id');
 
-        $("#applyCoupon").click( function(){
-            let objData = {
-                "_method":"GetCoupon",
-                "code": $("#inputCode").val()
-            };
-
-            $.post("../core/controllers/checkout.php", objData, function(result) {
-                if(result.data){
-                    let codigo = result.data;
-                    if(codigo.tipo == 1){
-                        descuento = (subTotal * parseFloat( codigo.valor / 100)).toString().match(/^-?\d+(?:\.\d{0,2})?/)[0];
-                        $(".labelCoupon").html(`${strCupon} ${codigo.valor}%`);
-                        $(".lblCoupon").html(`$${descuento}`);
-                        $(".lblCoupon").parent().removeClass("d-none");
-                    }else{
-                        descuento = parseFloat( codigo.valor );
-                        $(".labelCoupon").html(strCupon);
-                        $(".lblCoupon").html(`${formatter.format(descuento)}`);
-                        $(".lblCoupon").parent().removeClass("d-none");
-                    }                    
-                }else{
-                    descuento = 0;
-                    alert("This coupon does not exist.");
-                }
-
-                resumen();
-            });
-        });
-
-        if( localStorage.getItem("currentLag") ){
-            lang = localStorage.getItem("currentLag");
-        }else{
-            localStorage.setItem("currentLag", lang);
-        }
-
-        switchLanguage(lang);
-        printList();
+        loadInvoice();
     });
 
-    function printList() {
-        let currentCart = JSON.parse(localStorage.getItem("currentCart"));
-        $("#cartListItem").html("");
-
-        $.each( currentCart, function( index, item){
-            let listItem = $(".cartItemClone").clone(),
-                size = '',
-                color = '';
-
-            if(item.size){
-                if(item.size == "sm")
-                    size = "Small";
-
-                if(item.size == "m")
-                    size = "Medium";
-
-                if(item.size == "l")
-                    size = "Large";
-
-                if(item.size == "xl")
-                    size = "Extra large";
-            }
-
-            if(item.color)
-                color = `${item.color}`;
-
-            let img = (item.thumbnail != "" &&  item.thumbnail != "0") ? `../${item.thumbnail}` : "../assets/img/default.jpg";
-
-            listItem.find(".prdImg").attr("src", img);
-
-            if(lang == "en"){
-                listItem.find(".prodName").html(`${item.name} ${color} ${size}`);
-            }else{
-                listItem.find(".prodName").html(`${item.optional_name} ${color} ${size}`);
-            }
-
-            listItem.find(".prodPrice").html(formatter.format(item.price));
-            listItem.find(".intQty").val(item.qty);
-
-            listItem.find(".contBtn").data("item", item);
-            listItem.data("item", item);
-
-            listItem.removeClass("d-none cartItemClone");
-            $(listItem).appendTo("#cartListItem");
-        });
-
-        $(".btnDown").unbind().click( function () {
-            let currentCart = JSON.parse(localStorage.getItem("currentCart")),
-                data = $(this).parent().data("item"),
-                actualQty = 0,
-                itemId = data.id;
-
-            if(data.size)
-                itemId += `|s-${data.size}`;
-
-            if(data.color)
-                itemId += `|c-${data.color}`;
-
-            actualQty = currentCart[itemId].qty;
-
-            if(actualQty > 1){
-                currentCart[itemId].qty = actualQty - 1;
-                localStorage.setItem("currentCart", JSON.stringify(currentCart));
-                printList();
-            }
-        });
-
-        $(".btnUp").unbind().click( function () {
-            let currentCart = JSON.parse(localStorage.getItem("currentCart")),
-                data = $(this).parent().data("item"),
-                actualQty = 0,
-                itemId = data.id;
-
-            if(data.size)
-                itemId += `|s-${data.size}`;
-
-            if(data.color)
-                itemId += `|c-${data.color}`;
-
-            actualQty = currentCart[itemId].qty;
-
-            if(actualQty > 0){
-                currentCart[itemId].qty = actualQty + 1;
-                localStorage.setItem("currentCart", JSON.stringify(currentCart));
-                printList();
-            }
-        });
-
-        $(".btnRemove").unbind().click( function(){
-            let currentCart = JSON.parse(localStorage.getItem("currentCart")),
-                data = $(this).parent().data("item"),
-                itemId = data.id;
-
-
-            if(data.size)
-                itemId += `|s-${data.size}`;
-
-            if(data.color)
-                itemId += `|c-${data.color}`;
-
-            delete currentCart[itemId];
-            localStorage.setItem("currentCart", JSON.stringify(currentCart));
-            printList();
-            countCartItem();
-        });
-
-        resumen();
-    }
-
-    function countCartItem(){
-        let currentCart = JSON.parse(localStorage.getItem("currentCart"));
-        if(currentCart)
-            $(".qtyCart").html(Object.keys(currentCart).length);
-    }
-
-    function resumen(){
-        grantotal = 0;
-        ship_price = 0;
-        orderDetails = [];
-        subTotal = 0;
-
-        let currentCart = JSON.parse(localStorage.getItem("currentCart"));
-
-        $.each(currentCart, function(index, item){
-            grantotal += parseFloat(parseFloat(item.price) * parseFloat(item.qty));
-
-            let row = {
-                "product_id": item.id,
-                "price": item.price,
-                "quantity": item.qty,
-                "amount" : parseFloat(parseFloat(item.price) * parseFloat(item.qty))
+    function loadInvoice(){
+        let objData = {
+                "_method":"generatePdf",
+                "invoiceId": currentInvoiceId
             };
 
-            let config = {};
+        $.post("../core/controllers/invoice.php", objData, function(result){
+            grantotal = result.importeTotal;
+            let element = result.htmlBoddy,
+                opt     = {
+                    margin:       1,
+                    filename:     `My invoice ${pad(currentInvoiceId, 5)}`,
+                    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                };
 
-            if(item.size)
-                config.size = item.size;
+            // html2pdf(element, opt, {
+            //     onComplete: function(pdf){
+            //         let pdfData = pdf.output('datauristring');
+            //         console.log(pdfData);
+            //     }
+            // });
 
-            if(item.color)
-                config.color = item.color;
-
-            row.config = JSON.stringify(config);
-
-            orderDetails.push(row);
-        });
-
-        let objData = {
-            "_method":"Get"
-        };
-
-        $.post("../core/controllers/setting.php", objData, function(result) {
-            let data = result.data,
-                shipingCost = parseFloat(data[0].value),
-                shipingFree = parseFloat(data[1].value),
-                tax = parseFloat(data[2].value);
-
-            $(".lblShipCost").html("$0.00");
-
-            if(grantotal < shipingFree){
-                $(".lblShipCost").html(formatter.format(shipingCost));
-                grantotal += shipingCost;
-                ship_price = shipingCost;
-            }
-
-            if(parseFloat(descuento) > 0){
-                grantotal = grantotal - parseFloat(descuento);
-            }
-
-            subTotal = grantotal;
-
-            $(".lblsubtotal").html(formatter.format(grantotal));
-
-            if(tax || tax != "" || tax > 0){
-                let impuesto = grantotal * (parseFloat(tax) / 100);
-                grantotal = grantotal + impuesto;
-
-                $(".labelTax").html(`${strTax} ${tax}%`);
-                $(".lblTax").html(`${formatter.format(impuesto)}`);
-                $(".lblTax").parent().removeClass("d-none");
-            }else{
-                $(".lblTax").parent().addClass("d-none");
-            }
-
-            $(".lblTotal").html(`<strong class="text-danger">${formatter.format(grantotal)}</strong>`);
+            html2pdf().from(element, opt).outputPdf().then(function(pdf) {
+                $("#pdfPreview").attr("src", `data:application/pdf;base64,${btoa(pdf)}`);
+            });
         });
     }
 
-    function switchLanguage(lang){
-        $.post(`../assets/lang.json`, {}, function(data) {
-            let myLang = data[lang]["checkout"];
-
-            $(".labelSeccion").html(myLang.labelSeccion);
-            $(".lblLetrero").html(myLang.lblLetrero);
-            $(".labelCart").html(myLang.labelCart);
-            $(".tdLabelCoupon").html(myLang.labelCoupon);
-            strCupon = myLang.strCupon;
-
-            $("#inputCode").attr("placeholder", myLang.inputCode);
-            $(".lalelShip").html(myLang.lalelShip);
-            strTax = myLang.strTax;
-        });
+    function pad (str, max) {
+        str = str.toString();
+        return str.length < max ? pad("0" + str, max) : str;
     }
 </script>
 
@@ -413,6 +159,6 @@
             });
         }
     }).render('#paypal-button-container');
-</script> -->
+</script>
   </body>
 </html>
