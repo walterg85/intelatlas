@@ -142,8 +142,7 @@
             minimumFractionDigits: 2
         }),
         lang = "en",
-        currentInvoiceId = 0,
-        grantotal = 0;
+        currentInvoiceId = 0;
 
     $(document).ready(function(){
         let queryString = window.location.search,
@@ -228,6 +227,44 @@
 
                 html2pdf(element, opt);
             });
+
+            // Si la factura ya esta pagada no se muestra ni inica el boton de paypay
+            if(data.estatus == 1){
+                paypal.Buttons({
+                    // Sets up the transaction when a payment button is clicked
+                    createOrder: function(data, actions) {
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    value: parseFloat(grantotal).toFixed(2)
+                                }
+                            }]
+                        });
+                    },
+                    // Finalize the transaction after payer approval
+                    onApprove: function(data, actions) {
+                        return actions.order.capture().then(function(orderData) {
+                            if(orderData.status == "COMPLETED"){
+                                let objData = {
+                                    "_method":"invoicePaymen",
+                                    "invoiceId": currentInvoiceId,
+                                    "payload": JSON.stringify(orderData)
+                                };
+
+                                console.log(objData);
+
+                                $.post("../core/controllers/invoice.php", objData, function(result) {
+                                    location.reload();
+                                });
+                            }else{
+                                alert("Payment was not processed correctly, please try again.");
+                            }
+                        });
+                    }
+                }).render('#paypal-button-container');
+            } else {
+                $("#paypal-button-container").addClass("d-none");
+            }
         });
     }
 
@@ -236,43 +273,5 @@
         return str.length < max ? pad("0" + str, max) : str;
     }
 </script>
-
-<script>
-    paypal.Buttons({
-        // Sets up the transaction when a payment button is clicked
-        createOrder: function(data, actions) {
-            return actions.order.create({
-                purchase_units: [{
-                    amount: {
-                        value: parseFloat(grantotal).toFixed(2)
-                    }
-                }]
-            });
-        },
-        // Finalize the transaction after payer approval
-        onApprove: function(data, actions) {
-            return actions.order.capture().then(function(orderData) {
-                if(orderData.status == "COMPLETED"){
-                    let objData = {
-                        "_method":"_POST",
-                        "amount": grantotal,
-                        "ship_price": ship_price,
-                        "shipping_address": JSON.stringify(orderData.purchase_units[0].shipping.address),
-                        "payment_data": JSON.stringify(orderData),
-                        "order": JSON.stringify(orderDetails),
-                        "coupon": $("#inputCode").val()
-                    };
-
-                    $.post("../core/controllers/checkout.php", objData, function(result) {
-                        localStorage.removeItem("currentCart");
-                        window.location.replace(`../order/index.php?orderId=${result.id}`);
-                    });
-                }else{
-                    alert("Payment was not processed correctly, please try again.");
-                }
-            });
-        }
-    }).render('#paypal-button-container');
-</script>
-  </body>
+</body>
 </html>

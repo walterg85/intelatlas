@@ -110,7 +110,8 @@
 					importe, 
 					fecha, 
 					estatus,
-					cupon
+					cupon,
+					payload
 				FROM invoice
 				WHERE id =:invoiceId;
 			';
@@ -169,6 +170,25 @@
 				':invoiceId' => $invoiceId
 			);
 			
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
+
+		public function invoicePaymen($data){
+			$pdo = new Conexion();
+			$cmd = '
+				UPDATE invoice
+				SET payload =:payload, estatus = 2
+				WHERE id =:invoiceId
+			';
+
+			$parametros = array(
+				':payload' 		=> $data['payload'],
+				':invoiceId' 	=> $data['invoiceId']
+			);
+
 			$sql = $pdo->prepare($cmd);
 			$sql->execute($parametros);
 
