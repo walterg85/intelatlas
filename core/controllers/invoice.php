@@ -163,8 +163,8 @@
 				$cupon = json_decode($data['invoiceData']['cupon']);
 				$filaCupon = "";
 
-				if($cupon){
-					if($cupon->valor){
+				if(is_object($cupon)){
+					if(property_exists($cupon, 'valor')){
 						$totalDescuento = 0;
 						if($cupon->tipo == 1){
 							$totalDescuento = $totalReal * $cupon->importe;
