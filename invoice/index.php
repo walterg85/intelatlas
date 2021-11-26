@@ -51,10 +51,74 @@
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
                         <span class="text-primary labelCart">Your invoice</span>
                     </h4>
-                    <embed id="pdfPreview" src="" type="application/pdf" width="100%" height="600px"/>
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <table class="table table-sm">
+                                <tbody>
+                                    <tr>
+                                        <td><i class="bi bi-person-fill h4 text-secondary"></i> <texto class="lbl lblNombre"></texto></td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="bi bi-at  h5 text-secondary"></i> <texto class="lbl lblEmail"></texto></td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="bi bi-telephone-fill h5 text-secondary"></i> <texto class="lbl lblTelefono"></texto></td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="bi bi-house-door-fill h5 text-secondary"></i> <texto class="lbl lblDireccion1"></texto></td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="bi bi-house-door-fill h5 text-secondary"></i> <texto class="lbl lblDireccion2"></texto></td>
+                                    </tr>
+                                    <tr>
+                                        <td><i class="bi bi-pin-map-fill h5 text-secondary"></i> <texto class="lbl lblCiudad"></texto></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th class="labelControl2" scope="col">Concept</th>
+                                        <th class="labelControl3" scope="col">Price</th>
+                                        <th class="labelControl4" scope="col">Quantity</th>
+                                        <th class="labelControl6" scope="col">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblConceptos"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <table class="table w-50 float-end">
+                                <tbody>
+                                    <tr class="filaDescuento d-none">
+                                        <td class="text-end text-dark labelMontoDescuento">Discount</td>
+                                        <td class="lblDescuento text-end">$0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-end h4 text-dark">Total</td>
+                                        <td class="lblTotal text-end text-danger h3">$0.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-5 col-lg-4">
-                    <div class="mt-md-5" id="paypal-button-container"></div>          
+                    <div class="mt-md-5" id="paypal-button-container"></div>
+                    <div class="d-grid gap-2 mt-2">
+                        <button class="btn btn-danger btn-lg" type="button" id="downLoadPdf">
+                            <i class="bi bi-file-earmark-pdf"></i> Download PDF
+                        </button>
+                    </div>
                 </div>
             </div>
         </main>
@@ -96,23 +160,73 @@
             };
 
         $.post("../core/controllers/invoice.php", objData, function(result){
-            grantotal = result.importeTotal;
-            let element = result.htmlBoddy,
-                opt     = {
-                    margin:       1,
-                    filename:     `My invoice ${pad(currentInvoiceId, 5)}`,
-                    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-                };
+            // Recuperar el importe a cobrar
+            grantotal   = result.importeTotal;
 
-            // html2pdf(element, opt, {
-            //     onComplete: function(pdf){
-            //         let pdfData = pdf.output('datauristring');
-            //         console.log(pdfData);
-            //     }
-            // });
+            // Pintar informacion del cliente
+            let data = result.allData.clientData;
 
-            html2pdf().from(element, opt).outputPdf().then(function(pdf) {
-                $("#pdfPreview").attr("src", `data:application/pdf;base64,${btoa(pdf)}`);
+            $(".lblNombre").html(`${data.nombre} ${data.apellido}`);
+            $(".lblEmail").html(`${data.email}`);
+            $(".lblTelefono").html(`${data.telefono}`);
+            $(".lblDireccion1").html(`${data.direccion_a}`);
+            $(".lblDireccion2").html(`${data.direccion_b}`);
+            $(".lblCiudad").html(`${data.ciudad} ${data.estado} ${data.codigo_postal}`);
+
+            // Pintar los conceptos
+            let filas           = "",
+                importeTotal    = 0,
+                objDescuento    = null;
+            data                = result.allData.invoiceData;
+
+            $("#tblConceptos").html("");            
+
+            // Se recore el contenido del array de conceptos
+            $.each( JSON.parse(data.detalles), function(index, item){
+                filas += `
+                    <tr>
+                        <td>${index +1}</td>
+                        <td>${item.concepto}</td>
+                        <td class="text-end">${formatter.format(item.precio)}</td>
+                        <td class="text-end">${item.cantidad}</td>
+                        <td class="text-end">${formatter.format(parseFloat(item.precio) * parseFloat(item.cantidad))}</td>
+                    </tr>
+                `;
+
+                importeTotal += parseFloat(item.precio) * parseFloat(item.cantidad);
+            });
+
+            // Validacion para mostrar los descuentos que tiene aplicado            
+            objDescuento = (data.cupon != "") ? JSON.parse(data.cupon) : {};
+            if('cupon' in objDescuento){
+                let fDescuento = 0;
+                if(objDescuento.tipo == 1){
+                    fDescuento = parseFloat(objDescuento.importe) * importeTotal;
+                }else{
+                    fDescuento = parseFloat(objDescuento.importe);
+                }
+
+                $(".filaDescuento").removeClass("d-none");
+                $(".lblDescuento").html(formatter.format(fDescuento));
+                $(".labelMontoDescuento").html(`Discount ${objDescuento.valor}`);
+            }else{
+                $(".filaDescuento").addClass("d-none");
+            }
+
+            // Dibujar todo el contenido
+            $("#tblConceptos").append(filas);
+            $(".lblTotal").html(formatter.format(data.importe));
+
+            // Activar evento para descargar el pdf
+            $("#downLoadPdf").click( function(){
+                let element = result.htmlBoddy,
+                    opt     = {
+                        margin:       1,
+                        filename:     `My invoice ${pad(currentInvoiceId, 5)}`,
+                        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                    };
+
+                html2pdf(element, opt);
             });
         });
     }

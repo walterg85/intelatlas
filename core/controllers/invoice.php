@@ -184,8 +184,8 @@
 
 			$response = array(
 				'htmlBoddy' => $htmlBoddy,
-				'importeTotal' => $data['invoiceData']['importe']
-
+				'importeTotal' => $data['invoiceData']['importe'],
+				'allData' => $data
 			);
 
 			header('HTTP/1.1 200 Ok');
