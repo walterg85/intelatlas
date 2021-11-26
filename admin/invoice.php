@@ -337,7 +337,7 @@
                             };
 
                         $.post("../core/controllers/invoice.php", objData, function(result){
-                            let element = result,
+                            let element = result.htmlBoddy,
                                 opt     = {
                                     margin:       1,
                                     filename:     `My invoice ${pad(data.id, 5)}`,

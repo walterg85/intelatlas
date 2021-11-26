@@ -90,16 +90,9 @@
 						<meta name="viewport" content="width=device-width, initial-scale=1">
 					</head>
 					<body>
-						<div>
-							<img style="float: left;" src="https://cdn.dribbble.com/users/27903/screenshots/5370954/v_2x.png" width="200"/>
-							<div style="float: right;">
-								<h1 style="text-align: right;">My invoice #'. str_pad($data['invoiceData']['id'], 5, "0", STR_PAD_LEFT) .'</h1>
-								<p style="text-align: right; margin-bottom: 0px;">'. $data['invoiceData']['fecha'] .'</p>
-								<p style="text-align: right; margin-top: 0px;">'. $statusInvoice .'</p>
-							</div>
-						</div>
-
-						<div style="clear: left;"></div>
+						<h1 style="text-align: right;">My invoice #'. str_pad($data['invoiceData']['id'], 5, "0", STR_PAD_LEFT) .'</h1>
+						<p style="text-align: right; margin-bottom: 0px;">'. $data['invoiceData']['fecha'] .'</p>
+						<p style="text-align: right; margin-top: 0px;">'. $statusInvoice .'</p>
 
 						<table>
 							<tbody>
@@ -130,7 +123,7 @@
 				$conceptos 	= json_decode($data['invoiceData']['detalles']);
 				$filas		= '';
 				$total 		= 0;
-				$grantotal	= 0;
+				$totalReal  = 0;
 
 				foreach ($conceptos as $key => $item) {
 					$total = $item->cantidad * $item->precio;
@@ -144,7 +137,22 @@
 						</tr>
 					';
 
-					$grantotal += $total;
+					$totalReal += $total;
+				}
+
+				$cupon = json_decode($data['invoiceData']['cupon']);
+				$filaCupon = "";
+
+				if($cupon){
+					if($cupon->valor){
+						$totalDescuento = 0;
+						if($cupon->tipo == 1){
+							$totalDescuento = $totalReal * $cupon->importe;
+							$filaCupon = '<p style="text-align: right;">(Discount '. $cupon->valor.') $'. $totalDescuento .'</p>';
+						}else{
+							$filaCupon = '<p style="text-align: right;">(Discount '. $cupon->valor.')</p>';
+						}
+					}					
 				}
 
 				$htmlBoddy .= '
@@ -165,13 +173,24 @@
 
 						<hr>
 
-						<h1 style="text-align: right; color: red; font-weight: 600;">Total $'. $grantotal .'</h1>
+						'. $filaCupon .'
+						<h1 style="text-align: right; color: red; font-weight: 600;">Total $'. $data['invoiceData']['importe'] .'</h1>
 					</body>
 					</html>
 				';
+
+
 			}
 
-			exit($htmlBoddy);
+			$response = array(
+				'htmlBoddy' => $htmlBoddy,
+				'importeTotal' => $data['invoiceData']['importe']
+
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");
+			exit(json_encode($response));
 		}
 	}
 
