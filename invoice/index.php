@@ -118,6 +118,8 @@
                         <button class="btn btn-danger btn-lg" type="button" id="downLoadPdf">
                             <i class="bi bi-file-earmark-pdf"></i> Download PDF
                         </button>
+
+                        <img src="https://practifinanzas.com/wp-content/uploads/2019/12/1912-01-FacturaInstant.jpg" id="imgLateral" class="img-fluid d-none">
                     </div>
                 </div>
             </div>
@@ -180,6 +182,7 @@
             let filas           = "",
                 importeTotal    = 0,
                 objDescuento    = null;
+                
             data                = result.allData.invoiceData;
 
             $("#tblConceptos").html("");            
@@ -232,8 +235,8 @@
                 html2pdf(element, opt);
             });
 
-            // Si la factura ya esta pagada no se muestra ni inica el boton de paypay
-            if(data.estatus == 1 || data.estatus == 3){
+            // Si la factura ya esta pagada o fue un reembolso no se muestra ni inica el boton de paypay
+            if(data.estatus == 1){
                 paypal.Buttons({
                     // Sets up the transaction when a payment button is clicked
                     createOrder: function(data, actions) {
@@ -255,9 +258,8 @@
                                     "payload": JSON.stringify(orderData)
                                 };
 
-                                console.log(objData);
-
                                 $.post("../core/controllers/invoice.php", objData, function(result) {
+                                    // Se recarga la pagina para actualizar el estatus de la factura
                                     location.reload();
                                 });
                             }else{
@@ -267,7 +269,11 @@
                     }
                 }).render('#paypal-button-container');
             } else {
+                // Se oculta los controles de paypal
                 $("#paypal-button-container").addClass("d-none");
+
+                // Se muestra una fotografia de bajo del boton de descarga pdf
+                $("#imgLateral").removeClass("d-none");
             }
         });
     }

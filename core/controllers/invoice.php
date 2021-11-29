@@ -83,6 +83,7 @@
 			$labelQty 		= ($lang == 'es') ? 'cantidad' : 'Quantity';
 			$labelAmount	= ($lang == 'es') ? 'Importe' : 'Amount';
 
+			// Recuperar todos los datos de la facura, propietarios y conceptos
 			$data 		= $invoiceModel->getInvoiceId( $vars['invoiceId'] );
 			$htmlBoddy 	= "<h1>No found data</h1>";
 
@@ -100,6 +101,7 @@
 				if($data['invoiceData']['estatus'] == "3")
 					$statusInvoice = '<text style="color:orange;">'.$refound.'</text>';
 
+				// Si la factura ya esta pagada, se mustra los datos de la referencia en paypal
 				if($payload){
 					if($payload->purchase_units){
 						$infoPay .= '<p style="text-align: left; margin-bottom: 0px;"><text style="font-weight: 500;">'.$paydate.':</text> '. $payload->create_time .'</p>';
@@ -109,6 +111,7 @@
 					}
 				}
 
+				// Se crea el cuerpo del HTML que tendra la factura
 				$htmlBoddy 		= '
 					<!DOCTYPE html>
 					<html>
@@ -161,6 +164,7 @@
 				$total 		= 0;
 				$totalReal  = 0;
 
+				// Se recore e areglo de conceptos para añadirlos a la tabla HTML
 				foreach ($conceptos as $key => $item) {
 					$total = $item->cantidad * $item->precio;
 					$filas .= '
