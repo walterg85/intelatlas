@@ -339,7 +339,8 @@
                         let data    = getData($(this), dataTableInvoice),
                             objData = {
                                 "_method":"generatePdf",
-                                "invoiceId": data.id
+                                "invoiceId": data.id,
+                                "lang": lang
                             };
 
                         $.post("../core/controllers/invoice.php", objData, function(result){

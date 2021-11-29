@@ -67,6 +67,22 @@
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
 		} else if($vars['_method'] == 'generatePdf'){
+			// Establecer labels dependiendo de la configuracion del idioma seleccionado
+			$lang 			= $vars['lang'];
+			$titulo 		= ($lang == 'es') ? 'Mi factura' : 'My incoice';
+			$debt	 		= ($lang == 'es') ? 'Deuda' : 'Debt';
+			$pait	 		= ($lang == 'es') ? 'Pagado' : 'Paid out';
+			$refound 		= ($lang == 'es') ? 'Reembolso' : 'Refound';
+			$paydate 		= ($lang == 'es') ? 'Fecha de pago' : 'Payment date';
+			$referencia		= ($lang == 'es') ? 'Referencia' : 'Paypal Id';
+			$payerName 		= ($lang == 'es') ? 'Nombre del pagador' : 'Payer name';
+			$payerMail 		= ($lang == 'es') ? 'Correo electronico del pagador' : 'Payer e-mail';
+			$discount 		= ($lang == 'es') ? 'Descuento' : 'Discount';
+			$labelConcept	= ($lang == 'es') ? 'Concepto' : 'Concept';
+			$labelPrice		= ($lang == 'es') ? 'Precio' : 'Price';
+			$labelQty 		= ($lang == 'es') ? 'cantidad' : 'Quantity';
+			$labelAmount	= ($lang == 'es') ? 'Importe' : 'Amount';
+
 			$data 		= $invoiceModel->getInvoiceId( $vars['invoiceId'] );
 			$htmlBoddy 	= "<h1>No found data</h1>";
 
@@ -76,20 +92,20 @@
 				$infoPay		= "";
 
 				if($data['invoiceData']['estatus'] == "1")
-					$statusInvoice = '<text style="color:red;">Debt</text>';
+					$statusInvoice = '<text style="color:red;">'.$debt.'</text>';
 
 				if($data['invoiceData']['estatus'] == "2")
-					$statusInvoice = '<text style="color:green;">Paid out</text>';
+					$statusInvoice = '<text style="color:green;">'.$pait.'</text>';
 
 				if($data['invoiceData']['estatus'] == "3")
-					$statusInvoice = '<text style="color:orange;">Refound</text>';
+					$statusInvoice = '<text style="color:orange;">'.$refound.'</text>';
 
 				if($payload){
 					if($payload->purchase_units){
-						$infoPay .= '<p style="text-align: left; margin-bottom: 0px;"><text style="font-weight: 500;">Payment date:</text> '. $payload->create_time .'</p>';
-						$infoPay .= '<p style="text-align: left; margin-bottom: 0px; margin-top: 0px;"><text style="font-weight: 500;">Paypal Id:</text> '. $payload->purchase_units[0]->payments->captures[0]->id .'</p>';
-						$infoPay .= '<p style="text-align: left; margin-bottom: 0px; margin-top: 0px;"><text style="font-weight: 500;">Payer name:</text> '. $payload->payer->name->given_name .' '. $payload->payer->name->surname .'</p>';
-						$infoPay .= '<p style="text-align: left; margin-bottom: 0px; margin-top: 0px;"><text style="font-weight: 500;">Payer e-mail:</text> '. $payload->payer->email_address .'</p>';
+						$infoPay .= '<p style="text-align: left; margin-bottom: 0px;"><text style="font-weight: 500;">'.$paydate.':</text> '. $payload->create_time .'</p>';
+						$infoPay .= '<p style="text-align: left; margin-bottom: 0px; margin-top: 0px;"><text style="font-weight: 500;">'.$referencia.':</text> '. $payload->purchase_units[0]->payments->captures[0]->id .'</p>';
+						$infoPay .= '<p style="text-align: left; margin-bottom: 0px; margin-top: 0px;"><text style="font-weight: 500;">'.$payerName.':</text> '. $payload->payer->name->given_name .' '. $payload->payer->name->surname .'</p>';
+						$infoPay .= '<p style="text-align: left; margin-bottom: 0px; margin-top: 0px;"><text style="font-weight: 500;">'.$payerMail.':</text> '. $payload->payer->email_address .'</p>';
 					}
 				}
 
@@ -106,7 +122,7 @@
                                 <img src="../assets/img/logo.png?v='. rand(0,100) .'" width="160">
                             </div>
                             <div style="float: right;">
-                                <h1 style="text-align: right;">My invoice #'. str_pad($data['invoiceData']['id'], 5, "0", STR_PAD_LEFT) .'</h1>
+                                <h1 style="text-align: right;">'.$titulo.' #'. str_pad($data['invoiceData']['id'], 5, "0", STR_PAD_LEFT) .'</h1>
                                 <p style="text-align: right; margin-bottom: 0px;">'. $data['invoiceData']['fecha'] .'</p>
                                 <p style="text-align: right; margin-top: 0px;">'. $statusInvoice .'</p>
                             </div>
@@ -168,9 +184,9 @@
 						$totalDescuento = 0;
 						if($cupon->tipo == 1){
 							$totalDescuento = $totalReal * $cupon->importe;
-							$filaCupon = '<p style="text-align: right;">(Discount '. $cupon->valor.') $'. $totalDescuento .'</p>';
+							$filaCupon = '<p style="text-align: right;">('.$discount.' '. $cupon->valor.') $'. $totalDescuento .'</p>';
 						}else{
-							$filaCupon = '<p style="text-align: right;">(Discount '. $cupon->valor.')</p>';
+							$filaCupon = '<p style="text-align: right;">('.$discount.' '. $cupon->valor.')</p>';
 						}
 					}					
 				}
@@ -180,10 +196,10 @@
 							<thead>
 								<tr style="background-color: #d7d7d7;">
 									<th>#</th>
-									<th>Concept</th>
-									<th>Price</th>
-									<th>Quantity</th>
-									<th>Amount</th>
+									<th>'.$labelConcept.'</th>
+									<th>'.$labelPrice.'</th>
+									<th>'.$labelQty.'</th>
+									<th>'.$labelAmount.'</th>
 								</tr>
 							</thead>
 							<tbody>
