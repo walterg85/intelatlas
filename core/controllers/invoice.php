@@ -150,9 +150,6 @@
 								<tr>
 									<td width="50%">&#8226; '. $data['clientData']['ciudad'] .' '. $data['clientData']['estado'] .' '. $data['clientData']['codigo_postal'] .'</td>
 								</tr>
-								<tr>
-									<td width="50%">&#8226; '. $data['clientData']['adicional'] .'</td>
-								</tr>
 							</tbody>
 						</table>
 

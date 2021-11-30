@@ -17,6 +17,9 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
+    <!-- Font awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <!-- Vendor CSS Files -->
     <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
     <link href="assets/vendor/aos/aos.css" rel="stylesheet">
@@ -32,6 +35,9 @@
 
     <!-- Stylo del chat -->   
     <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/chat.css?v=1.1">
+
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <title>Online Store</title>
 </head>
@@ -217,14 +223,6 @@
         </section>
         <!-- End Cta Section -->
 
-        <!-- ======= Contain Section ======= -->
-        <section id="contenedor" class="pricing">
-            <div class="container" data-aos="fade-up">
-                <?php echo $content; ?>
-            </div>
-        </section>
-        <!-- End Contain Section -->
-
         <!-- ======= Pricing Section ======= -->
         <section id="pricing" class="pricing">
             <div class="container" data-aos="fade-up">
@@ -383,6 +381,33 @@
 
     <div id="preloader"></div>
 
+    <!-- Formulario para el chat -->
+    <input type="checkbox" id="check"><label class="chat-btn" for="check"><i class="fa fa-commenting-o comment"></i><i class="fa fa-close close"></i></label>
+    <div class="wrapper">
+        <div class="header">
+            <h6 class="labelChatTitle">Let's Chat - Online</h6>
+        </div>
+        <a href="javascript:void(0);"class="list-group-item lblControl d-none">
+            <span><i class="fa fa-power-off"></i> <text class="labelFinish">Finish chatting</text></span>
+        </a>
+        <div class="text-center p-2">
+            <span class="lblWelcome">Please fill out the form to start chat!</span>
+            <div id="chatLog" class="d-none"></div>
+        </div>
+        <div class="chat-form">
+            <div id="divRegistro">
+                <input type="text" class="form-control" placeholder="Name" id="inputName">
+                <input type="text" class="form-control" placeholder="Email" id="inputMail">
+                <textarea class="form-control" placeholder="Your Text Message" id="inputInitialMessage"></textarea>
+                <button class="btn btn-success btn-block pull-right" id="btnStart">Submit</button>
+            </div>
+            <div id="divConversasion" class="d-none">
+                <textarea class="form-control" placeholder="Your Message" id="inputNewMessage"></textarea>
+                <button class="btn btn-success btn-block pull-right" id="btnSendmessage">Send</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Vendor JS Files -->
     <script src="assets/vendor/aos/aos.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -393,5 +418,306 @@
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
+
+    <script type="text/javascript">
+        var formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 2
+            }),
+            searchRequest = null,
+            productLimite = 0,
+            base_url = "<?php echo $base_url; ?>",
+            refreshLog          = null,
+            lang                = (window.navigator.language).substring(0,2),
+            intervalContador    = null, // Contador para establecer los 20 segundos para lanzar el chat
+            contador            = 0;
+
+        $(document).ready(function(){
+            $(".lblControl").on("click", function(){
+                if (confirm('Do you really want to end the chat with tech support?')){
+                    $(".lblWelcome").removeClass("d-none");
+                    $("#divRegistro").removeClass("d-none");
+                    $("#divConversasion").addClass("d-none");
+                    $("#chatLog").addClass("d-none");
+                    $(".lblControl").addClass("d-none");
+
+                    $("#chatLog").html("");
+                    clearInterval(refreshLog);
+                    localStorage.removeItem("cliData");
+
+                    let dt = new Date(),
+                        time = dt.getHours() + ":" + dt.getMinutes();
+
+                    let objData = {
+                        email: $("#inputMail").val(),
+                        name: $("#inputName").val(),
+                        _method: "POST",
+                        _action: "closeChat",
+                        _time: time
+                    };
+
+                    $.post(`${base_url}/core/controllers/chat.php`, objData);
+                }
+            });
+
+            let cliData = JSON.parse( localStorage.getItem("cliData") );
+            if(cliData){
+                $("#inputMail").val(cliData.mail);
+                $("#inputName").val(cliData.name);
+
+                $(".lblWelcome").addClass("d-none");
+                $("#divRegistro").addClass("d-none");
+                $("#divConversasion").removeClass("d-none");
+                $("#chatLog").removeClass("d-none");
+                $(".lblControl").removeClass("d-none");
+
+                loadLog();
+                refreshLog = setInterval(loadLog, 2500);
+            }else{
+                intervalContador = setInterval( function(){
+                    // Incrementar el contador en 1
+                    contador += 1;
+
+                    // Verificar si pasaron los 20 segundos, detener el contador y mostrar el formulario del chat
+                    if(contador > 20){
+                        clearInterval(intervalContador);
+                        $(".chat-btn").click();
+                    }
+
+                }, 1000);
+            }
+        });
+
+        function getProducts(limite) {
+            productLimite = limite;
+
+            let objData = {
+                "_method":"GET",
+                "limite": productLimite
+            };
+
+            $.post(`${base_url}/core/controllers/product.php`, objData, function(result) {
+                $("#ListProduct").html("");
+                $.each( result.data, function( index, item){
+                    let productCard = $(".itemClone").clone();
+
+                    if(lang == "en"){
+                        productCard.find(".card-title").html(item.name);
+                        productCard.find(".card-text").html(item.descriptions);
+                    }else{
+                        productCard.find(".card-title").html(item.optional_name);
+                        productCard.find(".card-text").html(item.optional_description);
+                    }                    
+
+                    if( (item.sale_price).length > 0 && item.sale_price > 0){
+                        productCard.find(".lblOldPrice").html( formatter.format(item.price)).removeClass("d-none");
+                        productCard.find(".lblPrice").html(formatter.format(item.sale_price));
+                        productCard.find(".brandPrice").removeClass("d-none");
+                    }else{
+                        productCard.find(".lblPrice").html( formatter.format(item.price) );
+                    }
+
+                    let img = (item.thumbnail != "" &&  item.thumbnail != "0") ? `${base_url}/${item.thumbnail}` : `${base_url}/assets/img/default.jpg`;
+
+                    productCard.find(".card-img-top").attr("src", `${img}`);
+                    productCard.find(".card-img-top").parent().attr("href", `${base_url}/product/index.php?pid=${item.id}`);
+
+                    productCard.find(".btnAddtocart").data("item", item);
+
+                    productCard.removeClass("d-none itemClone");
+                    $(productCard).appendTo("#ListProduct");
+                });
+
+                $(".btnAddtocart").unbind().click(function(){
+                    let currentItem = $(this).data("item"),
+                        newItem = {},
+                        currentCart = JSON.parse(localStorage.getItem("currentCart")),
+                        config = JSON.parse(currentItem.dimensions);
+
+                    if( config=="0" || ((config[0].sizes).length == 0 && config[1].colors[0] == "") ){
+                        if(!currentCart){
+                            localStorage.setItem("currentCart", "{}");
+                            currentCart = {};
+                        }                    
+
+                        newItem.id = currentItem.id;
+                        newItem.name = currentItem.name;
+                        newItem.optional_name = currentItem.optional_name;
+                        newItem.descriptions = currentItem.descriptions;
+                        newItem.optional_description = currentItem.optional_description;
+                        newItem.thumbnail = currentItem.thumbnail;
+
+                        if( (currentItem.sale_price).length > 0 && currentItem.sale_price > 0){
+                            newItem.price = currentItem.sale_price;
+                        }else{
+                            newItem.price = currentItem.price;
+                        }
+
+                        if(currentCart[currentItem.id]){
+                            currentCart[currentItem.id].qty = currentCart[currentItem.id].qty + 1;
+                        }else{
+                            newItem.qty = 1;
+                            currentCart[currentItem.id] = newItem;
+                        }
+
+                        localStorage.setItem("currentCart", JSON.stringify(currentCart));
+                        countCartItem();
+
+                        // Ejecutar para redirigir al checkout
+                        $(".btnCheckout").click();
+                    }else{
+                        if(lang == "en"){
+                            $(".lblMdlName").html(currentItem.name);
+                            $(".lblDescription").html(currentItem.descriptions);
+                        }else{
+                            $(".lblMdlName").html(currentItem.optional_name);
+                            $(".lblDescription").html(currentItem.optional_description);
+                        }                        
+
+                        if( (currentItem.sale_price).length > 0 && currentItem.sale_price > 0){
+                            $(".lblMdlPrice").html( formatter.format(currentItem.sale_price) );
+                        }else{
+                            $(".lblMdlPrice").html( formatter.format(currentItem.price) );
+                        }
+
+                        $("#mdlAddtoCart").data("item", currentItem);
+
+                        let images = JSON.parse(currentItem.images);
+                        $.each( images, function( index, item){
+                            $(`.img${index}`)
+                                .attr("src", `${base_url}/${item}`)
+                                .parent().removeClass("d-none");
+                        });
+
+                        $(".dvSizes").addClass("d-none");
+                        if((config[0].sizes).length > 0){
+                            $(".dvSizes").removeClass("d-none");
+                            $(".toRemoves").remove();
+
+                            $.each(config[0].sizes, function(index, item){
+                                let dv = $(".chSizes").clone();
+
+                                dv.find(".chk").val(item).attr("id", `ch${item}`);
+
+                                if(item == "sm")
+                                    dv.find(".lbl").html("Small");
+
+                                if(item == "m")
+                                    dv.find(".lbl").html("Medium");
+
+                                if(item == "l")
+                                    dv.find(".lbl").html("Large");
+
+                                if(item == "xl")
+                                    dv.find(".lbl").html("Extra large");
+
+                                dv.find(".lbl").attr("for", `ch${item}`);
+                                
+                                if(index == 0)
+                                    dv.find(".chk").prop("checked", true);
+
+                                dv.removeClass("d-none chSizes");
+                                dv.addClass("toRemoves");
+                                $(dv).appendTo(".dvSizes");
+                            });
+                        }
+
+                        $(".dvColors").addClass("d-none");
+                        if(config[1].colors[0] != ""){
+                            $(".dvColors").removeClass("d-none");
+                            $(".toRemovec").remove();
+
+                            let items = (config[1].colors[0]).split(",");
+                            $.each(items, function(index, item){
+                                let dv = $(".chColors").clone();
+
+                                dv.find(".chk").val(item).attr("id", `rd${item}`);
+                                dv.find(".lbl").html(item).attr("for", `rd${item}`);
+
+                                if(index == 0)
+                                    dv.find(".chk").prop("checked", true);
+
+                                dv.removeClass("d-none chColors");
+                                dv.addClass("toRemovec");
+                                $(dv).appendTo(".dvColors");
+
+                            });
+                        }
+
+                        $("#mdlProDetalle").modal("show");
+                    }
+                });
+
+                countCartItem();
+            });
+        }
+
+        function countCartItem(){
+            let currentCart = JSON.parse(localStorage.getItem("currentCart"));
+            if(currentCart)
+                $(".qtyCart").html(Object.keys(currentCart).length);
+        }
+
+        function sendMessage(strMessage, round){
+            let dt = new Date(),
+                time = dt.getHours() + ":" + dt.getMinutes();
+
+            let objData = {
+                message: strMessage,
+                email: $("#inputMail").val(),
+                name: $("#inputName").val(),
+                round: round,
+                _method: "POST",
+                _time: time
+            };
+
+            $.post(`${base_url}/core/controllers/chat.php`, objData);
+
+            if(round == 1){
+                localStorage.setItem("cliData", JSON.stringify({name: $("#inputName").val(), mail: $("#inputMail").val()}));
+                $("#inputInitialMessage").val("");
+                refreshLog = setInterval(loadLog, 2500);
+            }else{
+                $("#inputNewMessage").val("");
+            }
+
+            loadLog();
+            return false;
+        }
+
+        function loadLog(){
+            let objData = {
+                email: $("#inputMail").val(),
+                name: $("#inputName").val(),
+                _method: "GET"
+            },
+            oldscrollHeight = $("#chatLog")[0].scrollHeight - 20;
+
+            $.post(`${base_url}/core/controllers/chat.php`, objData, function(result) {
+                $("#chatLog").html(result);
+
+                let newscrollHeight = $("#chatLog")[0].scrollHeight - 20;
+                if(newscrollHeight > oldscrollHeight)
+                    $("#chatLog").animate({ scrollTop: newscrollHeight }, 'normal');
+
+                let isClose = $("#inputClose").val();
+                if(isClose){
+                    clearInterval(refreshLog);
+                    localStorage.removeItem("cliData");
+                }
+            }).fail(function() {
+                $(".lblWelcome").removeClass("d-none");
+                $("#divRegistro").removeClass("d-none");
+                $("#divConversasion").addClass("d-none");
+                $("#chatLog").addClass("d-none");
+                $(".lblControl").addClass("d-none");
+
+                $("#chatLog").html("");
+                clearInterval(refreshLog);
+                localStorage.removeItem("cliData");
+            });
+        }
+    </script>
 </body>
 </html>
