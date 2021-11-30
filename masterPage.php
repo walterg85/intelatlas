@@ -51,11 +51,11 @@
     <div id="topbar" class="fixed-top d-flex align-items-center ">
         <div class="container d-flex align-items-center justify-content-center justify-content-md-between">
             <div class="contact-info d-flex align-items-center">
-                <a class="text-decoration-none" href="javascript:void(0);"><i class="ri-earth-line"></i> Español</a>
+                <a class="text-decoration-none changeLang" href="javascript:void(0);"><i class="ri-earth-line"></i> Español</a>
                 <a class="text-decoration-none" href="tel:520-955-8534"><i class="bi bi-phone-fill phone-icon"></i> +1 (520) 955-8534</a>
             </div>
             <div class="cta d-none d-md-block">
-            <a href="#" class="scrollto">Let's Talk!</a>
+                <a href="javascript:void(0);" class="scrollto linkChat">Let's Talk!</a>
             </div>
         </div>
     </div>
@@ -71,7 +71,10 @@
             <i class="ri-shopping-cart-line text-light"></i>
             <div class="search-box">
                 <button class="btn-search"><i class="ri-search-line"></i></button>
-                <input type="text" class="input-search" placeholder="Type to Search...">
+                <div class="dropdown">
+                    <input type="text" class="input-search dropdown-toggle" id="inputSearch" placeholder="Type to Search..." autocomplete="off" >
+                    <ul class="dropdown-menu" aria-labelledby="inputSearch"></ul>
+                </div>
             </div>
 
             <nav id="navbar" class="navbar">
@@ -216,7 +219,7 @@
                     </div>
                     <div class="col-lg-3 cta-btn-container text-center">
                         <a class="cta-btn align-middle" href="#">Call</a>
-                        <a class="cta-btn align-middle" href="#">Chat</a>
+                        <a class="cta-btn align-middle linkChat" href="javascript:void(0);">Chat</a>
                     </div>
                 </div>
             </div>
@@ -381,7 +384,7 @@
 
     <div id="preloader"></div>
 
-    <!-- Formulario para el chat -->
+    <!-- ==== Formulario para el chat ==== -->
     <input type="checkbox" id="check"><label class="chat-btn" for="check"><i class="fa fa-commenting-o comment"></i><i class="fa fa-close close"></i></label>
     <div class="wrapper">
         <div class="header">
@@ -407,6 +410,7 @@
             </div>
         </div>
     </div>
+    <!-- End formulario para el chat -->
 
     <!-- Vendor JS Files -->
     <script src="assets/vendor/aos/aos.js"></script>
@@ -434,6 +438,25 @@
             contador            = 0;
 
         $(document).ready(function(){
+            // Control de chat
+            $("#btnStart").on("click", function(){
+                // Validar que se hayan ingresado todos los datos adecuadamente
+                if(($("#inputMail").val()).length == 0 || ($("#inputName").val()).length == 0 || ($("#inputInitialMessage").val()).length == 0)
+                    return false;
+
+                $(".lblWelcome").addClass("d-none");
+                $("#divRegistro").addClass("d-none");
+                $("#divConversasion").removeClass("d-none");
+                $("#chatLog").removeClass("d-none");
+                $(".lblControl").removeClass("d-none");
+
+                sendMessage($("#inputInitialMessage").val(), 1);
+            });
+
+            $("#btnSendmessage").on("click", function(){
+                sendMessage($("#inputNewMessage").val(), 2);
+            });
+
             $(".lblControl").on("click", function(){
                 if (confirm('Do you really want to end the chat with tech support?')){
                     $(".lblWelcome").removeClass("d-none");
@@ -487,6 +510,76 @@
 
                 }, 1000);
             }
+
+            $(".linkChat").click( function(){
+                $(".chat-btn").click();
+            });
+            // Fin control de chat
+
+            // Control de idioma
+            if( localStorage.getItem("currentLag") ){
+                lang = localStorage.getItem("currentLag");
+            }else{
+                localStorage.setItem("currentLag", lang);
+            }
+
+            $(".changeLang").click( function(){
+                if (localStorage.getItem("currentLag") == "es") {
+                    localStorage.setItem("currentLag", "en");
+                    lang = "en";
+                }else{
+                    localStorage.setItem("currentLag", "es");
+                    lang = "es";
+                }
+                switchLanguage(lang);
+            });
+
+            switchLanguage(lang);
+            // Fin control de idioma
+
+            // Control para busqueda
+            $('#inputSearch').keyup(function(){
+                if(searchRequest)
+                    searchRequest.abort();
+
+                searchRequest = $.ajax({
+                    url:`${base_url}/core/controllers/product.php`,
+                    method:"POST",
+                    data:{
+                        _method:'search',
+                        strQuery: $('#inputSearch').val()
+                    },
+                    success:function(data){
+                        let items = '';
+                        $.each(data.data, function(index, prod){
+                            let img = (prod.thumbnail != "" &&  prod.thumbnail != "0") ? `${base_url}/${prod.thumbnail}` : `${base_url}/assets/img/default.jpg`;
+
+                            items += `
+                                <li>
+                                    <a class="dropdown-item" href="${base_url}/product/index.php?pid=${prod.id}">
+                                        <img src="${img}" alt="twbs" height="32" class="rounded flex-shrink-0 me-2">
+                                        ${prod.name}
+                                    </a>
+                                </li>
+                            `;
+                        });
+
+                        $(".dropdown-menu")
+                            .html(items)
+                            .addClass("show");
+                    }
+                });
+            });
+
+            $('body').click(function() {
+                if(searchRequest)
+                    searchRequest.abort();
+
+                $(".dropdown-menu")
+                    .html("")
+                    .removeClass("show");
+            });
+            // Fin control para busqueda
         });
 
         function getProducts(limite) {
@@ -716,6 +809,30 @@
                 $("#chatLog").html("");
                 clearInterval(refreshLog);
                 localStorage.removeItem("cliData");
+            });
+        }
+
+        function switchLanguage(lang){
+            $.post(`${base_url}/assets/lang.json`, {}, function(data) {
+                $(".changeLang").html(`<i class="ri-earth-line"></i> ${data[lang]["buttonText"]}`);
+
+                let myLang = data[lang]["home"];
+                $("#inputSearch").attr("placeholder", myLang.search);
+
+                // Page title
+                document.title = myLang.pageTitle;
+
+                myLang = data[lang]["chat"];
+
+                $(".labelChatTitle").html(myLang.chatTitle);
+                $(".lblWelcome").html(myLang.chatSubTitle);
+                $("#inputName").attr("placeholder", myLang.inputName);
+                $("#inputMail").attr("placeholder", myLang.inputMail);
+                $("#inputInitialMessage").attr("placeholder", myLang.inputInitialMessage);
+                $("#btnStart").html(myLang.btnStart);
+                $("#inputNewMessage").attr("placeholder", myLang.inputNewMessage);
+                $("#btnSendmessage").html(myLang.btnSendmessage);
+                $(".labelFinish").html(myLang.labelFinish);
             });
         }
     </script>
