@@ -51,7 +51,7 @@ body {
     right: 20px;
     bottom: 100px;
     width: 300px;
-    background-color: #fff;
+    background-color: #bfbfbf;
     border-radius: 5px;
     opacity: 0;
     transition: all 0.4s;
@@ -64,7 +64,7 @@ body {
 
 .header {
     padding: 13px;
-    background-color: blue;
+    background-color: #6e0e9e;
     border-radius: 5px 5px 0px 0px;
     margin-bottom: 10px;
     color: #fff
