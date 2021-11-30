@@ -76,6 +76,10 @@
                 <label for="inputInfo" class="form-label labelOtionalInfo">Optional info</label>
                 <input type="text" id="inputInfo" name="inputInfo" class="form-control" autocomplete="off" maxlength="500">
             </div>
+            <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" id="swProspecto">
+                <label class="form-check-label swProspecto" for="swProspecto"> Is leads</label>
+            </div>
             <div class="d-grid gap-2 my-5">
                 <button class="btn btn-success btn-lg" type="button" id="addClient">
                     <i class="bi bi-check2"></i> Save information
@@ -172,9 +176,11 @@
         $("#addClient").html('<i class="bi bi-clock-history"></i> Saving...');
 
         let form        = $("#addClientForm")[0],
-            formData    = new FormData(form);
+            formData    = new FormData(form),
+            leads       = ($("#swProspecto").is(':checked')) ? 1 : 0;
 
         formData.append("_method", "POST");
+        formData.append("leads", leads);        
 
         var request = new XMLHttpRequest();
         request.open("POST", "../core/controllers/client.php");

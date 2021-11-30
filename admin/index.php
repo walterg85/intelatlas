@@ -110,6 +110,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link linkLeads" href="leads.php">
+                                <i class="bi bi-person"></i> Leads
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link linkInvoice" href="invoice.php">
                                 <i class="bi bi-receipt"></i> Invoice
                             </a>
@@ -250,6 +255,8 @@
                 $(".linkCoupons").html(`<i class="bi bi-award"></i> ${myLang.linkCoupons}`);
                 $(".linkOrders").html(`<i class="bi bi-basket"></i> ${myLang.linkOrders}`);
                 $("#linkSetting").html(`<i class="bi bi-sliders"></i> ${myLang.linkSetting}`);
+                $(".linkClients").html(`<i class="bi bi-person-fill"></i> ${myLang.linkClients}`);
+                $(".linkLeads").html(`<i class="bi bi-person"></i> ${myLang.linkLeads}`);
 
                 changePageLang(data[lang][currentPage]);
             });

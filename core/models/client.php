@@ -8,9 +8,9 @@
 			$pdo = new Conexion();
 			$cmd = '
 				INSERT INTO client
-						(nombre, apellido, direccion_a, direccion_b, telefono, ciudad, estado, codigo_postal, adicional, registro, estatus, email)
+						(nombre, apellido, direccion_a, direccion_b, telefono, ciudad, estado, codigo_postal, adicional, registro, estatus, email, leads)
 				VALUES
-					(:nombre, :apellido, :direccion_a, :direccion_b, :telefono, :ciudad, :estado, :codigo_postal, :adicional, now(), 1, :email)
+					(:nombre, :apellido, :direccion_a, :direccion_b, :telefono, :ciudad, :estado, :codigo_postal, :adicional, now(), 1, :email, :leads)
 			';
 
 			$parametros = array(
@@ -21,9 +21,10 @@
 				':telefono'			=> $data['inputPhone'],
 				':email'			=> $data['inputEmail'],
 				':ciudad' 			=> $data['inputCity'],
-				':estado'			=>  $data['inputState'],
-				':codigo_postal'	=>  $data['inputZip'],
-				':adicional'		=>  $data['inputInfo']
+				':estado'			=> $data['inputState'],
+				':codigo_postal'	=> $data['inputZip'],
+				':adicional'		=> $data['inputInfo'],
+				':leads'			=> $data['inputLeads']
 			);
 
 			try{
@@ -40,7 +41,7 @@
 			$cmd = '
 				UPDATE
 					client
-				SET nombre =:nombre, apellido =:apellido, direccion_a =:direccion_a, direccion_b =:direccion_b, telefono =:telefono, ciudad =:ciudad, estado =:estado, codigo_postal =:codigo_postal, adicional =:adicional, email =:email
+				SET nombre =:nombre, apellido =:apellido, direccion_a =:direccion_a, direccion_b =:direccion_b, telefono =:telefono, ciudad =:ciudad, estado =:estado, codigo_postal =:codigo_postal, adicional =:adicional, email =:email, leads =:leads
 				WHERE id =:clientId;
 			';
 
@@ -55,7 +56,8 @@
 				':estado'			=> $data['inputState'],
 				':codigo_postal'	=> $data['inputZip'],
 				':adicional'		=> $data['inputInfo'],
-				':clientId'			=> $data['clientId']
+				':clientId'			=> $data['clientId'],
+				':leads'			=> $data['inputLeads']
 			);
 
 			$sql = $pdo->prepare($cmd);
@@ -78,10 +80,39 @@
 					codigo_postal, 
 					adicional, 
 					registro,
-					email
+					email,
+					leads
 				FROM 
 					client
-				WHERE estatus = 1;
+				WHERE estatus = 1 AND leads = 0;
+			';
+			
+			$sql = $pdo->prepare($cmd);
+			$sql->execute();
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
+
+		public function getLeads(){
+			$pdo = new Conexion();
+			$cmd = '
+				SELECT
+					id,
+					nombre, 
+					apellido, 
+					direccion_a, 
+					direccion_b, 
+					telefono, 
+					ciudad, 
+					estado, 
+					codigo_postal, 
+					adicional, 
+					registro,
+					email,
+					leads
+				FROM 
+					client
+				WHERE estatus = 1 AND leads = 1;
 			';
 			
 			$sql = $pdo->prepare($cmd);
