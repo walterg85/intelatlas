@@ -158,7 +158,8 @@
     function loadInvoice(){
         let objData = {
                 "_method":"generatePdf",
-                "invoiceId": currentInvoiceId
+                "invoiceId": currentInvoiceId,
+                "lang": lang
             };
 
         $.post("../core/controllers/invoice.php", objData, function(result){
