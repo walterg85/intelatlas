@@ -25,7 +25,8 @@
 				'inputCity'		=> $vars['inputCity'],
 				'inputState'	=> $vars['inputState'],
 				'inputZip'		=> $vars['inputZip'],
-				'inputInfo'		=> $vars['inputInfo']
+				'inputInfo'		=> $vars['inputInfo'],
+				'inputLeads'	=> $vars['leads']
 			);
 
 			if($vars['clientId'] == 0){
@@ -53,7 +54,17 @@
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
-		}else if($vars['_method'] == 'Delete'){
+		}else if($vars['_method'] == '_Getleads'){
+			$response = array(
+				'codeResponse' 	=> 200,
+				'data' 			=> $clientModel->getLeads()
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");			
+			exit(json_encode($response));
+		}
+		else if($vars['_method'] == 'Delete'){
 			$response = array(
 				'codeResponse' 	=> 200,
 				'data' 			=> $clientModel->deleteClient( $vars['clientId'] )

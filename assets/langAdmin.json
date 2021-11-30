@@ -8,7 +8,9 @@
 			"linkProduct": "Products",
 			"linkCoupons": "Coupons",
 			"linkOrders": "Orders",
-			"linkSetting": "Settings"
+			"linkSetting": "Settings",
+			"linkClients": "Clients",
+			"linkLeads": "Leads"
 		},
 		"Settings":{
 			"namePage":"Settings",
@@ -145,6 +147,20 @@
 			"opc1": "Debt",
 			"opc2": "Paid out",
 			"opc3": "Refound"
+		},
+		"Leads":{
+			"pageTitle": "Leads",
+			"panel1": "Leads details",
+			"labelName": "Name",
+			"labelLastname": "Last name",
+			"labelMail": "Email",
+			"labelPhone": "Phone",
+			"labelAddress": "Address",
+			"labelAddress2": "Address 2",
+			"labelCity": "City",
+			"labelState": "State",
+			"labelZip": "Zip",
+			"labelOtionalInfo": "Optional info"
 		}
 	},
 	"es":{
@@ -156,7 +172,9 @@
 			"linkProduct": "Productos",
 			"linkCoupons": "Cupones",
 			"linkOrders": "Pedidos",
-			"linkSetting": "Configuraciones"
+			"linkSetting": "Configuraciones",
+			"linkClients": "Clientes",
+			"linkLeads": "Prospectos"
 		},
 		"Settings":{
 			"namePage":"Configuraciones",
@@ -293,6 +311,20 @@
 			"opc1": "Adeudo",
 			"opc2": "Pagado",
 			"opc3": "Reembolso"
+		},
+		"Leads":{
+			"pageTitle": "Prospectos",
+			"panel1": "Detalles del prospecto",
+			"labelName": "Nombre",
+			"labelLastname": "Apellido",
+			"labelMail": "Correo electrónico",
+			"labelPhone": "Telefono",
+			"labelAddress": "Dirreccion 1",
+			"labelAddress2": "Dirreccion 2",
+			"labelCity": "Ciudad",
+			"labelState": "Estado",
+			"labelZip": "Codigo postal",
+			"labelOtionalInfo": "Informacion adicional"
 		}
 	}
 }
