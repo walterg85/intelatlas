@@ -59,19 +59,22 @@
                                         <td><i class="bi bi-person-fill h4 text-secondary"></i> <texto class="lbl lblNombre"></texto></td>
                                     </tr>
                                     <tr>
-                                        <td><i class="bi bi-at  h5 text-secondary"></i> <texto class="lbl lblEmail"></texto></td>
+                                        <td class="d-none"><i class="bi bi-at  h5 text-secondary"></i> <texto class="lbl lblEmail"></texto></td>
                                     </tr>
                                     <tr>
-                                        <td><i class="bi bi-telephone-fill h5 text-secondary"></i> <texto class="lbl lblTelefono"></texto></td>
+                                        <td class="d-none"><i class="bi bi-telephone-fill h5 text-secondary"></i> <texto class="lbl lblTelefono"></texto></td>
                                     </tr>
                                     <tr>
-                                        <td><i class="bi bi-house-door-fill h5 text-secondary"></i> <texto class="lbl lblDireccion1"></texto></td>
+                                        <td class="d-none"><i class="bi bi-house-door-fill h5 text-secondary"></i> <texto class="lbl lblDireccion1"></texto></td>
                                     </tr>
                                     <tr>
-                                        <td><i class="bi bi-house-door-fill h5 text-secondary"></i> <texto class="lbl lblDireccion2"></texto></td>
+                                        <td class="d-none"><i class="bi bi-house-door-fill h5 text-secondary"></i> <texto class="lbl lblDireccion2"></texto></td>
                                     </tr>
                                     <tr>
                                         <td><i class="bi bi-pin-map-fill h5 text-secondary"></i> <texto class="lbl lblCiudad"></texto></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="d-none"><i class="bi bi-check h5 text-secondary"></i> <texto class="lbl lblExtra"></texto></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -172,12 +175,34 @@
             // Pintar informacion del cliente
             let data = result.allData.clientData;
 
-            $(".lblNombre").html(`${data.nombre} ${data.apellido}`);
-            $(".lblEmail").html(`${data.email}`);
-            $(".lblTelefono").html(`${data.telefono}`);
-            $(".lblDireccion1").html(`${data.direccion_a}`);
-            $(".lblDireccion2").html(`${data.direccion_b}`);
-            $(".lblCiudad").html(`${data.ciudad} ${data.estado} ${data.codigo_postal}`);
+            $(".lblNombre").html(`${data.nombre} ${data.apellido}`).parent().removeClass("d-none");
+
+            if( (data.email).length > 0 )
+                $(".lblEmail")
+                    .html(`${data.email}`)
+                    .parent().removeClass('d-none');
+
+            if( (data.telefono).length > 0 )
+                $(".lblTelefono")
+                    .html(`${data.telefono}`)
+                    .parent().removeClass('d-none');
+
+            if( (data.direccion_a).length > 0 )
+                $(".lblDireccion1")
+                    .html(`${data.direccion_a}`)
+                    .parent().removeClass('d-none');
+
+            if( (data.direccion_b).length > 0 )
+                $(".lblDireccion2")
+                    .html(`${data.direccion_b}`)
+                    .parent().removeClass('d-none');
+
+            $(".lblCiudad").html(`${data.ciudad} ${data.estado} ${data.codigo_postal}`).parent().removeClass("d-none");
+
+            if( (data.adicional).length > 0 )
+                $(".lblExtra")
+                    .html(`${data.adicional}`)
+                    .parent().removeClass('d-none');
 
             // Pintar los conceptos
             let filas           = "",

@@ -111,6 +111,10 @@
 					}
 				}
 
+				$rowA = (strlen($data['clientData']['direccion_a']) > 0) ? '<tr><td width="50%">&#8226; '.$data['clientData']['direccion_a'].'</td></tr>' : '';
+				$rowB = (strlen($data['clientData']['direccion_b']) > 0) ? '<tr><td width="50%">&#8226; '.$data['clientData']['direccion_b'].'</td></tr>' : '';
+				$rowC = (strlen($data['clientData']['telefono']) > 0) ? '<tr><td width="50%">&#8226; '.$data['clientData']['telefono'].'</td></tr>' : '';
+
 				// Se crea el cuerpo del HTML que tendra la factura
 				$htmlBoddy 		= '
 					<!DOCTYPE html>
@@ -136,17 +140,11 @@
 							<tbody>
 								<tr>
 									<td width="50%">&#8226; '. $data['clientData']['nombre'] .' '. $data['clientData']['apellido'] .'</td>
-									<td width="50%" rowspan="6" style="vertical-align: top;">'. $infoPay .'</td>
-								</tr>
-								<tr>
-									<td width="50%">&#8226; '. $data['clientData']['direccion_a'] .'</td>
-								</tr>
-								<tr>
-									<td width="50%">&#8226; '. $data['clientData']['direccion_b'] .'</td>
-								</tr>
-								<tr>
-									<td width="50%">&#8226; '. $data['clientData']['telefono'] .'</td>
-								</tr>
+									<td width="50%" rowspan="5" style="vertical-align: top;">'. $infoPay .'</td>
+								</tr>								
+								'.$rowA.'
+								'. $rowB .'
+								'. $rowC .'
 								<tr>
 									<td width="50%">&#8226; '. $data['clientData']['ciudad'] .' '. $data['clientData']['estado'] .' '. $data['clientData']['codigo_postal'] .'</td>
 								</tr>
