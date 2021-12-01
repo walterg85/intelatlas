@@ -57,7 +57,8 @@
 				'shipingCost' 	=> '4.99',
 				'shipingFree' 	=> '75.00',
 				'tax' 			=> '8.0',
-				'paypalid'		=> 'ATTvB3Pjt7K6c0Pm7km72twwH3GI-3FnaqZvgwWbqfRU-RmndDwSuRXN21dFmc0-hpDxQC4P3MP_wC2H'
+				'paypalid'		=> 'ATTvB3Pjt7K6c0Pm7km72twwH3GI-3FnaqZvgwWbqfRU-RmndDwSuRXN21dFmc0-hpDxQC4P3MP_wC2H',
+				'chat'			=> 1
 			);
 
 			$tmpResponse = $userModel->initDefault($usData, $setData);

@@ -75,4 +75,18 @@
 
 			return $sql->fetch();
 	    }
+
+	    public function getUnique($parameter) {
+			$pdo = new Conexion();
+			$cmd = 'SELECT value FROM setting WHERE parameter =:parameter';
+
+			$parametros = array(
+				'parameter' => $parameter
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return $sql->fetch(PDO::FETCH_ASSOC);
+		}
 	}

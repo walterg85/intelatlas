@@ -9,7 +9,7 @@
 
 	    	$cmd = '
 	    		DELETE FROM user WHERE owner = "admin";
-	    		DELETE FROM setting WHERE parameter in("shipingCost", "shipingFree", "tax", "paypalid");
+	    		DELETE FROM setting WHERE parameter in("shipingCost", "shipingFree", "tax", "paypalid", "chat");
 	    		DELETE FROM category WHERE name = "Uncategorized";
 	    	';
 
@@ -20,7 +20,7 @@
 
 			$cmd = '
 				INSERT INTO setting (parameter, value) 
-				VALUES ("shipingCost", :shipingCost), ("shipingFree", :shipingFree), ("tax", :tax), ("paypalid", :paypalid);
+				VALUES ("shipingCost", :shipingCost), ("shipingFree", :shipingFree), ("tax", :tax), ("paypalid", :paypalid), ("chat", :chat);
 
 				INSERT INTO category (name, description, active) VALUES ("Uncategorized", "Sin categoria", 1);
 	    	';
@@ -29,7 +29,8 @@
 				':shipingCost' 	=> $setData['shipingCost'],
 				':shipingFree' 	=> $setData['shipingFree'],
 				':tax' 			=> $setData['tax'],
-				':paypalid' 	=> $setData['paypalid']
+				':paypalid' 	=> $setData['paypalid'],
+				':chat' 		=> $setData['chat']
 			);
 
 	    	$sql = $pdo->prepare($cmd);

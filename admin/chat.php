@@ -4,6 +4,12 @@
 ?>
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2 lblNamePage">Welcome to chat support!</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="form-check form-switch h5">
+            <input class="form-check-input" type="checkbox" id="swActivo">
+            <label class="form-check-label swActivo" for="swActivo"> We are active in chat</label>
+        </div>
+    </div>
 </div>
 
 
@@ -155,6 +161,8 @@
                 chatActive._file = "";                    
             }
         });
+
+        getConfig();
     });
 
     function loadChats(){
@@ -241,6 +249,22 @@
         $(".btnSenToMail").html(myLang.btnSenToMail);
         $(".labelMesage").html(myLang.labelMesage);
         $("#btnSend").html(myLang.btnSend);  
+    }
+
+    function getConfig(){
+        let objData = {
+            _method: "getUnique",
+            parametro: "chat"
+        };
+
+        $.post("../core/controllers/setting.php", objData, function(result){
+            if(result.data){
+                let estado = (result.data.value == 1) ? true : false;
+                $("#swActivo").prop("checked", estado);
+            }else{
+                $("#swActivo").prop("checked", false);
+            }
+        });
     }
 </script>
 <?php
