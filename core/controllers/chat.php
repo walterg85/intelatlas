@@ -50,7 +50,7 @@
 					</div>
 				';
 
-				if($round == 1)
+				if($round == 1 || $round == 0)
 					$message .= '
 						<input type="hidden" id="inputName" value="'. $put_vars['name'] .'" />
 						<input type="hidden" id="inputMail" value="'. $email .'" />
