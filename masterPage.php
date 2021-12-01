@@ -401,6 +401,7 @@
             <div id="divRegistro">
                 <input type="text" class="form-control" placeholder="Name" id="inputName">
                 <input type="text" class="form-control" placeholder="Email" id="inputMail">
+                <input type="text" class="form-control" placeholder="Phone" id="inputPhone">
                 <textarea class="form-control" placeholder="Your Text Message" id="inputInitialMessage"></textarea>
                 <button class="btn btn-success btn-block pull-right" id="btnStart">Submit</button>
             </div>
@@ -919,6 +920,14 @@
                 // Se obtiene el resutado, si aun no se configura este valor, se toma como estado inactivo
                 if(result.data)
                     estadoChat = (result.data.value == 1) ? true : false;
+
+                if(estadoChat){
+                    $(".lblWelcome").addClass("d-none");
+                    $("#divRegistro").addClass("d-none");
+                    $("#divConversasion").removeClass("d-none");
+                    $("#chatLog").removeClass("d-none");
+                    $(".lblControl").removeClass("d-none");
+                }
             });
         }
 
@@ -930,8 +939,9 @@
             formData.append("inputName", $("#inputName").val());
             formData.append("inputLastname", "");
             formData.append("inputAddress", "");
+            formData.append("inputAddress2", "");
             formData.append("inputEmail", $("#inputMail").val());
-            formData.append("inputPhone", "");
+            formData.append("inputPhone", $("#inputPhone").val());
             formData.append("inputCity", "");
             formData.append("inputState", "");
             formData.append("inputZip", "");
