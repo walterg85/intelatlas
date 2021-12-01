@@ -73,6 +73,11 @@
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
+		} else if($vars['_method'] == 'updateUniqueSetting'){
+			$settingsModel->updateUniqueSetting($vars['parametro'], $vars['value']);
+
+			header('HTTP/1.1 200 Ok');			
+			exit();
 		}
 	}
 

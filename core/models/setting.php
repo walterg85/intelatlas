@@ -19,7 +19,7 @@
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
 		}
 
-		public function updateData($usData, $setData){
+		public function updateData($usData, $setData) {
 	    	$pdo = new Conexion();
 
 	    	$updatePass = '';
@@ -88,5 +88,20 @@
 			$sql->execute($parametros);
 
 			return $sql->fetch(PDO::FETCH_ASSOC);
+		}
+
+		public function updateUniqueSetting($parameter, $value) {
+			$pdo = new Conexion();
+			$cmd = 'UPDATE setting SET parameter =:parameter, value =:value WHERE parameter =:parameter';
+
+			$parametros = array(
+				'parameter' => $parameter,
+				'value' => $value
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
 		}
 	}

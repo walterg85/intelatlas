@@ -162,6 +162,18 @@
             }
         });
 
+        $("#swActivo").change( function(){
+            let valor = (this.checked) ? 1 : 0;
+
+            let objData = {
+                _method: "updateUniqueSetting",
+                parametro: "chat",
+                value: valor
+            };
+
+            $.post("../core/controllers/setting.php", objData);
+        });
+
         getConfig();
     });
 

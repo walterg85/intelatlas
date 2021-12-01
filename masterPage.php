@@ -435,7 +435,8 @@
             refreshLog          = null,
             lang                = (window.navigator.language).substring(0,2),
             intervalContador    = null, // Contador para establecer los 20 segundos para lanzar el chat
-            contador            = 0;
+            contador            = 0,
+            estadoChat          = false;
 
         $(document).ready(function(){
             // Control de chat
@@ -444,13 +445,21 @@
                 if(($("#inputMail").val()).length == 0 || ($("#inputName").val()).length == 0 || ($("#inputInitialMessage").val()).length == 0)
                     return false;
 
-                $(".lblWelcome").addClass("d-none");
-                $("#divRegistro").addClass("d-none");
-                $("#divConversasion").removeClass("d-none");
-                $("#chatLog").removeClass("d-none");
-                $(".lblControl").removeClass("d-none");
+                // validar el estado del chat
+                // -Si esta activo se inicia el chat con normalidad
+                // -No esta activo el chat, solo se envia el archivo de chat y se registra como prospecto
+                if(estadoChat){
+                    $(".lblWelcome").addClass("d-none");
+                    $("#divRegistro").addClass("d-none");
+                    $("#divConversasion").removeClass("d-none");
+                    $("#chatLog").removeClass("d-none");
+                    $(".lblControl").removeClass("d-none");
 
-                sendMessage($("#inputInitialMessage").val(), 1);
+                    sendMessage($("#inputInitialMessage").val(), 1);
+                } else {
+                    sendMessage($("#inputInitialMessage").val(), 0);
+                    registrarProspecto();
+                }                
             });
 
             $("#btnSendmessage").on("click", function(){
@@ -627,6 +636,9 @@
                     fnSuscribe();
             });
             // End Accion para la suscripcion
+
+            // Para verificar la configuracion de disponibilidad del chat
+            getConfig();
         });
 
         function getProducts(limite) {
@@ -822,7 +834,9 @@
                 $("#inputNewMessage").val("");
             }
 
-            loadLog();
+            if(round > 0)
+                loadLog();
+
             return false;
         }
 
@@ -893,6 +907,40 @@
                 $("#txtEmail").val("");
                 alert("you have successfully subscribed");
             });
+        }
+
+        function getConfig(){
+            let objData = {
+                _method: "getUnique",
+                parametro: "chat"
+            };
+
+            $.post("core/controllers/setting.php", objData, function(result){
+                // Se obtiene el resutado, si aun no se configura este valor, se toma como estado inactivo
+                if(result.data)
+                    estadoChat = (result.data.value == 1) ? true : false;
+            });
+        }
+
+        function registrarProspecto(){
+            let formData = new FormData();
+
+            formData.append("_method", "POST");
+            formData.append("leads", 1);
+            formData.append("inputName", $("#inputName").val());
+            formData.append("inputLastname", "");
+            formData.append("inputAddress", "");
+            formData.append("inputEmail", $("#inputMail").val());
+            formData.append("inputPhone", "");
+            formData.append("inputCity", "");
+            formData.append("inputState", "");
+            formData.append("inputZip", "");
+            formData.append("inputInfo", "");
+            formData.append("clientId", 0);
+
+            var request = new XMLHttpRequest();
+            request.open("POST", "core/controllers/client.php");
+            request.send(formData);
         }
     </script>
 </body>
