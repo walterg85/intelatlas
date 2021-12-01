@@ -68,7 +68,7 @@
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <a href=index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
-            <text><i class="ri-shopping-cart-line text-light"></i> <span class="badge bg-warning rounded-pill qtyCart">0</span></text>
+            <text><i class="ri-shopping-cart-line text-light btnCheckout"></i> <span class="badge bg-warning rounded-pill qtyCart btnCheckout">0</span></text>
             <div class="search-box">
                 <button class="btn-search"><i class="ri-search-line"></i></button>
                 <div class="dropdown">
@@ -407,7 +407,7 @@
             </div>
             <div id="divConversasion" class="d-none">
                 <textarea class="form-control" placeholder="Your Message" id="inputNewMessage"></textarea>
-                <button class="btn btn-success btn-block pull-right" id="btnSendmessage">Send</button>
+                <button class="btn btn-success btn-block pull-right" data-round="1" id="btnSendmessage">Send</button>
             </div>
         </div>
     </div>
@@ -443,41 +443,25 @@
             // Control de chat
             $("#btnStart").on("click", function(){
                 // Validar que se hayan ingresado todos los datos adecuadamente
-                if(($("#inputMail").val()).length == 0 || ($("#inputName").val()).length == 0 || ($("#inputInitialMessage").val()).length == 0)
+                if(($("#inputMail").val()).length == 0 || ($("#inputName").val()).length == 0 || ($("#inputInitialMessage").val()).length == 0 || ($("#inputPhone").val()).length == 0)
                     return false;
 
-                // validar el estado del chat
-                // -Si esta activo se inicia el chat con normalidad
-                // -No esta activo el chat, solo se envia el archivo de chat y se registra como prospecto
-                if(estadoChat){
-                    $(".lblWelcome").addClass("d-none");
-                    $("#divRegistro").addClass("d-none");
-                    $("#divConversasion").removeClass("d-none");
-                    $("#chatLog").removeClass("d-none");
-                    $(".lblControl").removeClass("d-none");
-
-                    sendMessage($("#inputInitialMessage").val(), 1);
-                } else {
-                    sendMessage($("#inputInitialMessage").val(), 0);
-                    registrarProspecto();
-                }                
+                // Se registra como prospecto y se guarda el archivo de chat
+                sendMessage($("#inputInitialMessage").val(), 0);
+                registrarProspecto();              
             });
 
             $("#btnSendmessage").on("click", function(){
-                sendMessage($("#inputNewMessage").val(), 2);
+                let myRound = $(this).data("round");
+                sendMessage($("#inputNewMessage").val(), myRound);
             });
 
             $(".lblControl").on("click", function(){
                 if (confirm('Do you really want to end the chat with tech support?')){
-                    $(".lblWelcome").removeClass("d-none");
-                    $("#divRegistro").removeClass("d-none");
-                    $("#divConversasion").addClass("d-none");
-                    $("#chatLog").addClass("d-none");
-                    $(".lblControl").addClass("d-none");
-
                     $("#chatLog").html("");
                     clearInterval(refreshLog);
                     localStorage.removeItem("cliData");
+                    $("#btnSendmessage").data("round", 1);
 
                     let dt = new Date(),
                         time = dt.getHours() + ":" + dt.getMinutes();
@@ -485,6 +469,7 @@
                     let objData = {
                         email: $("#inputMail").val(),
                         name: $("#inputName").val(),
+                        phone: $("#inputPhone").val(),
                         _method: "POST",
                         _action: "closeChat",
                         _time: time
@@ -505,20 +490,25 @@
                 $("#chatLog").removeClass("d-none");
                 $(".lblControl").removeClass("d-none");
 
+                $("#btnSendmessage").data("round", 2);
+
                 loadLog();
                 refreshLog = setInterval(loadLog, 2500);
             }else{
-                intervalContador = setInterval( function(){
-                    // Incrementar el contador en 1
-                    contador += 1;
+                // Si la configuracion del chat no esta activa, no se muetra el formulario automaticamente
+                if(estadoChat){
+                    intervalContador = setInterval( function(){
+                        // Incrementar el contador en 1
+                        contador += 1;
 
-                    // Verificar si pasaron los 20 segundos, detener el contador y mostrar el formulario del chat
-                    if(contador > 20){
-                        clearInterval(intervalContador);
-                        $(".chat-btn").click();
-                    }
+                        // Verificar si pasaron los 20 segundos, detener el contador y mostrar el formulario del chat
+                        if(contador > 20){
+                            clearInterval(intervalContador);
+                            $(".chat-btn").click();
+                        }
 
-                }, 1000);
+                    }, 1000);
+                }
             }
 
             $(".linkChat").click( function(){
@@ -624,6 +614,9 @@
 
                 localStorage.setItem("currentCart", JSON.stringify(currentCart));
                 countCartItem();
+
+                // Ejecutar para redirigir al checkout
+                $(".btnCheckout").click();
             });
             // Fin control para el elemnto statico
 
@@ -640,6 +633,11 @@
 
             // Para verificar la configuracion de disponibilidad del chat
             getConfig();
+
+            $(".btnCheckout").click( function(){
+                // A todas las referencias de directorios locales se le concatena la variable base_url, para indicar la ruta absoluta
+                window.location.href = `${base_url}/checkout/index.php`
+            });
         });
 
         function getProducts(limite) {
@@ -820,6 +818,7 @@
                 message: strMessage,
                 email: $("#inputMail").val(),
                 name: $("#inputName").val(),
+                phone: $("#inputPhone").val(),
                 round: round,
                 _method: "POST",
                 _time: time
@@ -828,12 +827,13 @@
             $.post(`${base_url}/core/controllers/chat.php`, objData);
 
             if(round == 1){
-                localStorage.setItem("cliData", JSON.stringify({name: $("#inputName").val(), mail: $("#inputMail").val()}));
+                localStorage.setItem("cliData", JSON.stringify({name: $("#inputName").val(), mail: $("#inputMail").val(), phone: $("#inputPhone").val()}));
                 $("#inputInitialMessage").val("");
+                $("#btnSendmessage").data("round", 2);
                 refreshLog = setInterval(loadLog, 2500);
-            }else{
-                $("#inputNewMessage").val("");
             }
+
+            $("#inputNewMessage").val("");
 
             if(round > 0)
                 loadLog();
@@ -862,15 +862,10 @@
                     localStorage.removeItem("cliData");
                 }
             }).fail(function() {
-                $(".lblWelcome").removeClass("d-none");
-                $("#divRegistro").removeClass("d-none");
-                $("#divConversasion").addClass("d-none");
-                $("#chatLog").addClass("d-none");
-                $(".lblControl").addClass("d-none");
-
                 $("#chatLog").html("");
                 clearInterval(refreshLog);
                 localStorage.removeItem("cliData");
+                $("#btnSendmessage").data("round", 1);
             });
         }
 
@@ -951,6 +946,14 @@
             var request = new XMLHttpRequest();
             request.open("POST", "core/controllers/client.php");
             request.send(formData);
+
+            $("#chatLog")
+                .html(`<h5>We have already received your message, we will communicate soon</h5>`)
+                .addClass('text-center');
+
+            $(".lblWelcome").addClass("d-none");
+            $("#divRegistro").addClass("d-none");
+            $("#chatLog").removeClass("d-none");
         }
     </script>
 </body>
