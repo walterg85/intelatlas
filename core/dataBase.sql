@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 30-11-2021 a las 01:01:29
+-- Tiempo de generación: 01-12-2021 a las 00:06:18
 -- Versión del servidor: 8.0.17
 -- Versión de PHP: 7.3.10
 
@@ -213,6 +213,20 @@ CREATE TABLE `setting` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `subscribers`
+--
+
+DROP TABLE IF EXISTS `subscribers`;
+CREATE TABLE `subscribers` (
+  `id` int(11) NOT NULL,
+  `fecha_suscribe` datetime NOT NULL,
+  `email` varchar(500) NOT NULL,
+  `estatus` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `user`
 --
 
@@ -296,6 +310,12 @@ ALTER TABLE `setting`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
+-- Indices de la tabla `subscribers`
+--
+ALTER TABLE `subscribers`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `user`
 --
 ALTER TABLE `user`
@@ -363,6 +383,12 @@ ALTER TABLE `product_category`
 -- AUTO_INCREMENT de la tabla `setting`
 --
 ALTER TABLE `setting`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `subscribers`
+--
+ALTER TABLE `subscribers`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
