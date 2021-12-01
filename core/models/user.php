@@ -77,5 +77,25 @@
 			$sql->setFetchMode(PDO::FETCH_OBJ);
 
 			return $sql->fetch();
-		}		
+		}
+
+		public function suscribe($email){
+			$pdo = new Conexion();
+
+			$cmd = '
+				INSERT INTO subscribers
+					(fecha_suscribe, email, estatus)
+				VALUES
+					(now(), :email, 1)
+			';
+
+			$parametros = array(
+				':email' => $email
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
 	}
