@@ -68,7 +68,7 @@
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <a href=index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
-            <i class="ri-shopping-cart-line text-light"></i>
+            <text><i class="ri-shopping-cart-line text-light"></i> <span class="badge bg-warning rounded-pill qtyCart">0</span></text>
             <div class="search-box">
                 <button class="btn-search"><i class="ri-search-line"></i></button>
                 <div class="dropdown">
@@ -148,7 +148,7 @@
                                 <li>Multi language ready</li>
                             </ul>
                             <div class="btn-wrap">
-                                <a href="#" class="btn-buy">Buy Now</a>
+                                <a href="javascript:void(0);" class="btn-buy btnAddtocartStc" data-item="{'id':'1', 'name': 'Shorts', 'optional_name': 'Pantaloncillos', 'descriptions':'Pants', 'optional_description': 'Pantalones cortos', 'thumbnail': '', 'sale_price': '', 'price': '57'}">Buy Now</a>
                             </div>
                         </div>
                     </div>
@@ -320,8 +320,8 @@
                         <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
                     </div>
                     <div class="col-lg-6">
-                        <form action="" method="post">
-                            <input type="email" name="email"><input type="submit" value="Subscribe">
+                        <form>
+                            <input type="email" id="txtEmail"><input type="submit" id="btnSuscribe" value="Subscribe">
                         </form>
                     </div>
                 </div>
@@ -580,6 +580,53 @@
                     .removeClass("show");
             });
             // Fin control para busqueda
+
+            // Control para el elemento statico
+            $(".btnAddtocartStc").click(function(){
+                let currentItem = JSON.parse( ($(this).data("item")).replace(/'/g, '"') ),
+                    newItem = {},
+                    currentCart = JSON.parse(localStorage.getItem("currentCart"));
+
+                if(!currentCart){
+                    localStorage.setItem("currentCart", "{}");
+                    currentCart = {};
+                }
+
+                newItem.id = currentItem.id;
+                newItem.name = currentItem.name;
+                newItem.optional_name = currentItem.optional_name;
+                newItem.descriptions = currentItem.descriptions;
+                newItem.optional_description = currentItem.optional_description;
+                newItem.thumbnail = currentItem.thumbnail;
+
+                if( (currentItem.sale_price).length > 0 && currentItem.sale_price > 0){
+                    newItem.price = currentItem.sale_price;
+                }else{
+                    newItem.price = currentItem.price;
+                }
+
+                if(currentCart[currentItem.id]){
+                    currentCart[currentItem.id].qty = currentCart[currentItem.id].qty + 1;
+                }else{
+                    newItem.qty = 1;
+                    currentCart[currentItem.id] = newItem;
+                }
+
+                localStorage.setItem("currentCart", JSON.stringify(currentCart));
+                countCartItem();
+            });
+            // Fin control para el elemnto statico
+
+            // Accion para la suscripcion
+            $("#btnSuscribe").click(function(e){
+                e.preventDefault();
+
+                console.log(1);
+
+                if( $("#txtEmail").val() != )
+                    fnSuscribe();
+            });
+            // End Accion para la suscripcion
         });
 
         function getProducts(limite) {
@@ -833,6 +880,18 @@
                 $("#inputNewMessage").attr("placeholder", myLang.inputNewMessage);
                 $("#btnSendmessage").html(myLang.btnSendmessage);
                 $(".labelFinish").html(myLang.labelFinish);
+            });
+        }
+        
+        function fnSuscribe(){
+            let objData = {
+                "_method":"suscribe",
+                "email": $("#txtEmail").val()
+            };
+
+            $.post(`${base_url}/core/controllers/user.php`, objData, function(result) {
+                $("#txtEmail").val("");
+                alert("you have successfully subscribed");
             });
         }
     </script>
