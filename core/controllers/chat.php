@@ -12,38 +12,48 @@
 			mkdir($directorio, 0777, true);
 
 		if($put_vars['_method'] == 'GET'){
-			$logFile = 'logs/log_' . $put_vars['email'] .'.html';
+			$remote  = ($_SERVER['REMOTE_ADDR'] == '::1') ? '127.0.0.1' : $_SERVER['REMOTE_ADDR'];
+			$logFile = 'logs/log_' . $remote .'.html';
 
 			if(file_exists($logFile) && filesize($logFile) > 0){
 				echo file_get_contents($logFile);
 				header('HTTP/1.1 200 OK');
 			}else{
 				header('HTTP/1.1 400 Bad Request');
+				echo $remote;
 			}
 
 			exit();
 		}else if($put_vars['_method'] == 'POST'){
 			if($put_vars['_action'] == 'closeChat'){
-				$email   = $put_vars['email'];
+				$remote  = ($_SERVER['REMOTE_ADDR'] == '::1') ? '127.0.0.1' : $_SERVER['REMOTE_ADDR'];
+				$email   = (strlen($put_vars['email']) > 0) ? $put_vars['email'] : 'No email';
+				$name    = (strlen($put_vars['name']) > 0) ? $put_vars['name'] : 'User ' . rand(0, 100);
+				
+
 				$message = '
 					<input type="hidden" id="inputClose" value="'. $put_vars["_time"] .'" />
 					<div class="alert alert-info" role="alert">
-						<h6 class="alert-heading">'. $put_vars['name'] .'</h6>
+						<h6 class="alert-heading">'. $name .'</h6>
 						<p class="text-danger"><b>The client has decided to close the chat.</b></p>
 						<hr class="m-0">
 						<p class="mb-0 small">'. $put_vars["_time"] .' | '. $email .'</p>
 					</div>
 				';
 
-				file_put_contents('logs/log_' . $email .'.html', $message, FILE_APPEND | LOCK_EX);
+				file_put_contents('logs/log_' . $remote .'.html', $message, FILE_APPEND | LOCK_EX);
 				header('HTTP/1.1 200 OK');
 				exit();
 			}else{
-				$email   = $put_vars['email'];
+				$remote  = ($_SERVER['REMOTE_ADDR'] == '::1') ? '127.0.0.1' : $_SERVER['REMOTE_ADDR'];
+				$email   = (strlen($put_vars['email']) > 0) ? $put_vars['email'] : 'No email';
+				$name    = (strlen($put_vars['name']) > 0) ? $put_vars['name'] : 'User ' . rand(0, 100);
 				$round   = $put_vars['round'];
+				
+
 				$message = '
 					<div class="alert alert-info" role="alert">
-						<h6 class="alert-heading">'. $put_vars['name'] .'</h6>
+						<h6 class="alert-heading">'. $name .'</h6>
 						<p>'. stripslashes(htmlspecialchars($put_vars["message"])) .'.</p>
 						<hr class="m-0">
 						<p class="mb-0 small">'. $put_vars["_time"] .' | '. $email .'</p>
@@ -52,7 +62,7 @@
 
 				if($round == 1 || $round == 0)
 					$message .= '
-						<input type="hidden" id="inputName" value="'. $put_vars['name'] .'" />
+						<input type="hidden" id="inputName" value="'. $name .'" />
 						<input type="hidden" id="inputMail" value="'. $email .'" />
 						<input type="hidden" id="inputQuestion" value="'. stripslashes(htmlspecialchars($put_vars["message"])) .'" />
 						<input type="hidden" id="inputDate" value="'. $put_vars["_time"] .'" />
@@ -67,7 +77,7 @@
 						</figure>
 					';
 
-				file_put_contents('logs/log_' . $email .'.html', $message, FILE_APPEND | LOCK_EX);
+				file_put_contents('logs/log_' . $remote .'.html', $message, FILE_APPEND | LOCK_EX);
 
 				/*Habilitarlo cuando se tenga el host on line
 				require_once "PHPMailer/Exception.php";
