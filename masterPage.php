@@ -618,12 +618,12 @@
             // Fin control para el elemnto statico
 
             // Accion para la suscripcion
-            $("#btnSuscribe").click(function(e){
+            $("#btnSuscribe").click( function(e){
                 e.preventDefault();
 
                 console.log(1);
 
-                if( $("#txtEmail").val() != )
+                if( $("#txtEmail").val() != "" )
                     fnSuscribe();
             });
             // End Accion para la suscripcion
