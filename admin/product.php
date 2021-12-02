@@ -71,14 +71,39 @@
                     <input type="text" id="inputNameSp" name="inputNameSp" class="form-control" autocomplete="off" required>
                 </div>
             </div>
-            <div class="mb-3">
-                <label for="inputDescription" class="form-label labelDescription">Description</label>
-                <input type="text" id="inputDescription" name="inputDescription" class="form-control" autocomplete="off" required>
+            <div class="row">
+                <div class="col mb-3">
+                    <label for="inputDescription" class="form-label labelDescription">Description</label>
+                    <input type="text" id="inputDescription" name="inputDescription" class="form-control" autocomplete="off" required>
+                </div>
+                <div class="col mb-3">
+                    <label for="inputDescriptionSp" class="form-label labelDescriptionSp">Description Spanish</label>
+                    <input type="text" id="inputDescriptionSp" name="inputDescriptionSp" class="form-control" autocomplete="off" required>
+                </div>
+                <div class="col-2 mt-4">
+                    <div class="form-check form-switch h6">
+                        <input class="form-check-input" type="checkbox" id="swUnderline">
+                        <label class="form-check-label swUnderline" for="swUnderline"> underlining</label>
+                    </div>
+                </div>
+                <div class="col-2 mb-3 d-flex align-items-end justify-content-center">
+                    <button class="btn btn-success btn-lg" type="button" id="addDescripcion">
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="inputDescriptionSp" class="form-label labelDescriptionSp">Description Spanish</label>
-                <input type="text" id="inputDescriptionSp" name="inputDescriptionSp" class="form-control" autocomplete="off" required>
-            </div>
+
+            <table class="table align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th class="labelControl2" scope="col">Description</th>
+                        <th class="labelControl3" scope="col">Description Spanish</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody id="tblDescripcions"></tbody>
+            </table>
+
             <div class="row">
                 <div class="col-3 mb-3">
                     <label for="inputPrice" class="form-label labelPrice">Price</label>
@@ -117,6 +142,12 @@
             <div class="mb-3">
                 <label for="inputColors" class="form-label labelColors">Colors (separated by commas)</label>
                 <input type="text" id="inputColors" name="inputColors" class="form-control" autocomplete="off" placeholder="Red, Orange, Gray">
+            </div>
+            <div class="mb-3">
+                <div class="form-check form-switch h6">
+                    <input class="form-check-input" type="checkbox" id="swPopular">
+                    <label class="form-check-label swPopular" for="swPopular"> Popular</label>
+                </div>
             </div>
 
             <div class="row mb-3">
@@ -222,6 +253,10 @@
         });
 
         $("#addProduct").click( registerProduct);
+
+        $("#addDescripcion").click( function(){
+            
+        });
 
         getProducts();
         loadCategories();
