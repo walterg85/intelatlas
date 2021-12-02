@@ -74,11 +74,11 @@
             <div class="row">
                 <div class="col mb-3">
                     <label for="inputDescription" class="form-label labelDescription">Description</label>
-                    <input type="text" id="inputDescription" name="inputDescription" class="form-control" autocomplete="off" required>
+                    <input type="text" id="inputDescription" name="inputDescription" class="form-control" autocomplete="off">
                 </div>
                 <div class="col mb-3">
                     <label for="inputDescriptionSp" class="form-label labelDescriptionSp">Description Spanish</label>
-                    <input type="text" id="inputDescriptionSp" name="inputDescriptionSp" class="form-control" autocomplete="off" required>
+                    <input type="text" id="inputDescriptionSp" name="inputDescriptionSp" class="form-control" autocomplete="off">
                 </div>
                 <div class="col-2 mt-4">
                     <div class="form-check form-switch h6">
@@ -221,7 +221,8 @@
             "ctrImage1":"Your selected file is larger than 5MB",
             "ctrImage2":"files not allowed, only images",
             "ctrtoRemove":"do you want to delete this product"
-        };
+        },
+        arrayDescripciones = [];
 
     $(document).ready(function(){
         currentPage = "Products";
@@ -253,15 +254,81 @@
         });
 
         $("#addProduct").click( registerProduct);
-
-        $("#addDescripcion").click( function(){
-            
-        });
+        $("#addDescripcion").click( addDescripcion);
 
         getProducts();
         loadCategories();
         initComponent();
     });
+
+    // Metodo para agregar nuevos conceptos al areglo
+    function addDescripcion(){
+        let descripcion     = $("#inputDescription").val(),
+            descripcionOpc  = $("#inputDescriptionSp").val(),
+            underLine       = $("#swUnderline").is(':checked') ? 1 : 0;
+
+        if(descripcion.trim() != "" && descripcionOpc.trim() != ""){
+
+            let objItm = {
+                descripcion: descripcion,
+                descripcionOpc: descripcionOpc,
+                underline: underLine
+            };
+
+            arrayDescripciones.push(objItm);
+            listarDescripciones();           
+
+            $("#inputDescription").val("");
+            $("#inputDescriptionSp").val("");
+            $("#swUnderline").prop("checked", false);
+        }
+    }
+
+    // Metodo para dibujar en la tabla las descr agregados
+    function listarDescripciones(){
+        let filas = "";
+
+        $("#tblDescripcions").html("");
+
+        // Se recore el contenido del array de descripciones
+        $.each(arrayDescripciones, function(index, item){
+            filas += `
+                <tr>
+                    ${(item.underline == 1) ? '<td><del>' + item.descripcion + '</del></td>' : '<td>' + item.descripcion + '</td>'}
+                    ${(item.underline == 1) ? '<td><del>' + item.descripcionOpc + '</del></td>' : '<td>' + item.descripcionOpc + '</td>'}
+                    <td class="text-center">
+                        <a href="javascript:void(0);" data-index="${index}" class="btn btn-outline-danger btn-sm btnDelete me-2" title="Delete"><i class="bi bi-trash"></i></a>
+                        <a href="javascript:void(0);" data-index="${index}" class="btn btn-outline-warning btn-sm btnModify" title="Modify"><i class="bi bi-pencil"></i></a>
+                    </td>
+                </tr>
+            `;
+        });
+
+        // Se agrega el contenido del HTML en el body de la tabla contenedora
+        $("#tblDescripcions").append(filas);
+
+        // Accion del boton para eliminar un elemento del array y redibujar la tabla
+        $(".btnDelete").unbind().click( function(){
+            let index = $(this).data("index");
+            arrayDescripciones.splice(index, 1);
+            listarDescripciones();
+        });
+
+        // Accion para setear los valores de un elemento del array, eliminarlo para poder coregirlos y redibujar la tabla
+        $(".btnModify").unbind().click( function(){
+            let index = $(this).data("index"),
+                descripcion = arrayDescripciones[index];
+
+            $("#inputDescription").val(descripcion.descripcion);
+            $("#inputDescriptionSp").val(descripcion.descripcionOpc);
+
+            let underl = (descripcion.underline == 1) ? true : false;
+            $("#swUnderline").prop("checked", underl);
+
+            arrayDescripciones.splice(index, 1);
+            listarDescripciones();
+        });
+    }
 
     function loadCategories(){
         let objData = {
@@ -289,7 +356,7 @@
             formv.classList.add('was-validated');
         });
 
-        if(!continuar)
+        if(!continuar || arrayDescripciones.length == 0)
             return false;
 
         $("#addProduct").attr("disabled","disabled");
@@ -313,6 +380,10 @@
 
         formData.append("_method", "POST");
         formData.append("pConfig", JSON.stringify(pConfig));
+        formData.append("inputDescription", JSON.stringify(arrayDescripciones));
+
+        let popular = ($("#swPopular").is(':checked')) ? 1 : 0;
+        formData.append("inputDescriptionSp", popular);
 
         $.each(productPhotos, function( index, value ) {
             if(value)
