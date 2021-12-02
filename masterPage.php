@@ -31,7 +31,7 @@
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/style.css?v=1.1" rel="stylesheet">
 
     <!-- Stylo del chat -->   
     <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/chat.css?v=1.1">
@@ -90,13 +90,13 @@
     <!-- End Header -->
 
     <!-- ======= Hero Section ======= -->
-    <section id="hero" class="d-flex justify-cntent-center align-items-center">
+    <section id="hero" class="d-flex justify-content-center align-items-center">
         <div id="heroCarousel" data-bs-interval="5000" class="container carousel carousel-fade" data-bs-ride="carousel">
             <!-- Slide 1 -->
             <div class="carousel-item active">
                 <div class="carousel-container">
                     <h2 class="animate__animated animate__fadeInDown">Websites and more</h2>
-                    <p class="animate__animated animate__fadeInUp">Basic webstite only $189</p>
+                    <p class="animate__animated animate__fadeInUp">Basic website only $189</p>
                     <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Order now</a>
                 </div>
             </div>
@@ -139,7 +139,7 @@
                     <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
                         <div class="box">
                             <h3>Free Website Draft</h3>
-                            <h4><sup>$</sup>0<span> / month</span></h4>
+                            <h4><sup>$</sup>0</h4>
                             <ul>
                                 <li>Custom Web Design</li>
                                 <li>Frontpage</li>
@@ -156,8 +156,8 @@
                     <div class="col-lg-3 col-md-6 mt-4 mt-md-0" data-aos="fade-up" data-aos-delay="200">
                         <div class="box featured">
                             <span class="advanced">Popular</span>
-                            <h3>Website Basic</h3>
-                            <h4><sup>$</sup>190<span> / month</span></h4>
+                            <h3>Website Starter</h3>
+                            <h4><sup>$</sup>190</h4>
                             <ul>
                                 <li>Custom Web Design</li>
                                 <li>3 pages</li>
@@ -174,7 +174,7 @@
                     <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
                         <div class="box">
                             <h3>Website Professional</h3>
-                            <h4><sup>$</sup>229<span> / month</span></h4>
+                            <h4><sup>$</sup>229</h4>
                             <ul>
                                 <li>Custom Web Design</li>
                                 <li>5 pages</li>
@@ -191,7 +191,7 @@
                     <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="400">
                         <div class="box">              
                             <h3>Website Advance</h3>
-                            <h4><sup>$</sup>299<span> / month</span></h4>
+                            <h4><sup>$</sup>299</h4>
                             <ul>
                                 <li>Custom Web Design</li>
                                 <li>10 pages</li>
@@ -238,7 +238,7 @@
                     <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
                         <div class="box">
                             <h3>Free Store Draft</h3>
-                            <h4><sup>$</sup>0<span> / month</span></h4>
+                            <h4><sup>$</sup>0</h4>
                             <ul>
                                 <li>Front page</li>
                                 <li>Nec feugiat nisl</li>
@@ -254,8 +254,8 @@
 
                     <div class="col-lg-3 col-md-6 mt-4 mt-md-0" data-aos="fade-up" data-aos-delay="200">
                         <div class="box featured">
-                            <h3>Store Basic</h3>
-                            <h4><sup>$</sup>19<span> / month</span></h4>
+                            <h3>Store Starter</h3>
+                            <h4><sup>$</sup>19</h4>
                             <ul>
                                 <li>Aida dere</li>
                                 <li>Nec feugiat nisl</li>
@@ -271,9 +271,9 @@
 
                     <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
                         <div class="box">
-                            <span class="advanced">Advanced</span>
+                            <span class="advanced">Popular</span>
                             <h3>Store Professional</h3>
-                            <h4><sup>$</sup>29<span> / month</span></h4>
+                            <h4><sup>$</sup>29</h4>
                             <ul>
                                 <li>Aida dere</li>
                                 <li>Nec feugiat nisl</li>
@@ -290,7 +290,7 @@
                     <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="400">
                         <div class="box">              
                             <h3>Store Advance</h3>
-                            <h4><sup>$</sup>49<span> / month</span></h4>
+                            <h4><sup>$</sup>49</h4>
                             <ul>
                                 <li>Aida dere</li>
                                 <li>Nec feugiat nisl</li>
@@ -323,52 +323,6 @@
                         <form>
                             <input type="email" id="txtEmail"><input type="submit" id="btnSuscribe" value="Subscribe">
                         </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6 footer-links">
-                        <h4>Useful Links</h4>
-                        <ul>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 footer-links">
-                        <h4>Our Services</h4>
-                        <ul>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 footer-contact">
-                        <h4>Contact Us</h4>
-                        <p>
-                            1690 N Stone <br>
-                            Tucson, AZ 85705<br>
-                            United States <br><br>
-                            <strong>Phone:</strong> +1 (520) 955-8535<br>
-                            <strong>Email:</strong> info@intelatlas.com.com<br>
-                        </p>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 footer-info">
-                        <h3>About INTELATLAS</h3>
-                        <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
-                        <div class="social-links mt-3">
-                            <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-                            <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-                            <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-                            <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-                            <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-                        </div>
                     </div>
                 </div>
             </div>
