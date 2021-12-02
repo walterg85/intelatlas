@@ -457,7 +457,17 @@
                         data: 'name'
                     },
                     {
-                        data: 'descriptions'
+                        data: 'descriptions',
+                        render: function ( data, type, row ) {
+                            let lista = "<ul>",
+                                jsonList = JSON.parse(data);
+
+                            $.each( jsonList, function(index, item){
+                                lista += `${(item.underline == 1) ? '<li><del>' + item.descripcion + '</del></li>' : '<li>' + item.descripcion + '</li>'}`;
+                            });
+
+                            return lista;
+                        }
                     },
                     {
                         data: 'categoria',
@@ -521,11 +531,17 @@
                         $("#productId").val(data.id);
                         $("#inputName").val(data.name);
                         $("#inputNameSp").val(data.optional_name);
-                        $("#inputDescription").val(data.descriptions);
-                        $("#inputDescriptionSp").val(data.optional_description);
+                        $("#inputDescription").val("");
+                        $("#inputDescriptionSp").val("");
                         $("#inputPrice").val(data.price);
                         $("#inputSalePrice").val(data.sale_price);
                         $("#inputCategory").val(data.categoria.id);
+
+                        let estatus = (data.optional_description == 1) ? true : false;
+                        $("#swPopular").prop("checked", estatus);
+
+                        arrayDescripciones = JSON.parse(data.descriptions);
+                        listarDescripciones();
 
                         $.each( currentImages, function( index, item){
                             let control = (item.split('/').pop()).substring(0,6),
