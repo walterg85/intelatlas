@@ -61,7 +61,7 @@
         <div class="row listWebPrice"></div>
     </div>
 </section>
-<!-- End Pricing Section -->
+<!-- End Website Section -->
 
 <!-- ======= Cta Section ======= -->
 <section id="cta" class="cta">
