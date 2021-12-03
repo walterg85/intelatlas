@@ -132,181 +132,7 @@
 
     <!-- ======= Main Section ======= -->
     <main id="main">
-        <!-- ======= Website Pricing Section ======= -->
-        <section id="web-price" class="pricing web-price">
-            <div class="container" data-aos="fade-up">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                        <div class="box">
-                            <h3>Free Website Draft</h3>
-                            <h4><sup>$</sup>0</h4>
-                            <ul>
-                                <li>Custom Web Design</li>
-                                <li>Frontpage</li>
-                                <li>Contact form</li>
-                                <li>Images</li>
-                                <li>Multi language ready</li>
-                            </ul>
-                            <div class="btn-wrap">
-                                <a href="javascript:void(0);" class="btn-buy btnAddtocartStc" data-item="{'id':'1', 'name': 'Shorts', 'optional_name': 'Pantaloncillos', 'descriptions':'Pants', 'optional_description': 'Pantalones cortos', 'thumbnail': '', 'sale_price': '', 'price': '57'}">Buy Now</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 mt-4 mt-md-0" data-aos="fade-up" data-aos-delay="200">
-                        <div class="box featured">
-                            <span class="advanced">Popular</span>
-                            <h3>Website Starter</h3>
-                            <h4><sup>$</sup>190</h4>
-                            <ul>
-                                <li>Custom Web Design</li>
-                                <li>3 pages</li>
-                                <li>Contact form</li>
-                                <li>Images</li>
-                                <li>Multi language ready</li>
-                            </ul>
-                            <div class="btn-wrap">
-                                <a href="#" class="btn-buy">Buy Now</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
-                        <div class="box">
-                            <h3>Website Professional</h3>
-                            <h4><sup>$</sup>229</h4>
-                            <ul>
-                                <li>Custom Web Design</li>
-                                <li>5 pages</li>
-                                <li>Contact form</li>
-                                <li>Images</li>
-                                <li>Multi language ready</li>
-                            </ul>
-                            <div class="btn-wrap">
-                                <a href="#" class="btn-buy">Buy Now</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="400">
-                        <div class="box">              
-                            <h3>Website Advance</h3>
-                            <h4><sup>$</sup>299</h4>
-                            <ul>
-                                <li>Custom Web Design</li>
-                                <li>10 pages</li>
-                                <li>Contact form</li>
-                                <li>Images</li>
-                                <li>Multi language ready</li>
-                            </ul>
-                            <div class="btn-wrap">
-                                <a href="#" class="btn-buy">Buy Now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- End Pricing Section -->
-
-        <!-- ======= Cta Section ======= -->
-        <section id="cta" class="cta">
-            <div class="container">
-                <div class="row" data-aos="zoom-in">
-                    <div class="col-lg-9 text-center text-lg-start">
-                        <h3>Custom Website</h3>
-                        <p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                    </div>
-                    <div class="col-lg-3 cta-btn-container text-center">
-                        <a class="cta-btn align-middle" href="#">Call</a>
-                        <a class="cta-btn align-middle linkChat" href="javascript:void(0);">Chat</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- End Cta Section -->
-
-        <!-- ======= Pricing Section ======= -->
-        <section id="pricing" class="pricing">
-            <div class="container" data-aos="fade-up">
-                <div class="section-title">
-                    <h2>ONLINE STORE</h2>
-                    <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                        <div class="box">
-                            <h3>Free Store Draft</h3>
-                            <h4><sup>$</sup>0</h4>
-                            <ul>
-                                <li>Front page</li>
-                                <li>Nec feugiat nisl</li>
-                                <li>Nulla at volutpat dola</li>
-                                <li class="na">Pharetra massa</li>
-                                <li class="na">Massa ultricies mi</li>
-                            </ul>
-                            <div class="btn-wrap">
-                                <a href="#" class="btn-buy">Buy Now</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 mt-4 mt-md-0" data-aos="fade-up" data-aos-delay="200">
-                        <div class="box featured">
-                            <h3>Store Starter</h3>
-                            <h4><sup>$</sup>19</h4>
-                            <ul>
-                                <li>Aida dere</li>
-                                <li>Nec feugiat nisl</li>
-                                <li>Nulla at volutpat dola</li>
-                                <li>Pharetra massa</li>
-                                <li class="na">Massa ultricies mi</li>
-                            </ul>
-                            <div class="btn-wrap">
-                                <a href="#" class="btn-buy">Buy Now</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
-                        <div class="box">
-                            <span class="advanced">Popular</span>
-                            <h3>Store Professional</h3>
-                            <h4><sup>$</sup>29</h4>
-                            <ul>
-                                <li>Aida dere</li>
-                                <li>Nec feugiat nisl</li>
-                                <li>Nulla at volutpat dola</li>
-                                <li>Pharetra massa</li>
-                                <li>Massa ultricies mi</li>
-                            </ul>
-                            <div class="btn-wrap">
-                                <a href="#" class="btn-buy">Buy Now</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="400">
-                        <div class="box">              
-                            <h3>Store Advance</h3>
-                            <h4><sup>$</sup>49</h4>
-                            <ul>
-                                <li>Aida dere</li>
-                                <li>Nec feugiat nisl</li>
-                                <li>Nulla at volutpat dola</li>
-                                <li>Pharetra massa</li>
-                                <li>Massa ultricies mi</li>
-                            </ul>
-                            <div class="btn-wrap">
-                                <a href="#" class="btn-buy">Buy Now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- End Pricing Section -->
+        <?php echo $content; ?>
     </main>
     <!-- End #main -->
 
@@ -535,45 +361,6 @@
             });
             // Fin control para busqueda
 
-            // Control para el elemento statico
-            $(".btnAddtocartStc").click(function(){
-                let currentItem = JSON.parse( ($(this).data("item")).replace(/'/g, '"') ),
-                    newItem = {},
-                    currentCart = JSON.parse(localStorage.getItem("currentCart"));
-
-                if(!currentCart){
-                    localStorage.setItem("currentCart", "{}");
-                    currentCart = {};
-                }
-
-                newItem.id = currentItem.id;
-                newItem.name = currentItem.name;
-                newItem.optional_name = currentItem.optional_name;
-                newItem.descriptions = currentItem.descriptions;
-                newItem.optional_description = currentItem.optional_description;
-                newItem.thumbnail = currentItem.thumbnail;
-
-                if( (currentItem.sale_price).length > 0 && currentItem.sale_price > 0){
-                    newItem.price = currentItem.sale_price;
-                }else{
-                    newItem.price = currentItem.price;
-                }
-
-                if(currentCart[currentItem.id]){
-                    currentCart[currentItem.id].qty = currentCart[currentItem.id].qty + 1;
-                }else{
-                    newItem.qty = 1;
-                    currentCart[currentItem.id] = newItem;
-                }
-
-                localStorage.setItem("currentCart", JSON.stringify(currentCart));
-                countCartItem();
-
-                // Ejecutar para redirigir al checkout
-                $(".btnCheckout").click();
-            });
-            // Fin control para el elemnto statico
-
             // Accion para la suscripcion
             $("#btnSuscribe").click( function(e){
                 e.preventDefault();
@@ -594,15 +381,18 @@
             });
         });
 
-        function getProducts(limite) {
+        function getProducts(limite, categoria) {
             productLimite = limite;
 
             let objData = {
                 "_method":"GET",
-                "limite": productLimite
+                "limite": productLimite,
+                "categoria": categoria
             };
 
             $.post(`${base_url}/core/controllers/product.php`, objData, function(result) {
+                return result;
+
                 $("#ListProduct").html("");
                 $.each( result.data, function( index, item){
                     let productCard = $(".itemClone").clone();

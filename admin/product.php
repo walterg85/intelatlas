@@ -251,6 +251,9 @@
             $(`#img1, #img2, #img3, #img4`).attr("src", "#");
 
             $("#addProductForm").removeClass("was-validated");
+            $("#tblDescripcions").html("");
+            $("#swPopular").prop("checked", false);
+            arrayDescripciones = [];
         });
 
         $("#addProduct").click( registerProduct);
@@ -416,7 +419,8 @@
     function getProducts(){
         let objData = {
             "_method":"GET",
-            "limite": 0
+            "limite": 0,
+            "categoria": ""
         };
 
         if (dataTableProduct != null)
