@@ -259,4 +259,47 @@
 
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
 		}
+
+		public function getCarouselData(){
+			$pdo = new Conexion();
+			$indexes = '';
+
+			$cmd = 'SELECT value FROM setting WHERE parameter = "prodcarousel"';
+			$sql = $pdo->prepare($cmd);
+			$sql->execute();
+			$dato = $sql->fetch(PDO::FETCH_ASSOC);
+
+			if($dato){
+				$tmp = json_decode($dato['value']);
+
+				foreach ($tmp as $key => $value) {
+					$indexes .= $value .', ';
+				}
+
+				$indexes = substr($indexes, 0, -2);				
+			}
+
+			$cmd = '
+				SELECT
+					id, 
+					name,
+					optional_name,
+					descriptions, 
+					optional_description,
+					price,
+					sale_price, 
+					thumbnail, 
+					images, 
+					create_date,
+					dimensions
+				FROM 
+					product
+				WHERE id in ('.$indexes.')
+			';
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute();
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
 	}

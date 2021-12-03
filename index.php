@@ -5,34 +5,16 @@
 
 <!-- ======= Hero Section ======= -->
 <section id="hero" class="d-flex justify-content-center align-items-center">
+    <div class="carousel-item d-none carouselClone">
+        <div class="carousel-container">
+            <h2 class="animate__animated animate__fadeInDown pName">Websites and more</h2>
+            <p class="animate__animated animate__fadeInUp pPrice">Basic website only $189</p>
+            <a href="javascript:void(0);" class="btn-get-started animate__animated animate__fadeInUp scrollto btnAddtocart">Order now</a>
+        </div>
+    </div>
+
     <div id="heroCarousel" data-bs-interval="5000" class="container carousel carousel-fade" data-bs-ride="carousel">
-        <!-- Slide 1 -->
-        <div class="carousel-item active">
-            <div class="carousel-container">
-                <h2 class="animate__animated animate__fadeInDown">Websites and more</h2>
-                <p class="animate__animated animate__fadeInUp">Basic website only $189</p>
-                <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Order now</a>
-            </div>
-        </div>
-
-        <!-- Slide 2 -->
-        <div class="carousel-item">
-            <div class="carousel-container">
-                <h2 class="animate__animated animate__fadeInDown">Online store</h2>
-                <p class="animate__animated animate__fadeInUp">Selling online can be easy, get an online store from $699</p>
-                <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Order Now</a>
-            </div>
-        </div>
-
-        <!-- Slide 3 -->
-        <div class="carousel-item">
-            <div class="carousel-container">
-                <h2 class="animate__animated animate__fadeInDown">Logos</h2>
-                <p class="animate__animated animate__fadeInUp">Get 3 designs and unlimited reviews for only $97</p>
-                <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Order Now</a>
-            </div>
-        </div>
-
+        <div class="objContenedor"></div>
         <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
             <span class="carousel-control-prev-icon bx bx-chevron-left" aria-hidden="true"></span>
         </a>
@@ -97,6 +79,7 @@
     $(document).ready(function(){
         loadData("listWebPrice", "Website");
         loadData("listStorePrice", "Store");
+        getCarouselData();
 
         $(".changeLang").click( function(){
             if (localStorage.getItem("currentLag") == "es") {
@@ -113,6 +96,8 @@
         });
 
         $("#fixBaground").removeClass("fixBaground");
+
+        setInterval(activeBoton, 1500);
     });
 
     function loadData(obj, category){
@@ -157,40 +142,66 @@
                 productCard.removeClass("d-none webClone");
                 $(productCard).appendTo(`.${obj}`);
             });
+        });
+    }
 
-            $(".btnAddtocart").unbind().click(function(){
-                let currentItem = $(this).data("item"),
-                    newItem = {},
-                    currentCart = JSON.parse(localStorage.getItem("currentCart")),
-                    config = JSON.parse(currentItem.dimensions);
+    // Metodo para buscar los productos del carousel
+    function getCarouselData(){
+        let objData = {
+            _method: "getCarouselData"
+        };
 
-                if(!currentCart){
-                    localStorage.setItem("currentCart", "{}");
-                    currentCart = {};
-                }                    
+        $.post(`${base_url}/core/controllers/product.php`, objData, function(result){
+            $.each( result.data, function(index, item){
+                let objHTML = $(".carouselClone").clone();
 
-                newItem.id = currentItem.id;
-                newItem.name = currentItem.name;
-                newItem.optional_name = currentItem.optional_name;
-                newItem.descriptions = currentItem.descriptions;
-                newItem.optional_description = currentItem.optional_description;
-                newItem.thumbnail = currentItem.thumbnail;
+                objHTML.find(".pName").html(item.name);
+                objHTML.find(".pPrice").html(`$${item.price}`);
+                objHTML.find(".btnAddtocart").data("item", item);
 
-                newItem.price = currentItem.price;
+                if(index == 0)
+                    objHTML.addClass("active");
 
-                if(currentCart[currentItem.id]){
-                    currentCart[currentItem.id].qty = currentCart[currentItem.id].qty + 1;
-                }else{
-                    newItem.qty = 1;
-                    currentCart[currentItem.id] = newItem;
-                }
-
-                localStorage.setItem("currentCart", JSON.stringify(currentCart));
-                countCartItem();
-
-                // Ejecutar para redirigir al checkout
-                $(".btnCheckout").click();
+                objHTML.removeClass("d-none carouselClone");
+                $(objHTML).appendTo(".objContenedor");
             });
+        });
+    }
+
+    // Activar accion del boton
+    function activeBoton(){
+        $(".btnAddtocart").unbind().click(function(){
+            let currentItem = $(this).data("item"),
+                newItem = {},
+                currentCart = JSON.parse(localStorage.getItem("currentCart")),
+                config = JSON.parse(currentItem.dimensions);
+
+            if(!currentCart){
+                localStorage.setItem("currentCart", "{}");
+                currentCart = {};
+            }                    
+
+            newItem.id = currentItem.id;
+            newItem.name = currentItem.name;
+            newItem.optional_name = currentItem.optional_name;
+            newItem.descriptions = currentItem.descriptions;
+            newItem.optional_description = currentItem.optional_description;
+            newItem.thumbnail = currentItem.thumbnail;
+
+            newItem.price = currentItem.price;
+
+            if(currentCart[currentItem.id]){
+                currentCart[currentItem.id].qty = currentCart[currentItem.id].qty + 1;
+            }else{
+                newItem.qty = 1;
+                currentCart[currentItem.id] = newItem;
+            }
+
+            localStorage.setItem("currentCart", JSON.stringify(currentCart));
+            countCartItem();
+
+            // Ejecutar para redirigir al checkout
+            $(".btnCheckout").click();
         });
     }
 </script>

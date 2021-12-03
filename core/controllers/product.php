@@ -159,6 +159,24 @@
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
+		} else if($vars['_method'] == 'getCarouselData'){
+			$productData 	= $productModel->getCarouselData();
+
+			if($productData){
+				foreach ($productData as $key => $value) {
+					$productData[$key]['categoria'] = $productModel->getCategories($value['id']);
+				}
+			}
+
+			$response = array(
+				'codeResponse'	=> 200,
+				'data' 			=> $productData,
+				'message' 		=> 'Ok'
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");			
+			exit(json_encode($response));
 		}
 	}
 
