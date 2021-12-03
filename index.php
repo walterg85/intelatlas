@@ -3,20 +3,56 @@
     ob_start();
 ?>
 
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="d-flex justify-content-center align-items-center">
+    <div id="heroCarousel" data-bs-interval="5000" class="container carousel carousel-fade" data-bs-ride="carousel">
+        <!-- Slide 1 -->
+        <div class="carousel-item active">
+            <div class="carousel-container">
+                <h2 class="animate__animated animate__fadeInDown">Websites and more</h2>
+                <p class="animate__animated animate__fadeInUp">Basic website only $189</p>
+                <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Order now</a>
+            </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="carousel-item">
+            <div class="carousel-container">
+                <h2 class="animate__animated animate__fadeInDown">Online store</h2>
+                <p class="animate__animated animate__fadeInUp">Selling online can be easy, get an online store from $699</p>
+                <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Order Now</a>
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="carousel-item">
+            <div class="carousel-container">
+                <h2 class="animate__animated animate__fadeInDown">Logos</h2>
+                <p class="animate__animated animate__fadeInUp">Get 3 designs and unlimited reviews for only $97</p>
+                <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Order Now</a>
+            </div>
+        </div>
+
+        <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon bx bx-chevron-left" aria-hidden="true"></span>
+        </a>
+
+        <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
+            <span class="carousel-control-next-icon bx bx-chevron-right" aria-hidden="true"></span>
+        </a>
+    </div>
+</section>
+<!-- End Hero -->
+
 <!-- ======= Website Pricing Section ======= -->
 <section id="web-price" class="pricing web-price">
     <div class="container" data-aos="fade-up">
-        <div class="col-lg-3 col-md-6 webClone d-none" data-aos="fade-up" data-aos-delay="100">
+        <div class="col-lg-3 col-md-6 webClone d-none">
             <div class="box">
+                <span class="advanced d-none">Popular</span>
                 <h3 class="card-title">Free Website Draft</h3>
                 <h4 class="lblPrice"></h4>
-                <ul>
-                    <li>Custom Web Design</li>
-                    <li>Frontpage</li>
-                    <li>Contact form</li>
-                    <li>Images</li>
-                    <li>Multi language ready</li>
-                </ul>
+                <ul class="lblDescriptions"></ul>
                 <div class="btn-wrap">
                     <a href="javascript:void(0);" class="btn-buy btnAddtocart">Buy Now</a>
                 </div>
@@ -52,233 +88,110 @@
             <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
         </div>
 
-        <div class="row">
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                <div class="box">
-                    <h3>Free Store Draft</h3>
-                    <h4><sup>$</sup>0</h4>
-                    <ul>
-                        <li>Front page</li>
-                        <li>Nec feugiat nisl</li>
-                        <li>Nulla at volutpat dola</li>
-                        <li class="na">Pharetra massa</li>
-                        <li class="na">Massa ultricies mi</li>
-                    </ul>
-                    <div class="btn-wrap">
-                        <a href="#" class="btn-buy">Buy Now</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6 mt-4 mt-md-0" data-aos="fade-up" data-aos-delay="200">
-                <div class="box featured">
-                    <h3>Store Starter</h3>
-                    <h4><sup>$</sup>19</h4>
-                    <ul>
-                        <li>Aida dere</li>
-                        <li>Nec feugiat nisl</li>
-                        <li>Nulla at volutpat dola</li>
-                        <li>Pharetra massa</li>
-                        <li class="na">Massa ultricies mi</li>
-                    </ul>
-                    <div class="btn-wrap">
-                        <a href="#" class="btn-buy">Buy Now</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
-                <div class="box">
-                    <span class="advanced">Popular</span>
-                    <h3>Store Professional</h3>
-                    <h4><sup>$</sup>29</h4>
-                    <ul>
-                        <li>Aida dere</li>
-                        <li>Nec feugiat nisl</li>
-                        <li>Nulla at volutpat dola</li>
-                        <li>Pharetra massa</li>
-                        <li>Massa ultricies mi</li>
-                    </ul>
-                    <div class="btn-wrap">
-                        <a href="#" class="btn-buy">Buy Now</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="400">
-                <div class="box">              
-                    <h3>Store Advance</h3>
-                    <h4><sup>$</sup>49</h4>
-                    <ul>
-                        <li>Aida dere</li>
-                        <li>Nec feugiat nisl</li>
-                        <li>Nulla at volutpat dola</li>
-                        <li>Pharetra massa</li>
-                        <li>Massa ultricies mi</li>
-                    </ul>
-                    <div class="btn-wrap">
-                        <a href="#" class="btn-buy">Buy Now</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="row listStorePrice"></div>
     </div>
 </section>
 <!-- End Pricing Section -->
 
 <script type="text/javascript">
     $(document).ready(function(){
-        fnWebPrice();
+        loadData("listWebPrice", "Website");
+        loadData("listStorePrice", "Store");
+
+        $(".changeLang").click( function(){
+            if (localStorage.getItem("currentLag") == "es") {
+                localStorage.setItem("currentLag", "en");
+                lang = "en";
+            }else{
+                localStorage.setItem("currentLag", "es");
+                lang = "es";
+            }
+            switchLanguage(lang);
+
+            loadData("listWebPrice", "Website");
+            loadData("listStorePrice", "Store");
+        });
+
+        $("#fixBaground").removeClass("fixBaground");
     });
 
-    function fnWebPrice(){
+    function loadData(obj, category){
         let objData = {
                 "_method":"GET",
                 "limite": 0,
-                "categoria": "Website"
+                "categoria": category
             };
 
         $.post(`${base_url}/core/controllers/product.php`, objData, function(result) {
-            $(".listWebPrice").html("");
+            $(`.${obj}`).html("");
+
             $.each( result.data, function( index, item){
                 let productCard = $(".webClone").clone();
 
                 if(lang == "en"){
                     productCard.find(".card-title").html(item.name);
+                    let descriptions = JSON.parse(item.descriptions);
+                    $.each( descriptions, function(i, d){
+                        productCard.find(".lblDescriptions").append(`<li class="${(d.underline == 1) ? 'na' : ''}">${d.descripcion}</li>`);
+                    });
                 }else{
                     productCard.find(".card-title").html(item.optional_name);
+                    let descriptions = JSON.parse(item.descriptions);
+                    $.each( descriptions, function(i, d){
+                        productCard.find(".lblDescriptions").append(`<li class="${(d.underline == 1) ? 'na' : ''}">${d.descripcionOpc}</li>`);
+                    });
                 }
 
                 productCard.find(".lblPrice").html(`<sup>$</sup> ${item.price}`);
-
                 productCard.find(".btnAddtocart").data("item", item);
 
+                if(item.optional_description == 1)
+                    productCard.find(".advanced").removeClass("d-none");
+
+                if(index > 0)
+                    productCard.addClass("mt-4 mt-md-0");
+
+                productCard.attr("data-aos", "fade-up");
+                productCard.attr("data-aos-delay", (index +1 ) * 100 );
+
                 productCard.removeClass("d-none webClone");
-                $(productCard).appendTo(".listWebPrice");
+                $(productCard).appendTo(`.${obj}`);
+            });
+
+            $(".btnAddtocart").unbind().click(function(){
+                let currentItem = $(this).data("item"),
+                    newItem = {},
+                    currentCart = JSON.parse(localStorage.getItem("currentCart")),
+                    config = JSON.parse(currentItem.dimensions);
+
+                if(!currentCart){
+                    localStorage.setItem("currentCart", "{}");
+                    currentCart = {};
+                }                    
+
+                newItem.id = currentItem.id;
+                newItem.name = currentItem.name;
+                newItem.optional_name = currentItem.optional_name;
+                newItem.descriptions = currentItem.descriptions;
+                newItem.optional_description = currentItem.optional_description;
+                newItem.thumbnail = currentItem.thumbnail;
+
+                newItem.price = currentItem.price;
+
+                if(currentCart[currentItem.id]){
+                    currentCart[currentItem.id].qty = currentCart[currentItem.id].qty + 1;
+                }else{
+                    newItem.qty = 1;
+                    currentCart[currentItem.id] = newItem;
+                }
+
+                localStorage.setItem("currentCart", JSON.stringify(currentCart));
+                countCartItem();
+
+                // Ejecutar para redirigir al checkout
+                $(".btnCheckout").click();
             });
         });
-
-        
-
-        // $(".btnAddtocart").unbind().click(function(){
-        //     let currentItem = $(this).data("item"),
-        //         newItem = {},
-        //         currentCart = JSON.parse(localStorage.getItem("currentCart")),
-        //         config = JSON.parse(currentItem.dimensions);
-
-        //     if( config=="0" || ((config[0].sizes).length == 0 && config[1].colors[0] == "") ){
-        //         if(!currentCart){
-        //             localStorage.setItem("currentCart", "{}");
-        //             currentCart = {};
-        //         }                    
-
-        //         newItem.id = currentItem.id;
-        //         newItem.name = currentItem.name;
-        //         newItem.optional_name = currentItem.optional_name;
-        //         newItem.descriptions = currentItem.descriptions;
-        //         newItem.optional_description = currentItem.optional_description;
-        //         newItem.thumbnail = currentItem.thumbnail;
-
-        //         if( (currentItem.sale_price).length > 0 && currentItem.sale_price > 0){
-        //             newItem.price = currentItem.sale_price;
-        //         }else{
-        //             newItem.price = currentItem.price;
-        //         }
-
-        //         if(currentCart[currentItem.id]){
-        //             currentCart[currentItem.id].qty = currentCart[currentItem.id].qty + 1;
-        //         }else{
-        //             newItem.qty = 1;
-        //             currentCart[currentItem.id] = newItem;
-        //         }
-
-        //         localStorage.setItem("currentCart", JSON.stringify(currentCart));
-        //         countCartItem();
-
-        //         // Ejecutar para redirigir al checkout
-        //         $(".btnCheckout").click();
-        //     }else{
-        //         if(lang == "en"){
-        //             $(".lblMdlName").html(currentItem.name);
-        //             $(".lblDescription").html(currentItem.descriptions);
-        //         }else{
-        //             $(".lblMdlName").html(currentItem.optional_name);
-        //             $(".lblDescription").html(currentItem.optional_description);
-        //         }                        
-
-        //         if( (currentItem.sale_price).length > 0 && currentItem.sale_price > 0){
-        //             $(".lblMdlPrice").html( formatter.format(currentItem.sale_price) );
-        //         }else{
-        //             $(".lblMdlPrice").html( formatter.format(currentItem.price) );
-        //         }
-
-        //         $("#mdlAddtoCart").data("item", currentItem);
-
-        //         let images = JSON.parse(currentItem.images);
-        //         $.each( images, function( index, item){
-        //             $(`.img${index}`)
-        //                 .attr("src", `${base_url}/${item}`)
-        //                 .parent().removeClass("d-none");
-        //         });
-
-        //         $(".dvSizes").addClass("d-none");
-        //         if((config[0].sizes).length > 0){
-        //             $(".dvSizes").removeClass("d-none");
-        //             $(".toRemoves").remove();
-
-        //             $.each(config[0].sizes, function(index, item){
-        //                 let dv = $(".chSizes").clone();
-
-        //                 dv.find(".chk").val(item).attr("id", `ch${item}`);
-
-        //                 if(item == "sm")
-        //                     dv.find(".lbl").html("Small");
-
-        //                 if(item == "m")
-        //                     dv.find(".lbl").html("Medium");
-
-        //                 if(item == "l")
-        //                     dv.find(".lbl").html("Large");
-
-        //                 if(item == "xl")
-        //                     dv.find(".lbl").html("Extra large");
-
-        //                 dv.find(".lbl").attr("for", `ch${item}`);
-                        
-        //                 if(index == 0)
-        //                     dv.find(".chk").prop("checked", true);
-
-        //                 dv.removeClass("d-none chSizes");
-        //                 dv.addClass("toRemoves");
-        //                 $(dv).appendTo(".dvSizes");
-        //             });
-        //         }
-
-        //         $(".dvColors").addClass("d-none");
-        //         if(config[1].colors[0] != ""){
-        //             $(".dvColors").removeClass("d-none");
-        //             $(".toRemovec").remove();
-
-        //             let items = (config[1].colors[0]).split(",");
-        //             $.each(items, function(index, item){
-        //                 let dv = $(".chColors").clone();
-
-        //                 dv.find(".chk").val(item).attr("id", `rd${item}`);
-        //                 dv.find(".lbl").html(item).attr("for", `rd${item}`);
-
-        //                 if(index == 0)
-        //                     dv.find(".chk").prop("checked", true);
-
-        //                 dv.removeClass("d-none chColors");
-        //                 dv.addClass("toRemovec");
-        //                 $(dv).appendTo(".dvColors");
-
-        //             });
-        //         }
-
-        //         $("#mdlProDetalle").modal("show");
-        //     }
-        // });
     }
 </script>
 
