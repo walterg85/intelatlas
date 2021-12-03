@@ -33,7 +33,8 @@
 				'shipingCost' 	=> $vars['shipingCost'],
 				'shipingFree' 	=> $vars['shipingFree'],
 				'tax' 			=> $vars['tax'],
-				'paypalid'		=> $vars['paypalid']
+				'paypalid'		=> $vars['paypalid'],
+				'prodcarousel'	=>$vars['prodcarousel']
 			);
 
 			$tmpResponse = $settingsModel->updateData($usData, $setData);

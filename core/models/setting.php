@@ -40,7 +40,7 @@
 			$sql->execute($parametros);
 
 	    	$cmd = '
-	    		DELETE FROM setting WHERE parameter in("shipingCost", "shipingFree", "tax", "paypalid");
+	    		DELETE FROM setting WHERE parameter in("shipingCost", "shipingFree", "tax", "paypalid", "prodcarousel");
 	    	';
 
 	    	$sql = $pdo->prepare($cmd);
@@ -48,14 +48,15 @@
 
 			$cmd = '
 				INSERT INTO setting (parameter, value) 
-				VALUES ("shipingCost", :shipingCost), ("shipingFree", :shipingFree), ("tax", :tax), ("paypalid", :paypalid);
+				VALUES ("shipingCost", :shipingCost), ("shipingFree", :shipingFree), ("tax", :tax), ("paypalid", :paypalid), ("prodcarousel", :prodcarousel);
 	    	';
 
 			$parametros = array(
-				':shipingCost' => $setData['shipingCost'],
-				':shipingFree' => $setData['shipingFree'],
-				':tax' => $setData['tax'],
-				':paypalid' => $setData['paypalid']
+				':shipingCost' 	=> $setData['shipingCost'],
+				':shipingFree' 	=> $setData['shipingFree'],
+				':tax' 			=> $setData['tax'],
+				':paypalid' 	=> $setData['paypalid'],
+				':prodcarousel' => $setData['prodcarousel']
 			);
 
 	    	$sql = $pdo->prepare($cmd);

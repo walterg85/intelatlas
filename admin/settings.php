@@ -72,8 +72,34 @@
                     <input type="text" class="form-control" placeholder="Client ID" id="inputpaypalid" value="" required>
                 </div>
             </div>
-        </div>
-        
+
+            <hr>
+            <p class="lead">Display products on the carousel</p>
+
+            <div class="row g-3">
+                <div class=" col-9 mb-3">
+                    <label for="productList" class="form-label labelDatalist">Product</label>
+                    <input class="form-control" list="datalistOptions" id="productList" name="productList" placeholder="Type to search...">
+                    <datalist id="datalistOptions"></datalist>
+                </div>
+                <div class="col">
+                    <div class="d-grid gap-2 pt-4">
+                        <button class="btn btn-outline-success" id="btnAdd" type="button">Add</button>
+                    </div>
+                </div>
+
+                <table class="table align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th class="labelControl2" scope="col">Product</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblProductos"></tbody>
+                </table>
+            </div>
+        </div>        
     </div>
 </form>
 
@@ -103,18 +129,101 @@
         strMesage = "",
         maxCroppedWidth     = 400,
         maxCroppedHeight    = 400,
-        settingPhoto        = null;
+        settingPhoto        = null,
+        currentProduct      = 0,
+        arrayProductos      = [],
+        tempProductos       = null;
+
     $(document).ready(function(){
         currentPage = "Settings";
 
         $("#btnUpdateData").click( fnUpdateData);
 
-        //listar Valores de configuracion
-        fnGetconfig();
-
         // Iniciar componentes del cropper js
         initComponent();
+
+        loadProducts();
+
+        $("#btnAdd").click( addProduct);
     });
+
+    // Metodo para cargar la lista de productos
+    function loadProducts(){
+        let objData = {
+            "_method":"GET",
+            "limite": 0,
+            "categoria": ""
+        };
+
+        $.post("../core/controllers/product.php", objData, function(result) {
+            $("#datalistOptions").html("");
+            tempProductos = result.data;
+            let options = "";
+            $.each( result.data, function(index, item){
+                options += `<option data-id="${item.id}" value="${item.name.toUpperCase()}">`;
+            });
+
+            $("#datalistOptions").html(options);
+
+            $("input[name='productList']").on('input', function(e){
+                let option      = $('datalist').find('option[value="'+this.value+'"]');
+                currentProduct  = (option.data("id")) ? option.data("id") : 0;
+            });
+        }).done( fnGetconfig);
+    }
+
+    // Metodo para agregar nuevos productos al areglo
+    function addProduct(){
+        if(currentProduct != 0){
+            arrayProductos.push(currentProduct);
+            listarProductos();
+
+            $("#productList").val("");
+            $("#productList").focus();
+        }else{
+            alert("You must choose a valid product");
+        }
+    }
+
+    // Metodo para dibujar en la tabla los productos agregados
+    function listarProductos(){
+        let filas = "";
+        currentProduct = 0;
+
+        $("#tblProductos").html("");
+
+        // Se recore el contenido del array de conceptos
+        $.each(arrayProductos, function(index, item){
+            let producto = "";
+            $.each( tempProductos, function(i, p){
+                if(item == p.id){
+                    producto = p.name.toUpperCase();
+                    return false;
+                }
+            });
+
+            filas += `
+                <tr>
+                    <td>${index +1}</td>
+                    <td>${producto}</td>
+                    <td class="text-center">
+                        <a href="javascript:void(0);" data-index="${index}" class="btn btn-outline-danger btn-sm btnDelete" title="Delete"><i class="bi bi-trash"></i></a>
+                    </td>
+                </tr>
+            `;
+        });
+
+        // Se agrega el contenido del HTML en el body de la tabla contenedora
+        $("#tblProductos").append(filas);
+
+
+        // Accion del boton para eliminar un elemento del array y redibujar la tabla
+        $(".btnDelete").unbind().click( function(){
+            let index = $(this).data("index");
+            arrayProductos.splice(index, 1);
+            listarProductos();
+        });
+    }
 
     function fnGetconfig(){
         let objData = {
@@ -122,7 +231,12 @@
         };
         $.post("../core/controllers/setting.php", objData, function(result) {
              $.each( result.data, function( index, item){
-                $(`#input${item.parameter}`).val(item.value);
+                if(item.parameter == 'prodcarousel'){
+                    arrayProductos = JSON.parse(item.value);
+                    listarProductos();
+                }else{
+                    $(`#input${item.parameter}`).val(item.value);
+                }                
              });
         });
     }
@@ -156,6 +270,7 @@
         formData.append("password", $("#inputPass").val());
         formData.append("tax", $("#inputtax").val());
         formData.append("paypalid", $("#inputpaypalid").val());
+        formData.append("prodcarousel", JSON.stringify(arrayProductos));
 
         if(settingPhoto)
             formData.append("settingPhoto", settingPhoto, `logo.png`);
