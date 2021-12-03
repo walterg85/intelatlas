@@ -83,7 +83,7 @@
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
 		} else if($vars['_method'] == 'GET'){
-			$productList 	= $productModel->getProduct($vars['limite']);
+			$productList 	= $productModel->getProduct($vars['limite'], $vars['categoria']);
 
 			if($productList){
 				foreach ($productList as $key => $value) {

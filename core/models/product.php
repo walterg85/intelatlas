@@ -68,31 +68,35 @@
 			return TRUE;
 		}
 
-		public function getProduct($limite) {
+		public function getProduct($limite, $categoria) {
 			$pdo = new Conexion();
 			$strLimite = '';
+			$strWhere  = '';
 
 			if($limite > 0)
 				$strLimite = 'LIMIT 0, ' . $limite;
 
+			if($categoria != "")
+				$strWhere = ' AND p.id in (select pc.product_id from product_category AS pc where pc.category_id = (select id from category where name = "'.$categoria.'"))';
+
 
 			$cmd = '
 				SELECT
-					id, 
-					name,
-					optional_name,
-					descriptions, 
-					optional_description,
-					price,
-					sale_price, 
-					thumbnail, 
-					images, 
-					create_date,
-					dimensions
+					p.id, 
+					p.name,
+					p.optional_name,
+					p.descriptions, 
+					p.optional_description,
+					p.price,
+					p.sale_price, 
+					p.thumbnail, 
+					p.images, 
+					p.create_date,
+					p.dimensions
 				FROM 
-					product
-				WHERE active = 1
-				ORDER BY id DESC
+					product AS p
+				WHERE p.active = 1 '.$strWhere.'
+				ORDER BY p.id DESC
 				'. $strLimite .'
 			';
 
