@@ -5,9 +5,9 @@
     ob_start();
 ?>
       
-<div class="container">
+<section id="ordering" style="padding-top: 100px;">
 
-    <div class="container col-xxl-8 px-4">
+    <div class="container col-xxl-8 px-4" data-aos="fade-up">
         <div class="text-center">
           <h1 class="text-info">Order Details</h1>
         </div>
@@ -64,7 +64,7 @@
         </div>
     </div>
     <div class="row" id="ListProduct"></div>
-</div>
+</section>
 
 <script type="text/javascript">
     var currentOrderId = 0;
