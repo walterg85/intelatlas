@@ -13,13 +13,14 @@
 
 		if($vars['_method'] == 'POST'){
 			$prodData = array(
-				'inputName' 			=> $vars['inputName'],
-				'inputNameSp' 			=> $vars['inputNameSp'],
-				'inputDescription'	=> $vars['inputDescription'],
+				'inputName' 					=> $vars['inputName'],
+				'inputNameSp' 				=> $vars['inputNameSp'],
+				'inputDescription'		=> $vars['inputDescription'],
 				'inputDescriptionSp'	=> $vars['inputDescriptionSp'],
-				'inputPrice'			=> floatval($vars['inputPrice']),
-				'inputSalePrice'		=> floatval($vars['inputSalePrice']),
-				'dimensions'			=> $vars['pConfig']
+				'inputPrice'					=> floatval($vars['inputPrice']),
+				'inputSalePrice'			=> floatval($vars['inputSalePrice']),
+				'dimensions'					=> $vars['pConfig'],
+				'inputAlternative'		=> $vars['inputAlternative']
 			);
 
 			if($vars['productId'] == 0){

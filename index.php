@@ -93,6 +93,7 @@
 
             loadData("listWebPrice", "Website");
             loadData("listStorePrice", "Store");
+            getCarouselData();
         });
 
         $("#fixBaground").removeClass("fixBaground");
@@ -152,12 +153,26 @@
         };
 
         $.post(`${base_url}/core/controllers/product.php`, objData, function(result){
+            $(".objContenedor").html("");
             $.each( result.data, function(index, item){
-                let objHTML = $(".carouselClone").clone();
+                let objHTML = $(".carouselClone").clone(),
+                    alternatives = (item.alternatives) ? JSON.parse(item.alternatives) : null;
 
-                objHTML.find(".pName").html(item.name);
-                objHTML.find(".pPrice").html(`$${item.price}`);
-                objHTML.find(".btnAddtocart").data("item", item);
+                if(lang == "en"){
+                    objHTML.find(".pName").html(item.name);
+
+                    if(alternatives){
+                        objHTML.find(".pPrice").html(`${alternatives.alternative}`);
+                    }
+                } else {
+                    objHTML.find(".pName").html(item.optional_name);
+
+                    if(alternatives){
+                        objHTML.find(".pPrice").html(`${alternatives.alternativeSp}`);
+                    }
+                }
+
+                objHTML.find(".btnAddtocart").data("item", item);                
 
                 if(index == 0)
                     objHTML.addClass("active");

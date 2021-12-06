@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 01-12-2021 a las 00:06:18
+-- Tiempo de generación: 06-12-2021 a las 20:51:46
 -- Versión del servidor: 8.0.17
 -- Versión de PHP: 7.3.10
 
@@ -44,25 +44,41 @@ CREATE TABLE `category` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `chat`
+--
+
+DROP TABLE IF EXISTS `chat`;
+CREATE TABLE `chat` (
+  `id` int(11) NOT NULL,
+  `message` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `origin` varchar(50) NOT NULL,
+  `unread` int(11) NOT NULL,
+  `registered` datetime NOT NULL,
+  `estatus` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `client`
 --
 
 DROP TABLE IF EXISTS `client`;
 CREATE TABLE `client` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(250) NOT NULL,
-  `apellido` varchar(250) NOT NULL,
-  `direccion_a` varchar(500) NOT NULL,
-  `direccion_b` varchar(500) NOT NULL,
-  `telefono` varchar(20) NOT NULL,
-  `ciudad` varchar(50) NOT NULL,
-  `estado` varchar(50) NOT NULL,
-  `codigo_postal` varchar(10) NOT NULL,
-  `adicional` varchar(500) NOT NULL,
-  `registro` datetime NOT NULL,
-  `estatus` int(11) NOT NULL,
-  `email` varchar(250) NOT NULL,
-  `leads` int(11) NOT NULL
+  `nombre` varchar(250) DEFAULT NULL,
+  `apellido` varchar(250) DEFAULT NULL,
+  `direccion_a` varchar(500) DEFAULT NULL,
+  `direccion_b` varchar(500) DEFAULT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
+  `ciudad` varchar(50) DEFAULT NULL,
+  `estado` varchar(50) DEFAULT NULL,
+  `codigo_postal` varchar(10) DEFAULT NULL,
+  `adicional` varchar(500) DEFAULT NULL,
+  `registro` datetime DEFAULT NULL,
+  `estatus` int(11) DEFAULT NULL,
+  `email` varchar(250) DEFAULT NULL,
+  `leads` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -181,7 +197,8 @@ CREATE TABLE `product` (
   `ranking` int(11) NOT NULL DEFAULT '0',
   `active` int(11) NOT NULL DEFAULT '0',
   `optional_name` varchar(250) DEFAULT NULL,
-  `optional_description` varchar(500) DEFAULT NULL
+  `optional_description` varchar(500) DEFAULT NULL,
+  `alternatives` varchar(1500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Catalogo de productos';
 
 -- --------------------------------------------------------

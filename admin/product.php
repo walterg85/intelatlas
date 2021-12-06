@@ -73,6 +73,16 @@
             </div>
             <div class="row">
                 <div class="col mb-3">
+                    <label for="inputAlternative" class="form-label labelAlternative">Alternative description</label>
+                    <input type="text" id="inputAlternative" name="inputAlternative" class="form-control" autocomplete="off" required maxlength="750">
+                </div>
+                <div class="col mb-3">
+                    <label for="inputAlternativeSp" class="form-label labelAlternativeSp">Alternative description Spanish</label>
+                    <input type="text" id="inputAlternativeSp" name="inputAlternativeSp" class="form-control" autocomplete="off" required maxlength="750">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mb-3">
                     <label for="inputDescription" class="form-label labelDescription">Description</label>
                     <input type="text" id="inputDescription" name="inputDescription" class="form-control" autocomplete="off">
                 </div>
@@ -392,8 +402,13 @@
             if(value)
                 formData.append("imagesproduct[]", value, `${index}.jpg`);
         });
-
         formData.append("deletesImages", JSON.stringify(deletesImages));
+
+        let inputAlternative = {
+            alternative: $("#inputAlternative").val(),
+            alternativeSp: $("#inputAlternativeSp").val()
+        };
+        formData.append("inputAlternative", JSON.stringify(inputAlternative));
 
         $.ajax({
             url: '../core/controllers/product.php',
@@ -530,7 +545,8 @@
                     $(".btnEditProduct").unbind().click(function(){
                         let data = getData($(this), dataTableProduct),
                             buton = $(this),
-                            currentImages = JSON.parse(data.images);
+                            currentImages = JSON.parse(data.images),
+                            alternatives = (data.alternatives) ? JSON.parse(data.alternatives) : null;
 
                         $("#productId").val(data.id);
                         $("#inputName").val(data.name);
@@ -540,6 +556,10 @@
                         $("#inputPrice").val(data.price);
                         $("#inputSalePrice").val(data.sale_price);
                         $("#inputCategory").val(data.categoria.id);
+                        if(alternatives){
+                            $("#inputAlternative").val(alternatives.alternative);
+                            $("#inputAlternativeSp").val(alternatives.alternativeSp);
+                        }
 
                         let estatus = (data.optional_description == 1) ? true : false;
                         $("#swPopular").prop("checked", estatus);

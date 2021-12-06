@@ -10,9 +10,9 @@
 			$pdo = new Conexion();
 			$cmd = '
 				INSERT INTO product
-						(name, descriptions, price, sale_price, optional_name, optional_description, create_date, dimensions, active)
+						(name, descriptions, price, sale_price, optional_name, optional_description, create_date, dimensions, active, alternatives)
 				VALUES
-					(:name, :descriptions, :price, :sale_price, :optional_name, :optional_description, now(), :dimensions, 1)
+					(:name, :descriptions, :price, :sale_price, :optional_name, :optional_description, now(), :dimensions, 1, :alternatives)
 			';
 
 			$parametros = array(
@@ -22,7 +22,8 @@
 				':sale_price' 			=> $data['inputSalePrice'],
 				':optional_name'		=> $data['inputNameSp'],
 				':optional_description' => $data['inputDescriptionSp'],
-				':dimensions'			=>  $data['dimensions']
+				':dimensions'			=> $data['dimensions'],
+				':alternatives'			=> $data['inputAlternative']
 			);
 
 			try{
@@ -92,7 +93,8 @@
 					p.thumbnail, 
 					p.images, 
 					p.create_date,
-					p.dimensions
+					p.dimensions,
+					p.alternatives
 				FROM 
 					product AS p
 				WHERE p.active = 1 '.$strWhere.'
@@ -146,7 +148,8 @@
 					optional_description =:optional_description,
 					price =:price, 
 					sale_price =:sale_price,
-					dimensions =:dimensions
+					dimensions =:dimensions,
+					alternatives =:alternatives
 				WHERE id =:productId
 			';
 
@@ -158,7 +161,8 @@
 				':optional_name'		=> $data['inputNameSp'],
 				':optional_description' => $data['inputDescriptionSp'],
 				'productId'				=> $data['productId'],
-				':dimensions'			=>  $data['dimensions']
+				':dimensions'			=>  $data['dimensions'],
+				':alternatives'			=> $data['inputAlternative']
 			);
 
 			$sql = $pdo->prepare($cmd);
@@ -182,7 +186,8 @@
 					thumbnail, 
 					images, 
 					create_date,
-					dimensions
+					dimensions,
+					alternatives
 				FROM 
 					product
 				WHERE active = 1 AND id =:id
@@ -213,7 +218,8 @@
 					thumbnail, 
 					images, 
 					create_date,
-					dimensions
+					dimensions,
+					alternatives
 				FROM 
 					product
 				WHERE active = 1
@@ -246,7 +252,8 @@
 					thumbnail, 
 					images, 
 					create_date,
-					dimensions
+					dimensions,
+					alternatives
 				FROM 
 					product
 				WHERE active = 1
@@ -291,7 +298,8 @@
 					thumbnail, 
 					images, 
 					create_date,
-					dimensions
+					dimensions,
+					alternatives
 				FROM 
 					product
 				WHERE id in ('.$indexes.')
