@@ -225,38 +225,6 @@
                 }
             });
 
-            let cliData = JSON.parse( localStorage.getItem("cliData") );
-            if(cliData){
-                $("#inputMail").val(cliData.mail);
-                $("#inputName").val(cliData.name);
-
-                $(".lblWelcome").addClass("d-none");
-                $("#divRegistro").addClass("d-none");
-                $("#divConversasion").removeClass("d-none");
-                $("#chatLog").removeClass("d-none");
-                $(".lblControl").removeClass("d-none");
-
-                $("#btnSendmessage").data("round", 2);
-
-                loadLog();
-                refreshLog = setInterval(loadLog, 2500);
-            }else{
-                // Si la configuracion del chat no esta activa, no se muetra el formulario automaticamente
-                if(estadoChat){
-                    intervalContador = setInterval( function(){
-                        // Incrementar el contador en 1
-                        contador += 1;
-
-                        // Verificar si pasaron los 20 segundos, detener el contador y mostrar el formulario del chat
-                        if(contador > 20){
-                            clearInterval(intervalContador);
-                            $(".chat-btn").click();
-                        }
-
-                    }, 1000);
-                }
-            }
-
             $(".linkChat").click( function(){
                 $(".chat-btn").click();
             });
@@ -458,6 +426,47 @@
                     $("#chatLog").removeClass("d-none");
                     $(".lblControl").removeClass("d-none");
                 }
+            }).done( function(){
+                let cliData = JSON.parse( localStorage.getItem("cliData") );
+                if(cliData){
+                    $("#inputMail").val(cliData.mail);
+                    $("#inputName").val(cliData.name);
+
+                    $(".lblWelcome").addClass("d-none");
+                    $("#divRegistro").addClass("d-none");
+                    $("#divConversasion").removeClass("d-none");
+                    $("#chatLog").removeClass("d-none");
+                    $(".lblControl").removeClass("d-none");
+
+                    $("#btnSendmessage").data("round", 2);
+
+                    loadLog();
+                    refreshLog = setInterval(loadLog, 2500);
+                }else{
+                    // Si la configuracion del chat no esta activa, no se muetra el formulario automaticamente
+                    if(estadoChat){
+                        intervalContador = setInterval( function(){
+                            // Incrementar el contador en 1
+                            contador += 1;
+
+                            // Verificar si pasaron los 20 segundos, detener el contador y mostrar el formulario del chat
+                            if(contador > 20){
+                                // Para limpiar el contador
+                                clearInterval(intervalContador);
+
+                                // Validar si ya esta activo el chat ya no hacer nada.
+                                if(!$("#check").is(':checked')){
+                                    // Para lanzar el formulario de chat
+                                    $(".chat-btn").click();
+
+                                    // Para registrar el chat y saludar al usuario.
+                                    fnSaludoInicial();
+                                }
+                            }
+
+                        }, 1000);
+                    }
+                }
             });
         }
 
@@ -494,6 +503,44 @@
         function pad (str, max) {
             str = str.toString();
             return str.length < max ? pad("0" + str, max) : str;
+        }
+
+        function fnSaludoInicial(){
+            // Obtener la informacion de geolocalizacion del usuario y despues usarla
+            $.getJSON('http://ipinfo.io?token=6a6ff9d33edfac', function(ipinfo){
+                // Obtener la hora local del usuario
+                let dt = new Date(),
+                    time = dt.getHours() + ":" + dt.getMinutes(),
+                    ip = ipinfo.ip,
+                    objData = {
+                        message: "Hello, welcome, can we help you with something? it is a pleasure to help you",
+                        email: "No email",
+                        name: pad(parseInt(Math.random() * (1000 - 1) + 1), 6),
+                        phone: "No phone",
+                        ip: ip,
+                        _method: "saludarIniciar",
+                        _time: time
+                    },
+                    chat = `
+                        <figure class="text-end">
+                            <blockquote class="blockquote">
+                                <p class="small">Hello, welcome, can we help you with something? it is a pleasure to help you.</p>
+                            </blockquote>
+                            <figcaption class="blockquote-footer">
+                                ${time} | technical support
+                            </figcaption>
+                        </figure>
+                    `;
+
+                // Enviar la peticion de inicio y saludo
+                $.post(`${base_url}/core/controllers/chat.php`, objData);
+
+                localStorage.setItem("cliData", JSON.stringify({name: "No name", mail: "No email", phone: "No phone", ip: ip}));
+                $("#inputInitialMessage").val("");
+                $("#btnSendmessage").data("round", 2);
+                // refreshLog = setInterval(loadLog, 2500);
+                $("#chatLog").html(chat);
+            });            
         }
     </script>
 </body>

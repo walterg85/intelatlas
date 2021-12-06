@@ -1,5 +1,6 @@
 <?php
 	session_start();
+	require_once '../models/chat.php';
 
 	header("Access-Control-Allow-Origin: *");
 	header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
@@ -7,9 +8,8 @@
 	if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		parse_str(file_get_contents("php://input"), $put_vars);
 
-		$directorio = dirname(__FILE__, 1) . "/logs";
-		if( !is_dir($directorio) )
-			mkdir($directorio, 0777, true);
+		// Instanciamos el modelo
+		$chatModel = new Chatmodel();
 
 		if($put_vars['_method'] == 'GET'){
 			$remote  = ($_SERVER['REMOTE_ADDR'] == '::1') ? '127.0.0.1' : $_SERVER['REMOTE_ADDR'];
@@ -24,7 +24,7 @@
 			}
 
 			exit();
-		}else if($put_vars['_method'] == 'POST'){
+		} else if($put_vars['_method'] == 'POST'){
 			if($put_vars['_action'] == 'closeChat'){
 				$remote  = ($_SERVER['REMOTE_ADDR'] == '::1') ? '127.0.0.1' : $_SERVER['REMOTE_ADDR'];
 				$email   = (strlen($put_vars['email']) > 0) ? $put_vars['email'] : 'No email';
@@ -106,6 +106,37 @@
 				header('HTTP/1.1 200 OK');
 				exit();
 			}
+		} else if($put_vars['_method'] == 'saludarIniciar'){
+			$origin = array(
+				'name' 	=> $put_vars['name'],
+				'mail' 	=> $put_vars['email'],
+				'phone'	=> $put_vars['phone'],
+				'ip' 	=> $put_vars['ip'],
+				'date' 	=> $put_vars['_time']
+			);
+
+			$message = '
+				<figure class="text-end">
+					<blockquote class="blockquote">
+						<p class="small">'.$put_vars["message"].'.</p>
+					</blockquote>
+					<figcaption class="blockquote-footer">
+						'. $put_vars["_time"] .' | technical support
+					</figcaption>
+				</figure>
+			';
+
+			$data = array(
+				'origin' 	=> $origin,
+				'message'	=> $message
+			);
+
+			// Se ejecuta el metodo para crear el chat
+			$chatModel->insertChat($data);
+
+			// Se imprime la respuesta: =0 no satiscatorio, >0 satisfactorio
+			header('HTTP/1.1 200 Ok');	
+			exit();
 		}
 	}
 
