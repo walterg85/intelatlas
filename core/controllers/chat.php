@@ -178,6 +178,40 @@
 			// Se termina la transaccion
 			header('HTTP/1.1 200 Ok');
 			exit();
+		} else if($put_vars['_method'] == 'dejarMensaje'){
+			$origin = array(
+				'name' 	=> $put_vars['name'],
+				'mail' 	=> $put_vars['email'],
+				'phone'	=> $put_vars['phone'],
+				'ip' 	=> $put_vars['ip'],
+				'date' 	=> $put_vars['_time']
+			);
+
+			$message = '
+				<div class="alert text-white" role="alert">
+                    <figure class="mb-0">
+                        <blockquote class="blockquote">
+                            <p class="small">'. $put_vars['message'] .'</p>
+                        </blockquote>
+                        <figcaption class="blockquote-footer mb-0">
+                            '. date('H:i:s') .' | '. $put_vars['chatIp'] .'
+                        </figcaption>
+                    </figure>
+                </div>
+			';
+
+			$data = array(
+				'origin' 	=> $origin,
+				'message'	=> $message
+			);
+
+			// Se ejecuta el metodo para crear el chat
+			$chatId = $chatModel->insertChat($data);
+
+			// Termina transaccion, esperrar 2 segundos para lanzar resultado
+			sleep(2);
+			header('HTTP/1.1 200 Ok');
+			exit($chatId);
 		}
 	}
 

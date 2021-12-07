@@ -193,7 +193,6 @@
                     return false;
 
                 // Se registra como prospecto y se guarda el archivo de chat
-                sendMessage();
                 registrarProspecto();              
             });
 
@@ -440,9 +439,7 @@
                 .html(`<h5>We have already received your message, we will communicate soon</h5>`)
                 .addClass('text-center');
 
-            $(".lblWelcome").addClass("d-none");
-            $("#divRegistro").addClass("d-none");
-            $("#chatLog").removeClass("d-none");
+            sendContact();
         }
 
         function pad (str, max) {
@@ -530,6 +527,33 @@
                 clearInterval(refreshLog);
                 localStorage.removeItem("cliData");
             });
+        }
+
+        function sendContact(){
+            // Obtener la informacion de geolocalizacion del usuario y despues usarla
+            $.getJSON('http://ipinfo.io?token=6a6ff9d33edfac', function(ipinfo){
+                // Obtener la hora local del usuario
+                let dt = new Date(),
+                    time = dt.getHours() + ":" + dt.getMinutes(),
+                    ip = JSON.stringify(ipinfo),
+                    objData = {
+                        message: $("#inputInitialMessage").val(),
+                        email: $("#inputMail").val(),
+                        name: $("#inputName").val(),
+                        phone: $("#inputPhone").val(),
+                        ip: ip,
+                        chatIp: ipinfo.ip,
+                        _method: "dejarMensaje",
+                        _time: time
+                    };
+
+                // Enviar la peticion de inicio y saludo
+                $.post(`${base_url}/core/controllers/chat.php`, objData, function (chatId) {
+                    $(".lblWelcome").addClass("d-none");
+                    $("#divRegistro").addClass("d-none");
+                    $("#chatLog").removeClass("d-none");
+                });
+            });  
         }
     </script>
 </body>
