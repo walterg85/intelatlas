@@ -1,5 +1,6 @@
 <?php
 	session_start();
+	require_once '../models/chat.php';
 
 	header("Access-Control-Allow-Origin: *");
 	header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
@@ -7,42 +8,13 @@
 	if($_SERVER['REQUEST_METHOD'] == 'POST'){
 		parse_str(file_get_contents("php://input"), $put_vars);
 
-		$directorio = dirname(__FILE__, 1) . "/logs";
-		if( !is_dir($directorio) )
-			mkdir($directorio, 0777, true);
-
-		$directorio = dirname(__FILE__, 1) . "/logs/olds";
-		if( !is_dir($directorio) )
-			mkdir($directorio, 0777, true);
+		// Instanciamos el modelo
+		$chatModel = new Chatmodel();
 
 		if($put_vars['_method'] == 'GET'){
 			if($put_vars['_action'] == 'getList'){
-				$chatLogs 	= getChatsLogs('logs/');
-				$data 		= [];
-
-				foreach ($chatLogs as $key => $value) {
-					if(file_exists($value) && filesize($value) > 0){
-						$contenido = file_get_contents($value);
-
-						$doc 	= new DOMDocument;
-						libxml_use_internal_errors(true);
-						$doc->loadHTML($contenido);
-						libxml_clear_errors();
-						$xpath 	= new DOMXpath($doc);
-						$name 	= $xpath->query('//input[@type="hidden" and @id = "inputName"]/@value');
-						$mail 	= $xpath->query('//input[@type="hidden" and @id = "inputMail"]/@value');
-						$msg 	= $xpath->query('//input[@type="hidden" and @id = "inputQuestion"]/@value');
-						$date 	= $xpath->query('//input[@type="hidden" and @id = "inputDate"]/@value');
-
-						$data[] = array(
-							'logFile' 	=> $value,
-							'name' 		=> $name[0]->nodeValue,
-							'mail' 		=> $mail[0]->nodeValue,
-							'message' 	=> $msg[0]->nodeValue,
-							'date' 		=> $date[0]->nodeValue
-						);
-					}
-				}
+				// Se ejecuta el metodo para obtener la lista de chats
+				$data = $chatModel->loadChatList();
 
 				header('HTTP/1.1 200 OK');
 				header("Content-Type: application/json; charset=UTF-8");

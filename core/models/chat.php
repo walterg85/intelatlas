@@ -77,4 +77,20 @@
 
 			return TRUE;
 		}
+
+		// Metodo para listar todos los chats 
+		public function loadChatList(){
+			$pdo = new Conexion();
+
+			$cmd = '
+				SELECT id, origin, unread, registered,  estatus
+				FROM chat
+				WHERE estatus in(0, 1)
+			';
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute();
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
 	}
