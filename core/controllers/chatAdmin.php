@@ -29,25 +29,22 @@
 			}
 		}else if($put_vars['_method'] == 'POST'){
 			if ($put_vars['_action'] == 'closeChat') {
-				$email   = 'support@itelatlas.com';
-				$name	 = 'Technical support';
 				$message = '
-					<input type="hidden" id="inputClose" value="'. $put_vars["_time"] .'" />
 					<figure class="text-end">
 						<blockquote class="blockquote">
 						<p class="small text-danger">Technical support decided to end the chat because it marked the issue as resolved.</p>
 						</blockquote>
 						<figcaption class="blockquote-footer">
-							'. $put_vars["_time"] .' | '. $name .'
+							'. $put_vars["_time"] .' | Technical support
 						</figcaption>
 					</figure>
 				';
 
-				file_put_contents($put_vars['_file'], $message, FILE_APPEND | LOCK_EX);
+				// Se ejecuta el metodo para cerrar el chat
+				$data = $chatModel->closeChat( intval( $put_vars['_chatid'] ), $message );
 
-				sleep(3);
-				rename($put_vars['_file'], str_replace('logs/', 'logs/olds/'. date('g_i_A'). '_', $put_vars['_file']));
-				header('HTTP/1.1 200 OK');
+				// Se termina la transaccion
+				header('HTTP/1.1 200 Ok');
 				exit();
 			}else if($put_vars['_action'] == 'responseChat'){
 				$message 	= '
@@ -72,27 +69,31 @@
 				// Se termina la transaccion
 				header('HTTP/1.1 200 Ok');	
 				exit();
-
 			}else if ($put_vars['_action'] == 'moveChat') {
-				rename($put_vars['_file'], str_replace('logs/', 'logs/olds/'. date('g_i_A') . '_', $put_vars['_file']));
-				header('HTTP/1.1 200 OK');
+				// Se ejecuta el metodo para cerrar el chat
+				$chatModel->moveChat( intval( $put_vars['_chatid'] ) );
+
+				// Se termina la transaccion
+				header('HTTP/1.1 200 Ok');
 				exit();
 			}else if($put_vars['_action'] == 'sendChat'){
-				$email   = 'support@itelatlas.com';
-				$name	 = 'Technical support';
 				$message = '
-					<input type="hidden" id="inputClose" value="'. $put_vars["_time"] .'" />
 					<figure class="text-end">
 						<blockquote class="blockquote">
 						<p class="small text-danger">Technical support decided to end the chat because it marked the issue as resolved.</p>
 						</blockquote>
 						<figcaption class="blockquote-footer">
-							'. $put_vars["_time"] .' | '. $name .'
+							'. $put_vars["_time"] .' | Technical support
 						</figcaption>
 					</figure>
 				';
 
-				file_put_contents($put_vars['_file'], $message, FILE_APPEND | LOCK_EX);
+				// Se ejecuta el metodo para cerrar el chat
+				$data = $chatModel->closeChat( intval( $put_vars['_chatid'] ), $message );
+
+				// Se termina la transaccion
+				header('HTTP/1.1 200 Ok');
+				exit();
 
 				/*Habilitarlo cuando se tenga el host on line
 				require_once "PHPMailer/Exception.php";
@@ -118,11 +119,7 @@
 
 				$mail->Send()
 				*/
-
-				sleep(3);
-				rename($put_vars['_file'], str_replace('logs/', 'logs/olds/'. date('g_i_A'). '_', $put_vars['_file']));
-				header('HTTP/1.1 200 OK');
-				exit();
+				
 			}
 		}
 	}
