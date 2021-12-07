@@ -70,8 +70,8 @@
                 _current: $(this).data("chatmail")
             };
 
-            loadLog();
-            refreshLog = setInterval(loadLog, 2500);
+            // loadLog();
+            // refreshLog = setInterval(loadLog, 2500);
 
             $(".active").find(".txtm").addClass("text-muted");
             $(".active").removeClass("active");
@@ -187,22 +187,22 @@
             if(result.length > 0){
                 $("#chatList").html("");
                 $.each( result, function( index, item){
-                    let chat = $(".itemClone").clone();
+                    let chat = $(".itemClone").clone(),
+                        origin = JSON.parse(item.origin),
+                        geo = JSON.parse(origin.ip);
 
-                    chat.find(".cliName").html(item.name);
-                    chat.find(".cliDate").html(item.date);
-                    chat.find(".cliMessage").html(item.message);
-                    chat.find(".cliMail").html(item.mail);
+                    chat.find(".cliName").html( (origin.name == "no name") ? pad(item.id, 5) : origin.name );
+                    chat.find(".cliDate").html(item.registered);
+                    chat.find(".cliMessage").html(`Country: ${geo.country}, City: ${geo.city}`);
+                    chat.find(".cliMail").html(origin.mail);
 
-                    chat.data("chatlog", item.logFile);
-                    chat.data("chatmail", item.mail);
-
+                    chat.data("chatid", item.id);
                     chat.removeClass("itemClone d-none");
 
-                    if(chatActive._file == item.logFile){
-                        $(chat).addClass("active");
-                        $(chat).find(".txtm").removeClass("text-muted");
-                    }
+                    // if(chatActive._file == item.logFile){
+                    //     $(chat).addClass("active");
+                    //     $(chat).find(".txtm").removeClass("text-muted");
+                    // }
 
                     $(chat).appendTo("#chatList");
                 });
