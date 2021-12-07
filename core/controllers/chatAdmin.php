@@ -20,32 +20,12 @@
 				header("Content-Type: application/json; charset=UTF-8");
 				exit(json_encode($data));
 			}else if($put_vars['_action'] == 'getChat'){
-				$logFile 	= $put_vars['_file'];
-				$response 	= array(
-					'closed' => NULL,
-					'html'   => ''
-				);
-
-				if(file_exists($logFile) && filesize($logFile) > 0){
-					$contenido 	= file_get_contents($logFile);
-					$doc 		= new DOMDocument;
-
-					libxml_use_internal_errors(true);
-					$doc->loadHTML($contenido);
-					libxml_clear_errors();
-
-					$xpath 	= new DOMXpath($doc);
-					$closed	= $xpath->query('//input[@type="hidden" and @id = "inputClose"]/@value');
-
-					$response = array(
-						'closed' => (count($closed) > 0) ? $closed[0]->nodeValue : NULL,
-						'html'   => $contenido
-					);
-				}
+				// Se ejecuta el metodo para obtener el chat
+				$data = $chatModel->loadChatLogAdmin( intval( $put_vars['_chatid'] ) );
 
 				header('HTTP/1.1 200 OK');
 				header("Content-Type: application/json; charset=UTF-8");
-				exit(json_encode($response));
+				exit(json_encode($data));
 			}
 		}else if($put_vars['_method'] == 'POST'){
 			if ($put_vars['_action'] == 'closeChat') {
@@ -70,22 +50,29 @@
 				header('HTTP/1.1 200 OK');
 				exit();
 			}else if($put_vars['_action'] == 'responseChat'){
-				$email   	= 'support@itelatlas.com';
-				$name	   	= 'Technical support';
 				$message 	= '
 					<figure class="text-end">
 						<blockquote class="blockquote">
-						<p class="small">'. stripslashes(htmlspecialchars($put_vars["message"])) .'</p>
+							<p class="small">'. stripslashes(htmlspecialchars($put_vars["message"])) .'</p>
 						</blockquote>
 						<figcaption class="blockquote-footer">
-							'. $put_vars["_time"] .' | '. $name .'
+							'. $put_vars["_time"] .' | Technical support
 						</figcaption>
 					</figure>
 				';
 
-				file_put_contents($put_vars['_file'], $message, FILE_APPEND | LOCK_EX);
-				header('HTTP/1.1 200 OK');
+				$data = array(
+					'message'	=> $message,
+					'chatId'	=> $put_vars['_chatid']
+				);
+
+				// Se ejecuta el metodo para contestar el chat
+				$chatModel->responseChatAdmin($data);
+
+				// Se termina la transaccion
+				header('HTTP/1.1 200 Ok');	
 				exit();
+
 			}else if ($put_vars['_action'] == 'moveChat') {
 				rename($put_vars['_file'], str_replace('logs/', 'logs/olds/'. date('g_i_A') . '_', $put_vars['_file']));
 				header('HTTP/1.1 200 OK');

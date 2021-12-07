@@ -20,7 +20,12 @@
         <a href="javascript:void(0);" class="list-group-item list-group-item-action d-none itemClone itemChatList">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1 cliName">Name</h5>
-                <small class="txtm cliDate text-muted">3 days ago</small>
+                <small>
+                    <texto class="cliDate text-muted txtm"></texto>
+                    <span class="badge rounded-pill bg-warning chatCount d-none">
+                        1
+                    </span>
+                </small>
             </div>
             <p class="mb-1 cliMessage">Message.</p>
             <small class="txtm cliMail text-muted">Mail.</small>
@@ -65,13 +70,13 @@
 
             chatActive = {
                 _method: "GET",
-                _file: $(this).data("chatlog"),
+                _chatid: $(this).data("chatid"),
                 _action: "getChat",
-                _current: $(this).data("chatmail")
+                _current: $(this).data("current")
             };
 
-            // loadLog();
-            // refreshLog = setInterval(loadLog, 2500);
+            loadLog();
+            refreshLog = setInterval(loadLog, 2500);
 
             $(".active").find(".txtm").addClass("text-muted");
             $(".active").removeClass("active");
@@ -101,12 +106,12 @@
                     _method: "POST",
                     _action: "closeChat",
                     _time: time,
-                    _file: chatActive._file
+                    _chatid: chatActive._chatid
                 };
 
                 $.post("../core/controllers/chatAdmin.php", objData);
 
-                chatActive._file = "";                    
+                chatActive._chatid = "";                    
             }
         });
 
@@ -126,12 +131,12 @@
                 let objData = {
                     _method: "POST",
                     _action: "moveChat",
-                    _file: chatActive._file
+                    _chatid: chatActive._chatid
                 };
 
                 $.post("../core/controllers/chatAdmin.php", objData);
 
-                chatActive._file = "";
+                chatActive._chatid = "";
                 $("#btnMovechat").attr("disabled", "disabled");
             }
         });
@@ -153,12 +158,12 @@
                     _method: "POST",
                     _action: "sendChat",
                     _time: time,
-                    _file: chatActive._file
+                    _chatid: chatActive._chatid
                 };
 
                 $.post("../core/controllers/chatAdmin.php", objData);
 
-                chatActive._file = "";                    
+                chatActive._chatid = "";                    
             }
         });
 
@@ -196,13 +201,22 @@
                     chat.find(".cliMessage").html(`Country: ${geo.country}, City: ${geo.city}`);
                     chat.find(".cliMail").html(origin.mail);
 
+                    if(item.estatus == 0)
+                        chat.find(".cliName").addClass("text-danger");
+
+                    if(item.unread > 0)
+                        chat.find(".chatCount")
+                            .removeClass("d-none")
+                            .html(item.unread);
+
                     chat.data("chatid", item.id);
+                    chat.data("current", (origin.name == "no name") ? pad(item.id, 5) : origin.name + ` - ${geo.ip}`);
                     chat.removeClass("itemClone d-none");
 
-                    // if(chatActive._file == item.logFile){
-                    //     $(chat).addClass("active");
-                    //     $(chat).find(".txtm").removeClass("text-muted");
-                    // }
+                    if(chatActive._chatid == item.id){
+                        $(chat).addClass("active");
+                        $(chat).find(".txtm").removeClass("text-muted");
+                    }
 
                     $(chat).appendTo("#chatList");
                 });
@@ -216,14 +230,15 @@
         let oldscrollHeight = $("#chatLog")[0].scrollHeight - 20;
 
         $.post("../core/controllers/chatAdmin.php", chatActive, function(result) {
-            $("#chatLog").html(result.html);
+            console.log(result);
+            $("#chatLog").html(result.message);
             $("#chatDetails").removeClass("d-none");
 
             let newscrollHeight = $("#chatLog")[0].scrollHeight - 20;
             if(newscrollHeight > oldscrollHeight)
                 $("#chatLog").animate({ scrollTop: newscrollHeight }, 'normal');
 
-            if(result.closed){
+            if(result.estatus == 0){
                 $("#txtMessage").attr("disabled", "disabled");
                 $("#btnSend").attr("disabled", "disabled");
                 $("#btnMovechat").removeAttr("disabled");
@@ -245,7 +260,7 @@
             message: strMessage,
             _method: "POST",
             _time: time,
-            _file: chatActive._file,
+            _chatid: chatActive._chatid,
             _action: "responseChat",
         };
 

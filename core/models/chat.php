@@ -93,4 +93,49 @@
 
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
 		}
+
+		// Metodo para cargar el log completo de un chat de lado administrador
+		public function loadChatLogAdmin($chatId){
+			$pdo = new Conexion();
+			$parametros = array(
+				':id' => $chatId
+			);
+
+			$cmd = '
+				UPDATE chat SET unread = 0 WHERE id =:id;
+			';		
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			$cmd = '
+				SELECT message, estatus FROM chat WHERE id =:id;
+			';
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return $sql->fetch(PDO::FETCH_ASSOC);
+		}
+
+		// Metodo para responder el chat lado administardor
+		public function responseChatAdmin($data){
+	    	$pdo = new Conexion();
+
+	    	$cmd = '
+				UPDATE chat
+				SET message = CONCAT(message, :message)
+				WHERE id =:id
+			';
+
+			$parametros = array(
+				':message'	=> $data['message'],
+				':id'	=> $data['chatId']
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return 0;
+	    }
 	}

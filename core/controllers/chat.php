@@ -140,7 +140,7 @@
 			exit($chatId);
 		} else if($put_vars['_method'] == 'responseChat'){
 			$message = '
-				<div class="alert text-white" role="alert">
+				<div class="alert text-dark" role="alert">
                     <figure class="mb-0">
                         <blockquote class="blockquote">
                             <p class="small">'. $put_vars['message'] .'</p>

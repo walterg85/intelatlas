@@ -217,6 +217,11 @@
                         // Borrar todos los datos
                         $("#chatLog").html("");
                         localStorage.removeItem("cliData");
+
+                        intervalContador = true;
+                        contador = 0;
+
+                        $(".chat-btn").click();
                     });
                 }
             });
