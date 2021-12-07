@@ -121,7 +121,7 @@
 						<p class="small">'.$put_vars["message"].'.</p>
 					</blockquote>
 					<figcaption class="blockquote-footer">
-						'. $put_vars["_time"] .' | technical support
+						'. date('H:i:s') .' | technical support
 					</figcaption>
 				</figure>
 			';
@@ -132,10 +132,51 @@
 			);
 
 			// Se ejecuta el metodo para crear el chat
-			$chatModel->insertChat($data);
+			$chatId = $chatModel->insertChat($data);
 
-			// Se imprime la respuesta: =0 no satiscatorio, >0 satisfactorio
+			// Termina transaccion, esperrar 2 segundos para lanzar resultado
+			sleep(2);
+			header('HTTP/1.1 200 Ok');
+			exit($chatId);
+		} else if($put_vars['_method'] == 'responseChat'){
+			$message = '
+				<div class="alert text-white" role="alert">
+                    <figure class="mb-0">
+                        <blockquote class="blockquote">
+                            <p class="small">'. $put_vars['message'] .'</p>
+                        </blockquote>
+                        <figcaption class="blockquote-footer mb-0">
+                            '. date('H:i:s') .' | '. $put_vars['chatIp'] .'
+                        </figcaption>
+                    </figure>
+                </div>
+			';
+
+			$data = array(
+				'message'	=> $message,
+				'chatId'	=> $put_vars['chatId']
+			);
+
+			// Se ejecuta el metodo para crear el chat
+			$chatModel->responseChat($data);
+
+			// Se termina la transaccion
 			header('HTTP/1.1 200 Ok');	
+			exit();
+		} else if($put_vars['_method'] == 'loadLog'){
+			// Se ejecuta el metodo para obtener el chat
+			$data = $chatModel->loadChatLog( intval( $put_vars['chatId'] ) );
+
+			// Se termina la transaccion
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");
+			exit(json_encode($data));
+		} else if($put_vars['_method'] == 'closeChat'){
+			// Se ejecuta el metodo para cerrar el chat
+			$data = $chatModel->closeChat( intval( $put_vars['chatId'] ) );
+
+			// Se termina la transaccion
+			header('HTTP/1.1 200 Ok');
 			exit();
 		}
 	}

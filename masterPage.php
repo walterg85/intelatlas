@@ -193,35 +193,32 @@
                     return false;
 
                 // Se registra como prospecto y se guarda el archivo de chat
-                sendMessage($("#inputInitialMessage").val(), 0);
+                sendMessage();
                 registrarProspecto();              
             });
 
-            $("#btnSendmessage").on("click", function(){
-                let myRound = $(this).data("round");
-                sendMessage($("#inputNewMessage").val(), myRound);
-            });
+            $("#btnSendmessage").click( fnSendMsg);
 
             $(".lblControl").on("click", function(){
                 if (confirm('Do you really want to end the chat with tech support?')){
-                    $("#chatLog").html("");
+                    // Detener la busqueda de log
                     clearInterval(refreshLog);
-                    localStorage.removeItem("cliData");
-                    $("#btnSendmessage").data("round", 1);
 
                     let dt = new Date(),
-                        time = dt.getHours() + ":" + dt.getMinutes();
+                        time = dt.getHours() + ":" + dt.getMinutes(),
+                        cliData = JSON.parse( localStorage.getItem("cliData") );
 
                     let objData = {
-                        email: $("#inputMail").val(),
-                        name: $("#inputName").val(),
-                        phone: $("#inputPhone").val(),
-                        _method: "POST",
-                        _action: "closeChat",
+                        chatId: cliData.chatId,
+                        _method: "closeChat",
                         _time: time
                     };
 
-                    $.post(`${base_url}/core/controllers/chat.php`, objData);
+                    $.post(`${base_url}/core/controllers/chat.php`, objData, function(){
+                        // Borrar todos los datos
+                        $("#chatLog").html("");
+                        localStorage.removeItem("cliData");
+                    });
                 }
             });
 
@@ -305,71 +302,21 @@
 
             // Contador de items en el carrito
             countCartItem();
+
+            // Verificar si ya se lanzo el chat parar el contador e iniciar el chat
+            $('#check').change(function() {
+                if(this.checked && intervalContador && contador < 20) {
+                    clearInterval(intervalContador);
+                    // Para registrar el chat y saludar al usuario.
+                    fnSaludoInicial();
+                }      
+            });
         });
 
         function countCartItem(){
             let currentCart = JSON.parse(localStorage.getItem("currentCart"));
             if(currentCart)
                 $(".qtyCart").html(Object.keys(currentCart).length);
-        }
-
-        function sendMessage(strMessage, round){
-            let dt = new Date(),
-                time = dt.getHours() + ":" + dt.getMinutes();
-
-            let objData = {
-                message: strMessage,
-                email: $("#inputMail").val(),
-                name: $("#inputName").val(),
-                phone: $("#inputPhone").val(),
-                round: round,
-                _method: "POST",
-                _time: time
-            };
-
-            $.post(`${base_url}/core/controllers/chat.php`, objData);
-
-            if(round == 1){
-                localStorage.setItem("cliData", JSON.stringify({name: $("#inputName").val(), mail: $("#inputMail").val(), phone: $("#inputPhone").val()}));
-                $("#inputInitialMessage").val("");
-                $("#btnSendmessage").data("round", 2);
-                refreshLog = setInterval(loadLog, 2500);
-            }
-
-            $("#inputNewMessage").val("");
-
-            if(round > 0)
-                loadLog();
-
-            return false;
-        }
-
-        function loadLog(){
-            let objData = {
-                email: $("#inputMail").val(),
-                name: $("#inputName").val(),
-                _method: "GET"
-            },
-            oldscrollHeight = $("#chatLog")[0].scrollHeight - 20;
-
-            $.post(`${base_url}/core/controllers/chat.php`, objData, function(result) {
-                $("#chatLog").html(result);
-
-                let newscrollHeight = $("#chatLog")[0].scrollHeight - 20;
-                if(newscrollHeight > oldscrollHeight)
-                    $("#chatLog").animate({ scrollTop: newscrollHeight }, 'normal');
-
-                let isClose = $("#inputClose").val();
-                if(isClose){
-                    clearInterval(refreshLog);
-                    localStorage.removeItem("cliData");
-                }
-            }).fail(function() {
-                $("#chatLog").html("");
-                clearInterval(refreshLog);
-                localStorage.removeItem("cliData");
-                $("#btnSendmessage").data("round", 1);
-            });
         }
 
         function switchLanguage(lang){
@@ -437,8 +384,6 @@
                     $("#divConversasion").removeClass("d-none");
                     $("#chatLog").removeClass("d-none");
                     $(".lblControl").removeClass("d-none");
-
-                    $("#btnSendmessage").data("round", 2);
 
                     loadLog();
                     refreshLog = setInterval(loadLog, 2500);
@@ -511,36 +456,80 @@
                 // Obtener la hora local del usuario
                 let dt = new Date(),
                     time = dt.getHours() + ":" + dt.getMinutes(),
-                    ip = ipinfo.ip,
+                    ip = JSON.stringify(ipinfo),
                     objData = {
                         message: "Hello, welcome, can we help you with something? it is a pleasure to help you",
                         email: "No email",
-                        name: pad(parseInt(Math.random() * (1000 - 1) + 1), 6),
+                        name: "no name",
                         phone: "No phone",
                         ip: ip,
                         _method: "saludarIniciar",
                         _time: time
-                    },
-                    chat = `
-                        <figure class="text-end">
-                            <blockquote class="blockquote">
-                                <p class="small">Hello, welcome, can we help you with something? it is a pleasure to help you.</p>
-                            </blockquote>
-                            <figcaption class="blockquote-footer">
-                                ${time} | technical support
-                            </figcaption>
-                        </figure>
-                    `;
+                    };
 
                 // Enviar la peticion de inicio y saludo
-                $.post(`${base_url}/core/controllers/chat.php`, objData);
+                $.post(`${base_url}/core/controllers/chat.php`, objData, function (chatId) {
+                    localStorage.setItem("cliData", JSON.stringify({name: "No name", mail: "No email", phone: "No phone", ip: ip, chatId: chatId}));
 
-                localStorage.setItem("cliData", JSON.stringify({name: "No name", mail: "No email", phone: "No phone", ip: ip}));
-                $("#inputInitialMessage").val("");
-                $("#btnSendmessage").data("round", 2);
-                // refreshLog = setInterval(loadLog, 2500);
-                $("#chatLog").html(chat);
+                    loadLog();
+                    refreshLog = setInterval(loadLog, 2500);                    
+                });
             });            
+        }
+
+        function fnSendMsg(){
+            // No enviar mensaje vacio
+            if( $("#inputNewMessage").val() == "")
+                return;
+
+            // Obtener la infromacion del chat actual
+            let cliData = JSON.parse( localStorage.getItem("cliData") ),
+                usIp    = JSON.parse(cliData.ip);
+
+            // Obtener la hora local del usuario
+            let dt = new Date(),
+                time = dt.getHours() + ":" + dt.getMinutes(),
+                objData = {
+                    message: $("#inputNewMessage").val(),
+                    chatId: cliData.chatId,
+                    chatIp: usIp.ip,
+                    _method: "responseChat",
+                    _time: time
+                };
+
+            // Enviar la peticion y actualizar el log
+            $.post(`${base_url}/core/controllers/chat.php`, objData, function(){
+                $("#inputNewMessage").val("");
+                loadLog();
+            });
+        }
+
+        function loadLog(){
+            let cliData = JSON.parse( localStorage.getItem("cliData") );
+
+            let objData = {
+                chatId: cliData.chatId,
+                _method: "loadLog"
+            },
+            oldscrollHeight = $("#chatLog")[0].scrollHeight - 20;
+
+            $.post(`${base_url}/core/controllers/chat.php`, objData, function(result) {
+                $("#chatLog").html(result.message);
+
+                let newscrollHeight = $("#chatLog")[0].scrollHeight - 20;
+                if(newscrollHeight > oldscrollHeight)
+                    $("#chatLog").animate({ scrollTop: newscrollHeight }, 'normal');
+
+                let isClose = $("#inputClose").val();
+                if(result.estatus == 0){
+                    clearInterval(refreshLog);
+                    localStorage.removeItem("cliData");
+                }
+            }).fail(function() {
+                $("#chatLog").html("");
+                clearInterval(refreshLog);
+                localStorage.removeItem("cliData");
+            });
         }
     </script>
 </body>

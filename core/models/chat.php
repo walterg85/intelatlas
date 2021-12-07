@@ -6,7 +6,7 @@
 
 	    public function insertChat($data){
 	    	$pdo = new Conexion();
-	    	
+
 	    	$cmd = '
 				INSERT INTO chat
 					(message, origin, unread, registered, estatus)
@@ -28,4 +28,53 @@
 		        return 0;
 		    }
 	    }
+
+	    public function responseChat($data){
+	    	$pdo = new Conexion();
+
+	    	$cmd = '
+				UPDATE chat
+				SET message = CONCAT(message, :message), unread = (unread + 1)
+				WHERE id =:id
+			';
+
+			$parametros = array(
+				':message'	=> $data['message'],
+				':id'	=> $data['chatId']
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return 0;
+	    }
+
+	    // Metodo para cargar el log completo de un chat
+		public function loadChatLog($chatId){
+			$pdo = new Conexion();
+
+			$cmd = '
+				SELECT message, estatus
+				FROM chat
+				WHERE estatus = 1
+				AND id = ' . $chatId;
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute();
+
+			return $sql->fetch(PDO::FETCH_ASSOC);
+		}
+
+		// Metodo para cerrar un chat lado usuario
+		public function closeChat($chatId){
+			$pdo = new Conexion();
+
+			$cmd = '
+				UPDATE chat SET estatus = 0 WHERE id = ' . $chatId;
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute();
+
+			return TRUE;
+		}
 	}
