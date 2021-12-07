@@ -66,14 +66,17 @@
 		}
 
 		// Metodo para cerrar un chat lado usuario
-		public function closeChat($chatId){
+		public function closeChat($chatId, $msg){
 			$pdo = new Conexion();
 
-			$cmd = '
-				UPDATE chat SET estatus = 0 WHERE id = ' . $chatId;
+			$cmd = 'UPDATE chat SET estatus = 0, message = CONCAT(message, :message) WHERE id =:id';
+			$parametros = array(
+				':id' => $chatId,
+				':message' => $msg
+			);
 
 			$sql = $pdo->prepare($cmd);
-			$sql->execute();
+			$sql->execute($parametros);
 
 			return TRUE;
 		}
@@ -138,4 +141,19 @@
 
 			return 0;
 	    }
+
+	    // Metodo para mover un chat lado administrador
+		public function moveChat($chatId){
+			$pdo = new Conexion();
+
+			$cmd = 'UPDATE chat SET estatus = 2 WHERE id =:id';
+			$parametros = array(
+				':id' => $chatId
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
 	}

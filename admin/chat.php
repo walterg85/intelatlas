@@ -264,7 +264,10 @@
             _action: "responseChat",
         };
 
-        $.post("../core/controllers/chatAdmin.php", objData);
+        $.post("../core/controllers/chatAdmin.php", objData, function(){
+            loadChats()
+        });
+        
         $("#txtMessage").val("");
         return false;
     }

@@ -121,7 +121,7 @@
 						<p class="small">'.$put_vars["message"].'.</p>
 					</blockquote>
 					<figcaption class="blockquote-footer">
-						'. date('H:i:s') .' | technical support
+						'. $put_vars['_time'] .' | technical support
 					</figcaption>
 				</figure>
 			';
@@ -146,7 +146,7 @@
                             <p class="small">'. $put_vars['message'] .'</p>
                         </blockquote>
                         <figcaption class="blockquote-footer mb-0">
-                            '. date('H:i:s') .' | '. $put_vars['chatIp'] .'
+                            '. $put_vars['_time'] .' | '. $put_vars['chatIp'] .'
                         </figcaption>
                     </figure>
                 </div>
@@ -172,8 +172,21 @@
 			header("Content-Type: application/json; charset=UTF-8");
 			exit(json_encode($data));
 		} else if($put_vars['_method'] == 'closeChat'){
+			$message = '
+				<div class="alert text-dark" role="alert">
+                    <figure class="mb-0">
+                        <blockquote class="blockquote">
+                            <p class="text-danger"><b>The client has decided to close the chat.</b></p>
+                        </blockquote>
+                        <figcaption class="blockquote-footer mb-0">
+                            '. $put_vars['_time'] .' | '. $put_vars['ip'] .'
+                        </figcaption>
+                    </figure>
+                </div>
+			';
+
 			// Se ejecuta el metodo para cerrar el chat
-			$data = $chatModel->closeChat( intval( $put_vars['chatId'] ) );
+			$data = $chatModel->closeChat( intval( $put_vars['chatId'] ), $message);
 
 			// Se termina la transaccion
 			header('HTTP/1.1 200 Ok');
@@ -194,7 +207,7 @@
                             <p class="small">'. $put_vars['message'] .'</p>
                         </blockquote>
                         <figcaption class="blockquote-footer mb-0">
-                            '. date('H:i:s') .' | '. $put_vars['chatIp'] .'
+                            '. $put_vars['_time'] .' | '. $put_vars['chatIp'] .'
                         </figcaption>
                     </figure>
                 </div>

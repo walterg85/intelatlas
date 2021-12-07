@@ -205,10 +205,12 @@
 
                     let dt = new Date(),
                         time = dt.getHours() + ":" + dt.getMinutes(),
-                        cliData = JSON.parse( localStorage.getItem("cliData") );
+                        cliData = JSON.parse( localStorage.getItem("cliData") ),
+                        geo = JSON.parse( cliData.ip);
 
                     let objData = {
                         chatId: cliData.chatId,
+                        ip: geo.ip,
                         _method: "closeChat",
                         _time: time
                     };
@@ -516,16 +518,24 @@
             oldscrollHeight = $("#chatLog")[0].scrollHeight - 20;
 
             $.post(`${base_url}/core/controllers/chat.php`, objData, function(result) {
-                $("#chatLog").html(result.message);
+                if(result){
+                    $("#chatLog").html(result.message);
 
-                let newscrollHeight = $("#chatLog")[0].scrollHeight - 20;
-                if(newscrollHeight > oldscrollHeight)
-                    $("#chatLog").animate({ scrollTop: newscrollHeight }, 'normal');
-
-                let isClose = $("#inputClose").val();
-                if(result.estatus == 0){
+                    let newscrollHeight = $("#chatLog")[0].scrollHeight - 20;
+                    if(newscrollHeight > oldscrollHeight)
+                        $("#chatLog").animate({ scrollTop: newscrollHeight }, 'normal');
+                }else{
+                    $("#chatLog").html("");
                     clearInterval(refreshLog);
                     localStorage.removeItem("cliData");
+
+                    intervalContador = true;
+                    contador = 0;
+
+                    $(".chat-btn").click();
+
+                    alert("Tech support decided to end the chat.");
+
                 }
             }).fail(function() {
                 $("#chatLog").html("");
