@@ -13,8 +13,8 @@
 
 		if($vars['_method'] == 'Get'){
 			$response = array(
-				'codeResponse' => 200,
-				'data' => $couponModel->get()
+				'codeResponse' 	=> 200,
+				'data' 			=> $couponModel->get()
 			);
 
 			header('HTTP/1.1 200 Ok');

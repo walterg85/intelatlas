@@ -12,5 +12,4 @@
 	}
 
 	session_destroy();
-
 	header("Location: ../../admin/login.html");

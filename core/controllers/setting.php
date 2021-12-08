@@ -34,19 +34,18 @@
 				'shipingFree' 	=> $vars['shipingFree'],
 				'tax' 			=> $vars['tax'],
 				'paypalid'		=> $vars['paypalid'],
-				'prodcarousel'	=>$vars['prodcarousel']
+				'prodcarousel'	=> $vars['prodcarousel']
 			);
 
 			$tmpResponse = $settingsModel->updateData($usData, $setData);
-
 			if($tmpResponse){
 				$response = array(
-					'codeResponse' => 200,
-					'message' => 'Updated information.'
+					'codeResponse'	=> 200,
+					'message' 		=> 'Updated information.'
 				);
 
-				$_SESSION['authData']->isDefault = (password_verify('12345', $tmpResponse->password)) ? 1 : 0;
-				$_SESSION['authData']->email = $vars['email'];
+				$_SESSION['authData']->isDefault 	= (password_verify('12345', $tmpResponse->password)) ? 1 : 0;
+				$_SESSION['authData']->email 		= $vars['email'];
 
 				$folder = "assets/img";
 				if (!empty($_FILES['settingPhoto'])){
