@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 06-12-2021 a las 20:51:46
+-- Tiempo de generación: 08-12-2021 a las 19:20:21
 -- Versión del servidor: 8.0.17
 -- Versión de PHP: 7.3.10
 
@@ -51,7 +51,7 @@ DROP TABLE IF EXISTS `chat`;
 CREATE TABLE `chat` (
   `id` int(11) NOT NULL,
   `message` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `origin` varchar(50) NOT NULL,
+  `origin` varchar(500) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `unread` int(11) NOT NULL,
   `registered` datetime NOT NULL,
   `estatus` int(11) NOT NULL
@@ -273,6 +273,12 @@ ALTER TABLE `category`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
+-- Indices de la tabla `chat`
+--
+ALTER TABLE `chat`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `client`
 --
 ALTER TABLE `client`
@@ -346,6 +352,12 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT de la tabla `category`
 --
 ALTER TABLE `category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `chat`
+--
+ALTER TABLE `chat`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
