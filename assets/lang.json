@@ -10,7 +10,15 @@
 			"myCart": "My Cart",
 			"btnKeepShopping": "Keep Shopping",
 			"categories": "Top Categories",
-			"products": "Top Producst"
+			"products": "Top Products",
+			"bannerTittle": "Custom Website",
+			"bannerSubTittle": "Get your own website and start selling online today!",
+			"ctaCall": "Call",
+			"ctaMessage": "Message",
+			"ctaStoreTittle": "Online Store",
+			"ctaStoreSubTittle": "Get your own website and start selling online today!",
+			"subTittle": "Subscribe to our newsletter",
+			"subSubTittle": "And get exclusive deals you wont find anywhere else!"
 		},
 		"checkout":{
 			"labelSeccion": "Checkout",
@@ -45,7 +53,15 @@
 			"myCart": "Mi Carrito",
 			"btnKeepShopping": "Seguir Comprando",
 			"categories": "Categorías Populares",
-			"products": "Productos Populares"
+			"products": "Productos Populares",
+			"bannerTittle": "Sitio Web Personalizado",
+			"bannerSubTittle": "Diseñado por ti",
+			"ctaCall": "Llamar",
+			"ctaMessage": "Mensaje",
+			"ctaStoreTittle": "Tienda en Line",
+			"ctaStoreSubTittle": "Obtén tu propio sitio web y comienza a vender en línea hoy!",
+			"subTittle": "Subscribete a nuestro boletín",
+			"subSubTittle": "Subscribete para recibir las últimas noticias y ofertas!"
 		},
 		"checkout":{
 			"labelSeccion": "Verificar y pagar",

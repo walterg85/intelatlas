@@ -50,12 +50,12 @@
     <div class="container">
         <div class="row" data-aos="zoom-in">
             <div class="col-lg-9 text-center text-lg-start">
-                <h3>Custom Website</h3>
-                <p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <h3 class="bannerTittle">Custom Website</h3>
+                <p class="bannerSubTittle"> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             </div>
             <div class="col-lg-3 cta-btn-container text-center">
-                <a class="cta-btn align-middle" href="#">Call</a>
-                <a class="cta-btn align-middle linkChat" href="javascript:void(0);">Chat</a>
+                <a class="cta-btn align-middle ctaCall" href="#">Call</a>
+                <a class="cta-btn align-middle linkChat ctaMessage" href="javascript:void(0);">Chat</a>
             </div>
         </div>
     </div>
@@ -66,8 +66,8 @@
 <section id="pricing" class="pricing">
     <div class="container" data-aos="fade-up">
         <div class="section-title">
-            <h2>ONLINE STORE</h2>
-            <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+            <h2 class="ctaStoreTittle">ONLINE STORE</h2>
+            <p class="ctaStoreSubTittle">Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
         </div>
 
         <div class="row listStorePrice"></div>

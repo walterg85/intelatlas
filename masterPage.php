@@ -108,8 +108,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">
-                        <h4>Our Newsletter</h4>
-                        <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
+                        <h4 class="subTittle">Our Newsletter</h4>
+                        <p class="subSubTittle">Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
                     </div>
                     <div class="col-lg-6">
                         <form>
@@ -122,7 +122,7 @@
 
         <div class="container">
             <div class="copyright">
-                &copy; Copyright <strong><span>INTELATLAS</span></strong>.
+                &copy; <script>document.write(new Date().getFullYear())</script> <strong><span>INTELATLAS</span></strong>.
             </div>
         </div>
     </footer>
@@ -331,6 +331,14 @@
 
                 let myLang = data[lang]["home"];
                 $("#inputSearch").attr("placeholder", myLang.search);
+                $(".bannerTittle").html(myLang.bannerTittle);
+                $(".bannerSubTittle").html(myLang.bannerSubTittle);
+                $(".ctaCall").html(myLang.ctaCall);
+                $(".ctaMessage").html(myLang.ctaMessage);
+                $(".ctaStoreTittle").html(myLang.ctaStoreTittle);
+                $(".ctaStoreSubTittle").html(myLang.ctaStoreSubTittle);
+                $(".subTittle").html(myLang.subTittle);
+                $(".subSubTittle").html(myLang.subSubTittle);
 
                 // Page title
                 document.title = myLang.pageTitle;
@@ -345,7 +353,7 @@
                 $("#btnStart").html(myLang.btnStart);
                 $("#inputNewMessage").attr("placeholder", myLang.inputNewMessage);
                 $("#btnSendmessage").html(myLang.btnSendmessage);
-                $(".labelFinish").html(myLang.labelFinish);
+                $(".labelFinish").html(myLang.labelFinish);                
             });
         }
         
