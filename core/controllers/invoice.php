@@ -142,9 +142,9 @@
 									<td width="50%">&#8226; '. $data['clientData']['nombre'] .' '. $data['clientData']['apellido'] .'</td>
 									<td width="50%" rowspan="5" style="vertical-align: top;">'. $infoPay .'</td>
 								</tr>								
-								'.$rowA.'
-								'. $rowB .'
-								'. $rowC .'
+									'.$rowA.'
+									'. $rowB .'
+									'. $rowC .'
 								<tr>
 									<td width="50%">&#8226; '. $data['clientData']['ciudad'] .' '. $data['clientData']['estado'] .' '. $data['clientData']['codigo_postal'] .'</td>
 								</tr>
@@ -216,9 +216,9 @@
 			}
 
 			$response = array(
-				'htmlBoddy' => $htmlBoddy,
-				'importeTotal' => $data['invoiceData']['importe'],
-				'allData' => $data
+				'htmlBoddy' 	=> $htmlBoddy,
+				'importeTotal' 	=> $data['invoiceData']['importe'],
+				'allData' 		=> $data
 			);
 
 			header('HTTP/1.1 200 Ok');

@@ -8,16 +8,11 @@
 	header("Access-Control-Allow-Methods: POST");
 
 	if($_SERVER['REQUEST_METHOD'] == 'POST'){
-		$vars = ($_POST) ? $_POST : json_decode(file_get_contents("php://input"), TRUE);
-		$userModel = new Usersmodel();
+		$vars 		= ($_POST) ? $_POST : json_decode(file_get_contents("php://input"), TRUE);
+		$userModel 	= new Usersmodel();
 
 		if($vars['_method'] == 'VALIDATE'){
 			$tmpResponse = $userModel->login($vars['uname']);
-
-			$response = array(
-				'codeResponse' => 0,
-				'message' => 'Username or password incorrect'
-			);
 
 			if($tmpResponse){
 				if (password_verify($vars['password'], $tmpResponse->password)){
@@ -40,6 +35,11 @@
 					if($vars['password'] == '12345')
 						$_SESSION['authData']->isDefault = 1;
 				}
+			} else {
+				$response = array(
+					'codeResponse'	=> 0,
+					'message' 		=> 'Username or password incorrect'
+				);
 			}
 
 			header('HTTP/1.1 200 Ok');
@@ -62,7 +62,6 @@
 			);
 
 			$tmpResponse = $userModel->initDefault($usData, $setData);
-
 			if($tmpResponse){
 				$response = array(
 					'codeResponse' 	=> 200,
@@ -101,7 +100,6 @@
 
 	header('HTTP/1.1 400 Bad Request');
 	header("Content-Type: application/json; charset=UTF-8");
-
 	$response = array(
 		'codeResponse' => 400,
 		'message' => 'Bad Request'
