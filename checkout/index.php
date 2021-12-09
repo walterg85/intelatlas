@@ -41,12 +41,17 @@
     <script src="https://www.paypal.com/sdk/js?client-id=<?php echo $data['paypalId']; ?>&currency=USD&disable-funding=credit"></script>
     <div class="container">
         <main>
-            <div class="py-5 text-center">
+            <div class="py-5 text-center tmpSeccionB d-none">
+                <p class="lead">You don't have products in your shopping cart.</p>
+                <hr>
+                <a href="javascript:history.back()" class="btn btn-outline-secondary btn-lg">Return</a>
+            </div>
+            <div class="py-5 text-center tmpSeccion d-none">
                 <a class="logo fs-1" href="/">I<span class="logo-blue">A</span></a>
                 <h2 class="labelSeccion">Checkout</h2>
                 <p class="lead lblLetrero">You have 14 days to return your product if not satisfied.</p>
             </div>
-            <div class="row g-5">
+            <div class="row g-5 tmpSeccion d-none">
                 <div class="col-md-7 col-lg-8">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
                         <span class="text-primary labelCart">Your cart</span>
@@ -76,10 +81,10 @@
                     
                     <table class="table w-50 float-end">
                         <tbody>
-                            <tr>
+                            <!-- <tr>
                                 <td class="text-end lalelShip">Shipping Cost</td>
                                 <td class="lblShipCost text-end"></td>
-                            </tr>
+                            </tr> -->
                             <tr class="rowCoupon d-none">
                                 <td class="text-end labelCoupon">Coupon</td>
                                 <td class="lblCoupon text-end">0</td>
@@ -88,10 +93,10 @@
                                 <td class="text-end">Subtotal</td>
                                 <td class="lblsubtotal text-end">0</td>
                             </tr>
-                            <tr class="rowTax d-none">
+                            <!-- <tr class="rowTax d-none">
                                 <td class="text-end labelTax">Tax</td>
                                 <td class="lblTax text-end">0</td>
-                            </tr>
+                            </tr> -->
                             <tr>
                                 <td class="text-end">Total</td>
                                 <td class="lblTotal text-end">0</td>
@@ -107,7 +112,7 @@
         </main>
 
         <footer class="my-5 pt-5 text-muted text-center text-small">
-          <p class="mb-1">&copy; <script>document.write(new Date().getFullYear())</script> INTELATLAS</p>
+            <p class="mb-1">&copy; <script>document.write(new Date().getFullYear())</script> INTELATLAS</p>
         </footer>
     </div> 
 
@@ -170,7 +175,6 @@
         }
 
         switchLanguage(lang);
-        printList();
     });
 
     function printList() {
@@ -284,8 +288,15 @@
 
     function countCartItem(){
         let currentCart = JSON.parse(localStorage.getItem("currentCart"));
-        if(currentCart)
-            $(".qtyCart").html(Object.keys(currentCart).length);
+        if(currentCart){
+            if(Object.keys(currentCart).length > 0){
+                $(".tmpSeccion").removeClass("d-none");
+                printList();
+                $(".qtyCart").html(Object.keys(currentCart).length);
+            }else{
+                $(".tmpSeccionB").removeClass("d-none");
+            }
+        }
     }
 
     function resumen(){
@@ -357,6 +368,42 @@
             }
 
             $(".lblTotal").html(`<strong class="text-danger">${formatter.format(grantotal)}</strong>`);
+
+            paypal.Buttons({
+                // Sets up the transaction when a payment button is clicked
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: parseFloat(grantotal).toFixed(2)
+                            }
+                        }]
+                    });
+                },
+                // Finalize the transaction after payer approval
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(orderData) {
+                        if(orderData.status == "COMPLETED"){
+                            let objData = {
+                                "_method":"_POST",
+                                "amount": grantotal,
+                                "ship_price": ship_price,
+                                "shipping_address": JSON.stringify(orderData.purchase_units[0].shipping.address),
+                                "payment_data": JSON.stringify(orderData),
+                                "order": JSON.stringify(orderDetails),
+                                "coupon": $("#inputCode").val()
+                            };
+
+                            $.post("../core/controllers/checkout.php", objData, function(result) {
+                                localStorage.removeItem("currentCart");
+                                window.location.replace(`../order/index.php?orderId=${result.id}`);
+                            });
+                        }else{
+                            alert("Payment was not processed correctly, please try again.");
+                        }
+                    });
+                }
+            }).render('#paypal-button-container');
         });
     }
 
@@ -376,43 +423,5 @@
         });
     }
 </script>
-
-<script>
-    paypal.Buttons({
-        // Sets up the transaction when a payment button is clicked
-        createOrder: function(data, actions) {
-            return actions.order.create({
-                purchase_units: [{
-                    amount: {
-                        value: parseFloat(grantotal).toFixed(2)
-                    }
-                }]
-            });
-        },
-        // Finalize the transaction after payer approval
-        onApprove: function(data, actions) {
-            return actions.order.capture().then(function(orderData) {
-                if(orderData.status == "COMPLETED"){
-                    let objData = {
-                        "_method":"_POST",
-                        "amount": grantotal,
-                        "ship_price": ship_price,
-                        "shipping_address": JSON.stringify(orderData.purchase_units[0].shipping.address),
-                        "payment_data": JSON.stringify(orderData),
-                        "order": JSON.stringify(orderDetails),
-                        "coupon": $("#inputCode").val()
-                    };
-
-                    $.post("../core/controllers/checkout.php", objData, function(result) {
-                        localStorage.removeItem("currentCart");
-                        window.location.replace(`../order/index.php?orderId=${result.id}`);
-                    });
-                }else{
-                    alert("Payment was not processed correctly, please try again.");
-                }
-            });
-        }
-    }).render('#paypal-button-container');
-</script>
-  </body>
+</body>
 </html>

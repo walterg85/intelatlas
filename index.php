@@ -32,7 +32,12 @@
         <div class="col-lg-3 col-md-6 webClone d-none">
             <div class="box">
                 <span class="advanced d-none">Popular</span>
-                <h3 class="card-title">Free Website Draft</h3>
+                <a href="javascript:void(0);" class="linkto"> <h3 class="card-title">Free Website Draft</h3></a>
+                <div class="mb-3">
+                    <a href="javascript:void(0);">
+                        <img src="#" alt="image" class="img-fluid card-img-top">
+                    </a>
+                </div>
                 <h4 class="lblPrice"></h4>
                 <ul class="lblDescriptions"></ul>
                 <div class="btn-wrap">
@@ -127,6 +132,11 @@
                         productCard.find(".lblDescriptions").append(`<li class="${(d.underline == 1) ? 'na' : ''}">${d.descripcionOpc}</li>`);
                     });
                 }
+
+                let img = (item.thumbnail != "" &&  item.thumbnail != "0") ? `${base_url}/${item.thumbnail}` : `${base_url}/assets/img/default.jpg`;
+                productCard.find(".card-img-top").attr("src", `${img}`);
+                productCard.find(".card-img-top").parent().attr("href", `${base_url}/product/index.php?pid=${item.id}`);
+                productCard.find(".linkto").attr("href", `${base_url}/product/index.php?pid=${item.id}`);
 
                 productCard.find(".lblPrice").html(`<sup>$</sup> ${item.price}`);
                 productCard.find(".btnAddtocart").data("item", item);
