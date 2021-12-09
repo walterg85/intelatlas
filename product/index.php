@@ -3,31 +3,33 @@
     ob_start();
 ?>
 
+<link href="<?php echo $base_url; ?>/assets/css/product.css" rel="stylesheet">
+
 <div class="card">
     <div class="row g-0">
-      <div class="col-md-6 border-end">
-          <div class="d-flex flex-column justify-content-center">
-              <div class="main_image"> <img src="#" id="main_product_image" class="img0" width="350"> </div>
-              <div class="thumbnail_images">
-                  <ul id="thumbnail">
-                      <li class="d-none"><img onclick="changeImage(this)" src="#" width="70" class="img0"></li>
-                      <li class="d-none"><img onclick="changeImage(this)" src="#" width="70" class="img1"></li>
-                      <li class="d-none"><img onclick="changeImage(this)" src="#" width="70" class="img2"></li>
-                      <li class="d-none"><img onclick="changeImage(this)" src="#" width="70" class="img3"></li>
-                  </ul>
-              </div>
-          </div>
-      </div>
-      <div class="col-md-6">
-          <div class="p-3 right-side">
-              <div class="d-flex justify-content-between align-items-center">
-                  <h3 class="lblName">Beautiful sofa</h3> <span class="heart"><i class='bx bx-heart'></i></span>
-              </div>
-              <div class="mt-2 pr-3 content">
-                  <p class="lblDescription">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-              </div>
+        <div class="col-md-6 border-end">
+            <div class="d-flex flex-column justify-content-center">
+                <div class="main_image"> <img src="#" id="main_product_image" class="img0" width="350"> </div>
+                <div class="thumbnail_images">
+                    <ul id="thumbnail">
+                        <li class="d-none"><img onclick="changeImage(this)" src="#" width="70" class="img0"></li>
+                        <li class="d-none"><img onclick="changeImage(this)" src="#" width="70" class="img1"></li>
+                        <li class="d-none"><img onclick="changeImage(this)" src="#" width="70" class="img2"></li>
+                        <li class="d-none"><img onclick="changeImage(this)" src="#" width="70" class="img3"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-3 right-side">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="lblName">Beautiful sofa</h3> <span class="heart"><i class='bx bx-heart'></i></span>
+                </div>
+                <div class="mt-2 pr-3 content">
+                    <p class="lblDescription">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+                </div>
 
-              <div class="row">
+                <div class="row">
                     <div class="col-12 mb-3 dvSizes d-none">
                         <label class="form-label">Sizes</label><br>
                         <div class="form-check form-check-inline d-none chSizesP">
@@ -43,13 +45,13 @@
                         </div>
                     </div>
                 </div>
-
-              <h3 class="lblPrice">$430.99</h3>
-              <div class="buttons d-flex flex-row mt-5 gap-3"> <button class="btn btn-outline-dark btnAddtocart">Add To Cart</button></div>
+                <h3 class="lblPrice">$430.99</h3>
+                <div class="buttons d-flex flex-row mt-5 gap-3"> <button class="btn btn-outline-dark btnAddtocart">Add To Cart</button></div>
+            </div>
         </div>
-      </div>
     </div>
 </div>
+
 
 <script>
     $(document).ready(function(){
@@ -116,6 +118,18 @@
             // Ejecutar para redirigir al checkout
             $(".btnCheckout").click();
         });
+
+        $(".changeLang").click( function(){
+            if (localStorage.getItem("currentLag") == "es") {
+                localStorage.setItem("currentLag", "en");
+                lang = "en";
+            }else{
+                localStorage.setItem("currentLag", "es");
+                lang = "es";
+            }
+            switchLanguage(lang);
+            productDetail(productId);
+        });
     });
 
     function productDetail(productId){
@@ -127,10 +141,16 @@
         $.post(`${base_url}/core/controllers/product.php`, objData, function(result){
             if(result.data){
                 let info = result.data[0],
-                    config = JSON.parse(info.dimensions);
+                    config = JSON.parse(info.dimensions),
+                    alternative = JSON.parse(info.alternatives);
 
-                $(".lblName").html(info.name);
-                $(".lblDescription").html(info.descriptions);
+                if(lang == "en"){
+                    $(".lblName").html(info.name);
+                    $(".lblDescription").html(alternative.alternative);
+                } else{
+                    $(".lblName").html(info.optional_name);
+                    $(".lblDescription").html(alternative.alternativeSp);
+                }
 
                 if( (info.sale_price).length > 0 && info.sale_price > 0){
                     $(".lblPrice").html( formatter.format(info.sale_price) );
