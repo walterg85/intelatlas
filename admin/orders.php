@@ -108,7 +108,13 @@
                         data: 'id',
                         width: "20px",
                         render: function(data, type, row) {
-                            return pad(data, 5);
+                            let dt = new Date( row.order_date.substring(0, 10) ),
+                                anio = dt.getFullYear(),
+                                mes = dt.getMonth() + 1,
+                                dia = dt.getDate() + 1,
+                                orderNumber = `${String(anio).substr(-2)}${pad(mes, 2)}${pad(dia, 2)}${pad(data, 3)}`;
+
+                            return orderNumber;
                         }
                     },
                     {
@@ -368,7 +374,7 @@
         });
     }
 
-    function changePageLang(myLang){        
+    function changePageLang(myLang){
         $(".lblNamePage").html(myLang.namePage);
         $("#offcanvasWithBackdropLabel").html(myLang.panelTitle);
         $(".pnlColA").html(myLang.pnlColA);
