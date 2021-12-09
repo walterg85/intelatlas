@@ -32,7 +32,7 @@
                 <h1 class="display-5 fw-bold lh-1 mb-3">Order: <text class="lblOrderId"></text></h1>
                 <p class="lead">Order status: <text class="lblStatus"></text></p>
                 <p class="lead">PayPal transaction: <text class="lblPaypalId"></text> </p>
-                <p class="lead">Shipping: <text class="lblShipingCost"></text> </p>
+                <!-- <p class="lead">Shipping: <text class="lblShipingCost"></text> </p> -->
                 <p class="lead">Total: <text class="lblTotal"></text></p>
             </div>
         </div>
