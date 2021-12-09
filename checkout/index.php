@@ -41,15 +41,15 @@
     <script src="https://www.paypal.com/sdk/js?client-id=<?php echo $data['paypalId']; ?>&currency=USD&disable-funding=credit"></script>
     <div class="container">
         <main>
+            <div class="py-5 text-center">
+                <a class="logo fs-1" href="/">I<span class="logo-blue">A</span></a>
+                <h2 class="labelSeccion">Checkout</h2>
+                <p class="lead lblLetrero">You have 14 days to return your product if not satisfied.</p>
+            </div>
             <div class="py-5 text-center tmpSeccionB d-none">
                 <p class="lead">You don't have products in your shopping cart.</p>
                 <hr>
                 <a href="javascript:history.back()" class="btn btn-outline-secondary btn-lg">Return</a>
-            </div>
-            <div class="py-5 text-center tmpSeccion d-none">
-                <a class="logo fs-1" href="/">I<span class="logo-blue">A</span></a>
-                <h2 class="labelSeccion">Checkout</h2>
-                <p class="lead lblLetrero">You have 14 days to return your product if not satisfied.</p>
             </div>
             <div class="row g-5 tmpSeccion d-none">
                 <div class="col-md-7 col-lg-8">
@@ -279,7 +279,6 @@
 
             delete currentCart[itemId];
             localStorage.setItem("currentCart", JSON.stringify(currentCart));
-            printList();
             countCartItem();
         });
 
@@ -295,7 +294,11 @@
                 $(".qtyCart").html(Object.keys(currentCart).length);
             }else{
                 $(".tmpSeccionB").removeClass("d-none");
+                 $(".tmpSeccion").addClass("d-none");
             }
+        }else{
+            $(".tmpSeccionB").removeClass("d-none");
+            $(".tmpSeccion").addClass("d-none");
         }
     }
 
@@ -368,8 +371,28 @@
             }
 
             $(".lblTotal").html(`<strong class="text-danger">${formatter.format(grantotal)}</strong>`);
+        });
+    }
 
-            paypal.Buttons({
+    function switchLanguage(lang){
+        $.post(`../assets/lang.json`, {}, function(data) {
+            let myLang = data[lang]["checkout"];
+
+            $(".labelSeccion").html(myLang.labelSeccion);
+            $(".lblLetrero").html(myLang.lblLetrero);
+            $(".labelCart").html(myLang.labelCart);
+            $(".tdLabelCoupon").html(myLang.labelCoupon);
+            strCupon = myLang.strCupon;
+
+            $("#inputCode").attr("placeholder", myLang.inputCode);
+            $(".lalelShip").html(myLang.lalelShip);
+            strTax = myLang.strTax;
+        });
+    }
+</script>
+
+<script type="text/javascript">
+    paypal.Buttons({
                 // Sets up the transaction when a payment button is clicked
                 createOrder: function(data, actions) {
                     return actions.order.create({
@@ -404,24 +427,6 @@
                     });
                 }
             }).render('#paypal-button-container');
-        });
-    }
-
-    function switchLanguage(lang){
-        $.post(`../assets/lang.json`, {}, function(data) {
-            let myLang = data[lang]["checkout"];
-
-            $(".labelSeccion").html(myLang.labelSeccion);
-            $(".lblLetrero").html(myLang.lblLetrero);
-            $(".labelCart").html(myLang.labelCart);
-            $(".tdLabelCoupon").html(myLang.labelCoupon);
-            strCupon = myLang.strCupon;
-
-            $("#inputCode").attr("placeholder", myLang.inputCode);
-            $(".lalelShip").html(myLang.lalelShip);
-            strTax = myLang.strTax;
-        });
-    }
 </script>
 </body>
 </html>

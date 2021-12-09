@@ -13,11 +13,13 @@
         </div>
         
         <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+
             <div class="col-10 col-sm-8 col-lg-6" id="contenedorItem">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-primary">Total Items</span>
                     <span class="badge bg-primary rounded-pill lblItems"></span>
                 </h4>
+                <div id="contenedorItems"></div>
             </div>
             <a href="javascript:void(0);" class="list-group-item list-group-item-action d-flex gap-3 py-3 d-none prodsItemClone" aria-current="true">
                     <img src="#" alt="twbs" height="32" class="rounded-circle flex-shrink-0 imagep">
@@ -74,7 +76,20 @@
 
         let queryString = window.location.search,
             urlParams   = new URLSearchParams(queryString);
-        currentOrderId  = urlParams.get('orderId');
+
+        currentOrderId  = urlParams.get('id');
+
+        $(".changeLang").click( function(){
+            if (localStorage.getItem("currentLag") == "es") {
+                localStorage.setItem("currentLag", "en");
+                lang = "en";
+            }else{
+                localStorage.setItem("currentLag", "es");
+                lang = "es";
+            }
+            switchLanguage(lang);
+            getInfo();
+        });
 
         getInfo();
     });
@@ -86,7 +101,13 @@
         };
 
         $.post(`${base_url}/core/controllers/checkout.php`, objData, function(result) {
-            $(".lblOrderId").html( pad(result.data.order.id, 5) );
+            let dt = new Date( result.data.order.order_date.substring(0, 10) ),
+                anio = dt.getFullYear(),
+                mes = dt.getMonth() + 1,
+                dia = dt.getDate() + 1,
+                orderNumber = `${String(anio).substr(-2)}${pad(mes, 2)}${pad(dia, 2)}${pad(result.data.order.id, 3)}`;
+
+            $(".lblOrderId").html( orderNumber );
 
             if(result.data.order.status == 0)
                 $(".lblStatus").html("Canceled");
@@ -108,6 +129,8 @@
 
             $(".lblTotal").html( formatter.format(result.data.order.amount) );
 
+            $("#contenedorItems").html("");
+            console.log(result.data.detail);
             $.each(result.data.detail, function(index, prod){
                 let item = $(".prodsItemClone").clone(),
                     config = JSON.parse(prod.selected_options),
@@ -134,11 +157,11 @@
                 let img = (prod.thumbnail != "" &&  prod.thumbnail != "0") ? `${base_url}/${prod.thumbnail}` : `${base_url}/assets/img/default.jpg`;
 
                 item.find(".imagep").attr("src", img);
-                item.find(".lblNameItem").html(`${prod.quantity} - ${prod.name}  ${size}  ${color}`);
+                item.find(".lblNameItem").html(`${prod.quantity} - ${(lang == "en") ? prod.name : prod.optional_name}  ${size}  ${color}`);
                 item.find(".lblPriceProd").html( formatter.format(prod.price) );
 
                 item.removeClass("d-none prodsItemClone");
-                $(item).appendTo("#contenedorItem");
+                $(item).appendTo("#contenedorItems");
             });
 
             $(".lblItems").html( (result.data.detail).length );
