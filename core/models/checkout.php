@@ -97,7 +97,7 @@
 
 			$cmd = '
 	    		SELECT 
-					p.name, ot.price, ot.quantity, ot.amount, p.thumbnail, ot.selected_options 
+					p.name, ot.price, ot.quantity, ot.amount, p.thumbnail, ot.selected_options, p.optional_name 
 				FROM intelatlas.order_detail AS ot 
 				INNER JOIN product AS p ON ot.product_id = p.id
 				WHERE ot.order_id =:order_id
