@@ -31,7 +31,7 @@
     <link href="<?php echo $base_url; ?>/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="<?php echo $base_url; ?>/assets/css/style.css?v=1.1" rel="stylesheet">
+    <link href="<?php echo $base_url; ?>/assets/css/style.css?v=1.2" rel="stylesheet">
 
     <!-- Stylo del chat -->   
     <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/chat.css?v=1.1">
@@ -69,7 +69,7 @@
         <!-- ======= Header ======= -->
         <header id="header" class="fixed-top d-flex align-items-center ">
             <div class="container d-flex align-items-center justify-content-between">
-                <h1 class="logo"><a href="index.html">IA</a></h1>
+            <a class="logo" href="/">I<span class="logo-blue">A</span></a>
                 <!-- Uncomment below if you prefer to use an image logo -->
                 <!-- <a href=index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -84,9 +84,9 @@
 
                 <nav id="navbar" class="navbar">
                     <ul>
-                        <li><a class="nav-link scrollto active" href="#web-price">Websites</a></li>
-                        <li><a class="nav-link scrollto" href="#pricing">Online Store</a></li>          
-                        <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                        <li><a class="nav-link scrollto active link1" href="#web-price">Websites</a></li>
+                        <li><a class="nav-link scrollto link2" href="#pricing">Online Store</a></li>          
+                        <li><a class="nav-link scrollto link3" href="#cta">Custom Packages</a></li>
                     </ul>
                     <i class="bi bi-list mobile-nav-toggle"></i>
                 </nav><!-- .navbar -->
@@ -331,6 +331,12 @@
 
                 let myLang = data[lang]["home"];
                 $("#inputSearch").attr("placeholder", myLang.search);
+                $(".link1").attr("placeholder", myLang.link1);
+                $(".link2").attr("placeholder", myLang.link2);
+                $(".link3").attr("placeholder", myLang.link3);
+                $(".link1").html(myLang.link1);
+                $(".link2").html(myLang.link2);
+                $(".link3").html(myLang.link3);
                 $(".bannerTittle").html(myLang.bannerTittle);
                 $(".bannerSubTittle").html(myLang.bannerSubTittle);
                 $(".ctaCall").html(myLang.ctaCall);

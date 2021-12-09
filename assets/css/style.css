@@ -13,6 +13,7 @@ body {
   color: #444444;
 }
 
+
 a {
   text-decoration: none;
   color: #0880e8;
@@ -27,6 +28,18 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Raleway", sans-serif;
 }
 
+
+.logo {
+  font-size: 35px;
+  background: -webkit-linear-gradient(#08a045, #689918);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.logo-blue {
+  background: -webkit-linear-gradient(#3b60e4, #4694d3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 /*--------------------------------------------------------------
 # Preloader
 --------------------------------------------------------------*/
@@ -196,21 +209,6 @@ h1, h2, h3, h4, h5, h6 {
 #header.header-scrolled {
   background: #6e0e9e;
   top: 0;
-}
-#header .logo {
-  font-size: 30px;
-  margin: 0;
-  padding: 0;
-  line-height: 1;
-  font-weight: 400;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-#header .logo a {
-  color: #fff;
-}
-#header .logo img {
-  max-height: 40px;
 }
 
 .header-inner-pages {

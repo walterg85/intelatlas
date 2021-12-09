@@ -42,7 +42,7 @@
     <div class="container">
         <main>
             <div class="py-5 text-center">
-                <a href="javascript:void(0);"><img class="d-block mx-auto mb-4" src="../assets/img/logo.png" alt="logo" height="100"></a>
+                <a class="logo fs-1" href="/">I<span class="logo-blue">A</span></a>
                 <h2 class="labelSeccion">Checkout</h2>
                 <p class="lead lblLetrero">You have 14 days to return your product if not satisfied.</p>
             </div>
@@ -107,7 +107,7 @@
         </main>
 
         <footer class="my-5 pt-5 text-muted text-center text-small">
-          <p class="mb-1">&copy; 2021 Intel Atlas</p>
+          <p class="mb-1">&copy; <script>document.write(new Date().getFullYear())</script> INTELATLAS</p>
         </footer>
     </div> 
 
