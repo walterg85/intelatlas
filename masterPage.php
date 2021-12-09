@@ -345,6 +345,7 @@
                 $(".ctaStoreSubTittle").html(myLang.ctaStoreSubTittle);
                 $(".subTittle").html(myLang.subTittle);
                 $(".subSubTittle").html(myLang.subSubTittle);
+                $("#btnSuscribe").val(myLang.btnSuscribe);
 
                 // Page title
                 document.title = myLang.pageTitle;

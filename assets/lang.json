@@ -21,7 +21,8 @@
 			"ctaStoreTittle": "Online Store",
 			"ctaStoreSubTittle": "Get your own website and start selling online today!",
 			"subTittle": "Subscribe to our newsletter",
-			"subSubTittle": "And get exclusive deals you wont find anywhere else!"
+			"subSubTittle": "And get exclusive deals you wont find anywhere else!",
+			"btnSuscribe": "Subscribe"
 		},
 		"checkout":{
 			"labelSeccion": "Process Payment",
@@ -67,7 +68,8 @@
 			"ctaStoreTittle": "Tienda en Line",
 			"ctaStoreSubTittle": "Obtén tu propio sitio web y comienza a vender en línea hoy!",
 			"subTittle": "Subscribete a nuestro boletín",
-			"subSubTittle": "Subscribete para recibir las últimas noticias y ofertas!"
+			"subSubTittle": "Subscribete para recibir las últimas noticias y ofertas!",
+			"btnSuscribe": "Suscribirse"
 		},
 		"checkout":{
 			"labelSeccion": "Procesar Pago",
