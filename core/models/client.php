@@ -152,4 +152,39 @@
 
 			return TRUE;
 		}
+
+		public function addNotes($clientId, $nota){
+			$pdo = new Conexion();
+			$cmd = '
+				INSERT INTO client_notes
+						(client_id, nota)
+				VALUES
+					(:client_id, :nota)
+			';
+
+			$parametros = array(
+				':client_id'	=> $clientId,
+				':nota'			=> $nota
+			);
+
+			try{
+				$sql = $pdo->prepare($cmd);
+				$sql->execute($parametros);
+				return $pdo->lastInsertId();
+			} catch (PDOException $e) {
+		        return FALSE;
+		    }
+		}
+
+		public function getNotes($clientId){
+			$pdo = new Conexion();
+			$cmd = '
+				SELECT id, nota FROM client_notes WHERE client_id =:client_id;
+			';
+			
+			$sql = $pdo->prepare($cmd);
+			$sql->execute();
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
 	}
