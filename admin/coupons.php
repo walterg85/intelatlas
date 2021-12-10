@@ -138,23 +138,25 @@
                         let data = getData($(this), dataTableCoupon),
                             buton = $(this);
 
-                        if (confirm(`${strMesage} (${data.codigo})?`)){
-                            buton.attr("disabled","disabled");
-                            buton.html('<i class="bi bi-clock-history"></i>');
+                        (async () => {
+                            const tmpResult = await showConfirmation(`${strMesage} (${data.codigo})?`, "", "Yes");
+                            if(tmpResult.isConfirmed){
+                                buton.attr("disabled","disabled");
+                                buton.html('<i class="bi bi-clock-history"></i>');
 
-                            let objData = {
-                                "_method":"Delete",
-                                "couponId": data.id
-                            };
+                                let objData = {
+                                    "_method":"Delete",
+                                    "couponId": data.id
+                                };
 
-                            $.post("../core/controllers/coupon.php", objData, function(result) {
-                                buton.removeAttr("disabled");
-                                buton.html('<i class="bi bi-trash"></i>');
+                                $.post("../core/controllers/coupon.php", objData, function(result) {
+                                    buton.removeAttr("disabled");
+                                    buton.html('<i class="bi bi-trash"></i>');
 
-                                fnGetCoupons();
-                            });
-
-                        }
+                                    fnGetCoupons();
+                                });
+                            }
+                        })()
                     });
                 },
                 searching: false,

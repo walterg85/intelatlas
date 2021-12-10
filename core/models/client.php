@@ -157,9 +157,9 @@
 			$pdo = new Conexion();
 			$cmd = '
 				INSERT INTO client_notes
-						(client_id, nota)
+						(client_id, nota, date_registered)
 				VALUES
-					(:client_id, :nota)
+					(:client_id, :nota, now())
 			';
 
 			$parametros = array(
@@ -179,7 +179,7 @@
 		public function getNotes($clientId){
 			$pdo = new Conexion();
 			$cmd = '
-				SELECT id, nota FROM client_notes WHERE client_id =:client_id;
+				SELECT id, nota, date_registered FROM client_notes WHERE client_id =:client_id;
 			';
 
 			$parametros = array(

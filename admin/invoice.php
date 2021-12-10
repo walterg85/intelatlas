@@ -450,24 +450,26 @@
         let invoiceId   = $(this).data("invoiceid"),
             buton       = $(this);
 
-        if (confirm(`You want to delete this invoice (#${pad(invoiceId,5)})?`)){
-            buton.attr("disabled","disabled");
-            buton.html('<i class="bi bi-clock-history"></i>');
+        (async () => {
+            const tmpResult = await showConfirmation(`You want to delete this invoice (#${pad(invoiceId,5)})?`, "", "Yes");
+            if(tmpResult.isConfirmed){
+                buton.attr("disabled","disabled");
+                buton.html('<i class="bi bi-clock-history"></i>');
 
-            let objData = {
-                "_method":"Delete",
-                "invoiceId": invoiceId
-            };
+                let objData = {
+                    "_method":"Delete",
+                    "invoiceId": invoiceId
+                };
 
-            $.post("../core/controllers/invoice.php", objData, function(result) {
-                buton.removeAttr("disabled");
-                buton.html('Delete');
+                $.post("../core/controllers/invoice.php", objData, function(result) {
+                    buton.removeAttr("disabled");
+                    buton.html('Delete');
 
-                loadInvoices();
-                $(".btnPanel").click();
-            });
-
-        }
+                    loadInvoices();
+                    $(".btnPanel").click();
+                });
+            }
+        })()
     }
 
     // Metodo para dibujar en la tabla los conceptos agregados

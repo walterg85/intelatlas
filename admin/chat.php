@@ -90,81 +90,90 @@
         });
 
         $("#btnFinalizar").on("click", function(){
-            if (confirm(`Do you really want to end the chat with ${chatActive._current}?`)){
-                $(".active").find(".txtm").addClass("text-muted");
-                $(".active").removeClass("active");
+            (async () => {
+                const tmpResult = await showConfirmation(`Do you really want to end the chat with ${chatActive._current}?`, "", "Yes");
+                if(tmpResult.isConfirmed){
+                    $(".active").find(".txtm").addClass("text-muted");
+                    $(".active").removeClass("active");
 
-                clearInterval(refreshLog);
+                    clearInterval(refreshLog);
 
-                $("#chatLog").html("");
-                $("#chatDetails").addClass("d-none");
+                    $("#chatLog").html("");
+                    $("#chatDetails").addClass("d-none");
 
-                let dt = new Date(),
-                    time = dt.getHours() + ":" + dt.getMinutes();
+                    let dt = new Date(),
+                        time = dt.getHours() + ":" + dt.getMinutes();
 
-                let objData = {
-                    _method: "POST",
-                    _action: "closeChat",
-                    _time: time,
-                    _chatid: chatActive._chatid
-                };
+                    let objData = {
+                        _method: "POST",
+                        _action: "closeChat",
+                        _time: time,
+                        _chatid: chatActive._chatid
+                    };
 
-                $.post("../core/controllers/chatAdmin.php", objData);
+                    $.post("../core/controllers/chatAdmin.php", objData);
 
-                chatActive._chatid = "";                    
-            }
+                    chatActive._chatid = ""; 
+                }
+            })()
         });
 
         $("#btnMovechat").on("click", function(){
-            if (confirm(`Are you sure to move the chat to finished?`)){
-                $(".active").find(".txtm").addClass("text-muted");
-                $(".active").removeClass("active");
+            (async () => {
+                const tmpResult = await showConfirmation(`Are you sure to move the chat to finished?`, "", "Yes");
+                if(tmpResult.isConfirmed){
+                    $(".active").find(".txtm").addClass("text-muted");
+                    $(".active").removeClass("active");
 
-                clearInterval(refreshLog);
+                    clearInterval(refreshLog);
 
-                $("#chatLog").html("");
-                $("#chatDetails").addClass("d-none");
+                    $("#chatLog").html("");
+                    $("#chatDetails").addClass("d-none");
 
-                let dt = new Date(),
-                    time = dt.getHours() + ":" + dt.getMinutes();
+                    let dt = new Date(),
+                        time = dt.getHours() + ":" + dt.getMinutes();
 
-                let objData = {
-                    _method: "POST",
-                    _action: "moveChat",
-                    _chatid: chatActive._chatid
-                };
+                    let objData = {
+                        _method: "POST",
+                        _action: "moveChat",
+                        _chatid: chatActive._chatid
+                    };
 
-                $.post("../core/controllers/chatAdmin.php", objData);
+                    $.post("../core/controllers/chatAdmin.php", objData);
 
-                chatActive._chatid = "";
-                $("#btnMovechat").attr("disabled", "disabled");
-            }
+                    chatActive._chatid = "";
+                    $("#btnMovechat").attr("disabled", "disabled");
+                }
+            })()
         });
 
         $("#btnFinalizechat").on("click", function(){
-            if (confirm(`Do you really want to finish the chat with ${chatActive._current} and send the file by email?`)){
-                $(".active").find(".txtm").addClass("text-muted");
-                $(".active").removeClass("active");
+            (async () => {
+                const tmpResult = await showConfirmation("", `Do you really want to finish the chat with ${chatActive._current} and send the file by email?`, "Yes");
+                if(tmpResult.isConfirmed){
+                    $(".active").find(".txtm").addClass("text-muted");
+                    $(".active").removeClass("active");
 
-                clearInterval(refreshLog);
+                    clearInterval(refreshLog);
 
-                $("#chatLog").html("");
-                $("#chatDetails").addClass("d-none");
+                    $("#chatLog").html("");
+                    $("#chatDetails").addClass("d-none");
 
-                let dt = new Date(),
-                    time = dt.getHours() + ":" + dt.getMinutes();
+                    let dt = new Date(),
+                        time = dt.getHours() + ":" + dt.getMinutes();
 
-                let objData = {
-                    _method: "POST",
-                    _action: "sendChat",
-                    _time: time,
-                    _chatid: chatActive._chatid
-                };
+                    let objData = {
+                        _method: "POST",
+                        _action: "sendChat",
+                        _time: time,
+                        _chatid: chatActive._chatid
+                    };
 
-                $.post("../core/controllers/chatAdmin.php", objData);
+                    $.post("../core/controllers/chatAdmin.php", objData);
 
-                chatActive._chatid = "";                    
-            }
+                    chatActive._chatid = ""; 
+                }
+            })()
         });
 
         $("#swActivo").change( function(){

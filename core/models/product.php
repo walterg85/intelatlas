@@ -303,6 +303,7 @@
 				FROM 
 					product
 				WHERE id in ('.$indexes.')
+				ORDER BY id ASC
 			';
 
 			$sql = $pdo->prepare($cmd);
