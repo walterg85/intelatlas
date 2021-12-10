@@ -610,11 +610,11 @@
                 if($.inArray(ext, ["jpg", "jpeg", "png", "bmp", "raw", "tiff"]) != -1){
                     if($(this)[0].files[0].size > 5242880){
                         $( this ).val('');
-                        alert(mesages.ctrImage1);
+                        showAlert("warning", mesages.ctrImage1);
                     }
                 }else{
                     $( this ).val('');
-                    alert(`${ext} ${mesages.ctrImage2}`);
+                    showAlert("warning", `${ext} ${mesages.ctrImage2}`);
                 }
             }
         });

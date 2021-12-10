@@ -14,10 +14,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <!-- Bootstrap icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+
     <!-- Admin css -->
     <link href="../assets/css/admin.css" rel="stylesheet">
+
     <!-- Datatables -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
+
+    <!-- sweetalert2 -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
@@ -259,6 +265,19 @@
                 $(".linkLeads").html(`<i class="bi bi-person"></i> ${myLang.linkLeads}`);
 
                 changePageLang(data[lang][currentPage]);
+            });
+        }
+
+        // Metodo para mostrar una alerta de notificaicon
+        // icon: success || error
+        // text: texto que se mostrara en pantalla
+        function showAlert(icon, text){
+            Swal.fire({
+                position: 'top-end',
+                icon: icon,
+                text: text,
+                showConfirmButton: false,
+                timer: 3000
             });
         }
     </script>

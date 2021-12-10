@@ -289,7 +289,7 @@
                                     location.reload();
                                 });
                             }else{
-                                alert("Payment was not processed correctly, please try again.");
+                                showAlert("error", "Payment was not processed correctly, please try again.");
                             }
                         });
                     }

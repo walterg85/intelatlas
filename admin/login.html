@@ -11,6 +11,9 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <link href="../assets/css/login.css?" rel="stylesheet">
 
+        <!-- sweetalert2 -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <title>Login</title>
     </head>
     <body class="text-center">
@@ -66,14 +69,27 @@
                         if(response.codeResponse == 200){
                             window.location.replace("index.php");
                         }else{
-                            alert(response.message);
+                            showAlert("warning", response.message);
                             // se envia el foco al input password para coregir la contraseña
                             $( "#floatingPassword" ).focus();
                         }
                     },
                     error: function(xhr, status) {
-                        alert('There is a problem');
+                        showAlert("error", 'There is a problem');
                     }
+                });
+            }
+
+            // Metodo para mostrar una alerta de notificaicon
+            // icon: success || error
+            // text: texto que se mostrara en pantalla
+            function showAlert(icon, text){
+                Swal.fire({
+                    position: 'top-end',
+                    icon: icon,
+                    text: text,
+                    showConfirmButton: false,
+                    timer: 3000
                 });
             }
         </script>
