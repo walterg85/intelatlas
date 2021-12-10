@@ -97,9 +97,9 @@
         loadLeads();
 
         $("#btnAddNote").click( function(){
-            if(!$("#txtNotes").val("")){
+            if($("#txtNotes").val() != ""){
                 let strNote = $("#txtNotes").val(),
-                    idCliente = $(this).data("clientid"),
+                    idCliente = $("#btnAddNote").data("clientid"),
                     objData = {
                         "_method":"addNotes",
                         "note": strNote,
@@ -265,24 +265,42 @@
     }
 
     function fnMostrarNotas(idCliente){
-        let filas = "";
+        let objData = {
+                "_method":"getNotes",
+                "idCliente": idCliente
+            };
 
-        $("#tblNotes").html("");
+        $.post("../core/controllers/client.php", objData, function(result){
+            let filas = "";
 
-        // Se recore el contenido del array de notas
-        $.each( arrayNotas, function(index, item){
-            filas += `
-                <tr>
-                    <td>${index +1}</td>
-                    <td>${item}</td>
-                    <td class="text-center">
-                        <a href="javascript:void(0);" data-index="${index}" class="btn btn-outline-danger btn-sm btnDeleteNote me-2" title="Delete"><i class="bi bi-trash"></i></a>
-                    </td>
-                </tr>
-            `;
+            $("#tblNotes").html("");
+
+            // Se recore el contenido del array de notas
+            $.each( result.data, function(index, item){
+                filas += `
+                    <tr>
+                        <td>${index +1}</td>
+                        <td>${item.nota}</td>
+                        <td class="text-center">
+                            <a href="javascript:void(0);" data-id="${item.id}" class="btn btn-outline-danger btn-sm btnDeleteNote me-2" title="Delete"><i class="bi bi-trash"></i></a>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            $("#tblNotes").append(filas);
+
+            $(".btnDeleteNote").unbind().click( function(){
+                let objData = {
+                    "_method":"deleteNotes",
+                    "id": $(this).data("id")
+                };
+
+                $.post("../core/controllers/client.php", objData, function(result){
+                    fnMostrarNotas(idCliente);
+                });
+            });
         });
-
-        $("#tblNotes").append(filas);
     }
 </script>
 

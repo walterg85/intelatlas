@@ -45,7 +45,7 @@
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
-		}else if($vars['_method'] == '_GET'){
+		} else if($vars['_method'] == '_GET'){
 			$response = array(
 				'codeResponse' 	=> 200,
 				'data' 			=> $clientModel->getClient()
@@ -54,7 +54,7 @@
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
-		}else if($vars['_method'] == '_Getleads'){
+		} else if($vars['_method'] == '_Getleads'){
 			$response = array(
 				'codeResponse' 	=> 200,
 				'data' 			=> $clientModel->getLeads()
@@ -85,6 +85,24 @@
 			$response = array(
 				'codeResponse' 	=> 200,
 				'data' 			=> $clientModel->addNotes( $vars['idCliente'], $vars['note'] )
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");			
+			exit(json_encode($response));
+		} else if($vars['_method'] == 'getNotes'){
+			$response = array(
+				'codeResponse' 	=> 200,
+				'data' 			=> $clientModel->getNotes( $vars['idCliente'] )
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");			
+			exit(json_encode($response));
+		} else if($vars['_method'] == 'deleteNotes'){
+			$response = array(
+				'codeResponse' 	=> 200,
+				'data' 			=> $clientModel->deleteNotes( $vars['id'] )
 			);
 
 			header('HTTP/1.1 200 Ok');
