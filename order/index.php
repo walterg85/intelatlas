@@ -91,6 +91,11 @@
             getInfo();
         });
 
+        $(".nav-link").click( function(){
+            let seccion = $(this).attr("href");
+            window.location.replace(`${base_url}/${seccion}`);
+        });
+
         getInfo();
     });
 

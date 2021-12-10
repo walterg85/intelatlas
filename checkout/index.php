@@ -419,7 +419,7 @@
 
                             $.post("../core/controllers/checkout.php", objData, function(result) {
                                 localStorage.removeItem("currentCart");
-                                window.location.replace(`../order/index.php?orderId=${result.id}`);
+                                window.location.replace(`../order/index.php?id=${result.id}`);
                             });
                         }else{
                             alert("Payment was not processed correctly, please try again.");
