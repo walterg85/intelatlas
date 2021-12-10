@@ -64,7 +64,7 @@
             <textarea class="form-control" placeholder="Leave a notes here" id="txtNotes" style="height: 100px"></textarea>
             <label for="txtNotes">Leave a notes here</label>
         </div>
-        <div class="row justify-content-end">
+        <div class="row justify-content-end mb-3">
             <div class="col-3 d-flex justify-content-end">
                 <button type="button" class="btn btn-outline-success" id="btnAddNote" data-clientid="0">Add note</button>
             </div>
@@ -74,8 +74,7 @@
             <thead class="table-light">
                 <tr>
                     <th scope="col">#</th>
-                    <th class="labelControl2" scope="col">#</th>
-                    <th class="labelControl3" scope="col">Note</th>
+                    <th class="labelControl1" scope="col">Note</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -96,6 +95,23 @@
         currentPage = "Leads";
 
         loadLeads();
+
+        $("#btnAddNote").click( function(){
+            if(!$("#txtNotes").val("")){
+                let strNote = $("#txtNotes").val(),
+                    idCliente = $(this).data("clientid"),
+                    objData = {
+                        "_method":"addNotes",
+                        "note": strNote,
+                        "idCliente": idCliente
+                    };
+
+                $.post("../core/controllers/client.php", objData, function(result){
+                    fnMostrarNotas(idCliente);
+                    $("#txtNotes").val("");
+                });
+            }
+        });
     });
 
     function loadLeads(){
@@ -217,8 +233,10 @@
 
                     $(".btnNotas").unbind().click(function(){
                         let data = getData($(this), dataTableLead);
+                        $("#btnAddNote").attr("data-clientid", data.id);
 
                         $(".btnPanelNotes").click();
+                        fnMostrarNotas(data.id);
                     });
                 },
                 searching: false,
@@ -244,7 +262,28 @@
         $(".labelState").html(myLang.labelState);
         $(".labelZip").html(myLang.labelZip);
         $(".labelOtionalInfo").html(myLang.labelOtionalInfo);
-    }    
+    }
+
+    function fnMostrarNotas(idCliente){
+        let filas = "";
+
+        $("#tblNotes").html("");
+
+        // Se recore el contenido del array de notas
+        $.each( arrayNotas, function(index, item){
+            filas += `
+                <tr>
+                    <td>${index +1}</td>
+                    <td>${item}</td>
+                    <td class="text-center">
+                        <a href="javascript:void(0);" data-index="${index}" class="btn btn-outline-danger btn-sm btnDeleteNote me-2" title="Delete"><i class="bi bi-trash"></i></a>
+                    </td>
+                </tr>
+            `;
+        });
+
+        $("#tblNotes").append(filas);
+    }
 </script>
 
 <?php

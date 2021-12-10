@@ -81,6 +81,15 @@
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
+		} else if($vars['_method'] == 'addNotes'){
+			$response = array(
+				'codeResponse' 	=> 200,
+				'data' 			=> $clientModel->addNotes( $vars['idCliente'], $vars['note'] )
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");			
+			exit(json_encode($response));
 		}
 	}
 
