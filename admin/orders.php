@@ -292,23 +292,25 @@
                         let data = getData($(this), dataTableOrder),
                             buton = $(this);
 
-                        if (confirm(`Are you sure to cancel this order?`)){
-                            buton.attr("disabled","disabled");
-                            buton.html('<i class="bi bi-clock-history"></i>');
+                        (async () => {
+                            const tmpResult = await showConfirmation(`Are you sure to cancel this order?`, "", "Yes");
+                            if(tmpResult.isConfirmed){
+                                buton.attr("disabled","disabled");
+                                buton.html('<i class="bi bi-clock-history"></i>');
 
-                            let objData = {
-                                "_method":"cancelOrder",
-                                "orderId": data.id
-                            };
+                                let objData = {
+                                    "_method":"cancelOrder",
+                                    "orderId": data.id
+                                };
 
-                            $.post("../core/controllers/checkout.php", objData, function(result) {
-                                buton.removeAttr("disabled");
-                                buton.html('<i class="bi bi-dash-circle"></i>');
+                                $.post("../core/controllers/checkout.php", objData, function(result) {
+                                    buton.removeAttr("disabled");
+                                    buton.html('<i class="bi bi-dash-circle"></i>');
 
-                                getOrders();
-                            });
-
-                        }
+                                    getOrders();
+                                });
+                            }
+                        })()
                     });
 
                     $(".tmpSetTracking").unbind().click(function(){
@@ -329,17 +331,19 @@
                     $(".btnFinalize").unbind().click(function(){
                         let data = getData($(this), dataTableOrder);
 
-                        if (confirm(`Do you want to finish this order?`)){
+                        (async () => {
+                            const tmpResult = await showConfirmation(`Do you want to finish this order?`, "", "Yes");
+                            if(tmpResult.isConfirmed){
+                                let objData = {
+                                    "_method":"finalizeOrder",
+                                    "orderId": data.id
+                                };
 
-                            let objData = {
-                                "_method":"finalizeOrder",
-                                "orderId": data.id
-                            };
-
-                            $.post("../core/controllers/checkout.php", objData, function(result) {
-                                getOrders();
-                            });
-                        }
+                                $.post("../core/controllers/checkout.php", objData, function(result) {
+                                    getOrders();
+                                });
+                            }
+                        })()
                     });
                 },
                 searching: true,

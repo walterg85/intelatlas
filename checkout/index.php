@@ -156,8 +156,6 @@
         strTax = "";
 
     $(document).ready(function(){
-        countCartItem();
-
         $("#applyCoupon").click( function(){
             let objData = {
                 "_method":"GetCoupon",
@@ -194,6 +192,7 @@
         }
 
         switchLanguage(lang);
+        countCartItem();
     });
 
     function printList() {

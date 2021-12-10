@@ -523,23 +523,25 @@
                         let data = getData($(this), dataTableProduct),
                             buton = $(this);
 
-                        if (confirm(`${mesages.ctrtoRemove} (${data.name})?`)){
-                            buton.attr("disabled","disabled");
-                            buton.html('<i class="bi bi-clock-history"></i>');
+                            (async () => {
+                                const tmpResult = await showConfirmation(`${mesages.ctrtoRemove} (${data.name})?`, "", "Yes");
+                                if(tmpResult.isConfirmed){
+                                    buton.attr("disabled","disabled");
+                                    buton.html('<i class="bi bi-clock-history"></i>');
 
-                            let objData = {
-                                "_method":"Delete",
-                                "productId": data.id
-                            };
+                                    let objData = {
+                                        "_method":"Delete",
+                                        "productId": data.id
+                                    };
 
-                            $.post("../core/controllers/product.php", objData, function(result) {
-                                buton.removeAttr("disabled");
-                                buton.html('<i class="bi bi-trash"></i>');
+                                    $.post("../core/controllers/product.php", objData, function(result) {
+                                        buton.removeAttr("disabled");
+                                        buton.html('<i class="bi bi-trash"></i>');
 
-                                getProducts();
-                            });
-
-                        }
+                                        getProducts();
+                                    });
+                                }
+                            })()
                     });
 
                     $(".btnEditProduct").unbind().click(function(){

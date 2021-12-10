@@ -176,10 +176,13 @@
                 document.getElementById("linkSetting").click();
 
             $("#btnLogout").on("click", function(){
-                if (confirm(`do you really want to log out?`)){
-                    localStorage.removeItem("logged");
-                    window.location.replace("../core/controllers/logout.php");
-                }
+                (async () => {
+                    const tmpResult = await showConfirmation(`do you really want to log out?`, "", "Yes");
+                    if(tmpResult.isConfirmed){
+                        localStorage.removeItem("logged");
+                        window.location.replace("../core/controllers/logout.php");
+                    }
+                })()
             });
 
             $(".changeLang").click( function(){
@@ -278,6 +281,39 @@
                 text: text,
                 showConfirmButton: false,
                 timer: 3000
+            });
+        }
+
+
+        // Metodo para mostrar una alerta de confirmacion
+        // title: Cuestion proincipal
+        // text: Texto explicativo
+        // confirmButtonText: texto que se colocara en el boton de confirmacion
+        /*
+        [USAGE]
+        (async () => {
+            const alert = await showConfirmation("¿Deseas eliminar?", "Esto no se podra revertir!", "Si eliminar");
+            console.log(alert);
+        })()
+
+        [RESULT]
+        {
+            "isConfirmed": false,
+            "isDenied": false,
+            "isDismissed": true,
+            "dismiss": "cancel"
+        }
+        */
+        function showConfirmation(title, text, confirmButtonText){
+            return Swal.fire({
+                title: title,
+                text: text,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: confirmButtonText,
+                allowOutsideClick: false
             });
         }
     </script>

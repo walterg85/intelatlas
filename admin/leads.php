@@ -73,7 +73,7 @@
         <table class="table align-middle">
             <thead class="table-light">
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">Date</th>
                     <th class="labelControl1" scope="col">Note</th>
                     <th scope="col"></th>
                 </tr>
@@ -176,46 +176,50 @@
                         let data = getData($(this), dataTableLead),
                             buton = $(this);
 
-                        if (confirm(`You want to delete this lead (${data.nombre})?`)){
-                            buton.attr("disabled","disabled");
-                            buton.html('<i class="bi bi-clock-history"></i>');
+                        (async () => {
+                            const tmpResult = await showConfirmation(`You want to delete this lead (${data.nombre})?`, "", "Yes");
+                            if(tmpResult.isConfirmed){
+                                buton.attr("disabled","disabled");
+                                buton.html('<i class="bi bi-clock-history"></i>');
 
-                            let objData = {
-                                "_method":"Delete",
-                                "clientId": data.id
-                            };
+                                let objData = {
+                                    "_method":"Delete",
+                                    "clientId": data.id
+                                };
 
-                            $.post("../core/controllers/client.php", objData, function(result) {
-                                buton.removeAttr("disabled");
-                                buton.html('<i class="bi bi-trash"></i>');
+                                $.post("../core/controllers/client.php", objData, function(result) {
+                                    buton.removeAttr("disabled");
+                                    buton.html('<i class="bi bi-trash"></i>');
 
-                                loadLeads();
-                            });
-
-                        }
+                                    loadLeads();
+                                });
+                            }
+                        })()
                     });
 
                     $(".btnModifyLead").unbind().click(function(){
                         let data = getData($(this), dataTableLead),
                             buton = $(this);
 
-                        if (confirm(`You want to change this lead (${data.nombre}) to client?`)){
-                            buton.attr("disabled","disabled");
-                            buton.html('<i class="bi bi-clock-history"></i>');
+                        (async () => {
+                            const tmpResult = await showConfirmation(`You want to change this lead (${data.nombre}) to client?`, "", "Yes");
+                            if(tmpResult.isConfirmed){
+                                buton.attr("disabled","disabled");
+                                buton.html('<i class="bi bi-clock-history"></i>');
 
-                            let objData = {
-                                "_method":"translate",
-                                "clientId": data.id
-                            };
+                                let objData = {
+                                    "_method":"translate",
+                                    "clientId": data.id
+                                };
 
-                            $.post("../core/controllers/client.php", objData, function(result) {
-                                buton.removeAttr("disabled");
-                                buton.html('<i class="bi bi-arrow-left-right"></i>');
+                                $.post("../core/controllers/client.php", objData, function(result) {
+                                    buton.removeAttr("disabled");
+                                    buton.html('<i class="bi bi-arrow-left-right"></i>');
 
-                                loadLeads();
-                            });
-
-                        }
+                                    loadLeads();
+                                });
+                            }
+                        })()
                     });
 
                     $(".btnDetailLead").unbind().click(function(){
@@ -279,7 +283,7 @@
             $.each( result.data, function(index, item){
                 filas += `
                     <tr>
-                        <td>${index +1}</td>
+                        <td>${item.date_registered}</td>
                         <td>${item.nota}</td>
                         <td class="text-center">
                             <a href="javascript:void(0);" data-id="${item.id}" class="btn btn-outline-danger btn-sm btnDeleteNote me-2" title="Delete"><i class="bi bi-trash"></i></a>
