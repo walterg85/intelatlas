@@ -186,6 +186,10 @@
             estadoChat          = false;
 
         $(document).ready(function(){
+            $(".nav-link").click( function(){
+            let seccion = $(this).attr("href");
+            window.location.replace(`${base_url}/${seccion}`);
+        });
             // Control de chat
             $("#btnStart").on("click", function(){
                 // Validar que se hayan ingresado todos los datos adecuadamente
