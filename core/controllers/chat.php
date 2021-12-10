@@ -201,7 +201,7 @@
 			);
 
 			$message = '
-				<div class="alert text-white" role="alert">
+				<div class="alert text-dark" role="alert">
                     <figure class="mb-0">
                         <blockquote class="blockquote">
                             <p class="small">'. $put_vars['message'] .'</p>
@@ -222,7 +222,7 @@
 			$chatId = $chatModel->insertChat($data);
 
 			// Termina transaccion, esperrar 2 segundos para lanzar resultado
-			sleep(2);
+			// sleep(2);
 			header('HTTP/1.1 200 Ok');
 			exit($chatId);
 		}

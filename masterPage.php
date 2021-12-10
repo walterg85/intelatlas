@@ -437,6 +437,10 @@
         }
 
         function registrarProspecto(){
+            $("#chatLog")
+                .html(`<h5>We have already received your message, we will communicate soon</h5>`)
+                .addClass('text-center');
+
             let formData = new FormData();
 
             formData.append("_method", "POST");
@@ -455,11 +459,7 @@
 
             var request = new XMLHttpRequest();
             request.open("POST", "core/controllers/client.php");
-            request.send(formData);
-
-            $("#chatLog")
-                .html(`<h5>We have already received your message, we will communicate soon</h5>`)
-                .addClass('text-center');
+            request.send(formData);    
 
             sendContact();
         }
@@ -471,7 +471,7 @@
 
         function fnSaludoInicial(){
             // Obtener la informacion de geolocalizacion del usuario y despues usarla
-            $.getJSON('http://ipinfo.io?token=6a6ff9d33edfac', function(ipinfo){
+            $.getJSON('https://ipinfo.io?token=6a6ff9d33edfac', function(ipinfo){
                 // Obtener la hora local del usuario
                 let dt = new Date(),
                     time = dt.getHours() + ":" + dt.getMinutes(),
@@ -561,7 +561,7 @@
 
         function sendContact(){
             // Obtener la informacion de geolocalizacion del usuario y despues usarla
-            $.getJSON('http://ipinfo.io?token=6a6ff9d33edfac', function(ipinfo){
+            $.getJSON('https://ipinfo.io?token=6a6ff9d33edfac', function(ipinfo){
                 // Obtener la hora local del usuario
                 let dt = new Date(),
                     time = dt.getHours() + ":" + dt.getMinutes(),
