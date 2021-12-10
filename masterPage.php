@@ -36,6 +36,9 @@
     <!-- Stylo del chat -->   
     <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/chat.css?v=1.1">
 
+    <!-- sweetalert2 -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
@@ -187,9 +190,9 @@
 
         $(document).ready(function(){
             $(".nav-link").click( function(){
-            let seccion = $(this).attr("href");
-            window.location.replace(`${base_url}/${seccion}`);
-        });
+                let seccion = $(this).attr("href");
+                window.location.replace(`${base_url}/${seccion}`);
+            });
             // Control de chat
             $("#btnStart").on("click", function(){
                 // Validar que se hayan ingresado todos los datos adecuadamente
@@ -380,7 +383,7 @@
 
             $.post(`${base_url}/core/controllers/user.php`, objData, function(result) {
                 $("#txtEmail").val("");
-                alert("you have successfully subscribed");
+                showAlert("success", "you have successfully subscribed");
             });
         }
 
@@ -558,9 +561,7 @@
                     contador = 0;
 
                     $(".chat-btn").click();
-
-                    alert("Tech support decided to end the chat.");
-
+                    showAlert("info", "Tech support decided to end the chat.");
                 }
             }).fail(function() {
                 $("#chatLog").html("");
@@ -595,6 +596,19 @@
                     $("#divRegistro").addClass("d-none");
                     $("#chatLog").removeClass("d-none");
                 });
+            });
+        }
+
+        // Metodo para mostrar una alerta de notificaicon
+        // icon: success || error
+        // text: texto que se mostrara en pantalla
+        function showAlert(icon, text){
+            Swal.fire({
+                position: 'top-end',
+                icon: icon,
+                text: text,
+                showConfirmButton: false,
+                timer: 3000
             });
         }
     </script>

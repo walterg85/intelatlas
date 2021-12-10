@@ -181,7 +181,7 @@
             $("#productList").val("");
             $("#productList").focus();
         }else{
-            alert("You must choose a valid product");
+            showAlert("info", "You must choose a valid product");
         }
     }
 
@@ -280,7 +280,7 @@
             data: formData,
             type: 'POST',
             success: function(response){
-                alert(strMesage);
+                showAlert("success", strMesage);
                 isNew = <?php echo $_SESSION['authData']->isDefault; ?>;
 
                 $("#btnUpdateData").removeAttr("disabled");
@@ -304,11 +304,11 @@
                 if($.inArray(ext, ["jpg", "jpeg", "png", "bmp", "raw", "tiff"]) != -1){
                     if($(this)[0].files[0].size > 5242880){
                         $( this ).val('');
-                        alert('Your selected file is larger than 5MB');
+                        showAlert("warning", 'Your selected file is larger than 5MB');
                     }
                 }else{
                     $( this ).val('');
-                    alert(`${ext} files not allowed, only images`);
+                    showAlert("warning", `${ext} files not allowed, only images`);
                 }
             }
         });

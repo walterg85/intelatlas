@@ -587,7 +587,7 @@
             }else{
                 objDescuento = {};
                 $("#inputCode").val("");
-                alert("This coupon does not exist.");
+                showAlert("warning", "This coupon does not exist.");
             }
 
             listarConceptos(0);

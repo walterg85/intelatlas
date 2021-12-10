@@ -118,8 +118,27 @@
 
 <!-- Option 1: Bootstrap Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous"></script>
+
+<!-- sweetalert2 -->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <!-- Jquery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    // Metodo para mostrar una alerta de notificaicon
+    // icon: success || error
+    // text: texto que se mostrara en pantalla
+    function showAlert(icon, text){
+        Swal.fire({
+            position: 'top-end',
+            icon: icon,
+            text: text,
+            showConfirmButton: false,
+            timer: 3000
+        });
+    }
+</script>
 
 <script type="text/javascript">
     var formatter = new Intl.NumberFormat('en-US', {
@@ -161,7 +180,7 @@
                     }                    
                 }else{
                     descuento = 0;
-                    alert("This coupon does not exist.");
+                    showAlert("warning", "This coupon does not exist.");
                 }
 
                 resumen();
@@ -422,7 +441,7 @@
                                 window.location.replace(`../order/index.php?id=${result.id}`);
                             });
                         }else{
-                            alert("Payment was not processed correctly, please try again.");
+                            showAlert("error", "Payment was not processed correctly, please try again.");
                         }
                     });
                 }
