@@ -15,6 +15,7 @@
         <div class="btn-group me-2">
             <button type="button" class="btn btn-outline-secondary btnPanel" data-bs-toggle="offcanvas" data-bs-target="#offcanvasClient"><i class="bi bi-plus-lg"></i> Add new client</button>
             <button type="button" class="btnPanelDetalle d-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDetail">Show details</button>
+            <button type="button" class="btnPanelNotes d-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNotes">Show notes</button>
         </div>
     </div>
 </div>
@@ -89,6 +90,36 @@
     </div>
 </div>
 
+<!-- Panel lateral para ver o agregar notas del cliente -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNotes" aria-labelledby="offcanvasWithBackdropLabel3"  >
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel3">Leads notes</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="form-floating mb-3">
+            <textarea class="form-control" placeholder="Leave a notes here" id="txtNotes" style="height: 100px"></textarea>
+            <label for="txtNotes">Leave a notes here</label>
+        </div>
+        <div class="row justify-content-end mb-3">
+            <div class="col-3 d-flex justify-content-end">
+                <button type="button" class="btn btn-outline-success" id="btnAddNote" data-clientid="0">Add note</button>
+            </div>
+        </div>
+
+        <table class="table align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">#</th>
+                    <th class="labelControl1" scope="col">Note</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody id="tblNotes"></tbody>
+        </table>
+    </div>
+</div>
+
 <!-- Panel lateral para ver los detalles del cliente -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasDetail" aria-labelledby="offcanvasWithBackdropLabel2"  >
     <div class="offcanvas-header">
@@ -160,6 +191,23 @@
         $("#addClient").click( registerClient);
 
         loadClients();
+
+        $("#btnAddNote").click( function(){
+            if($("#txtNotes").val() != ""){
+                let strNote = $("#txtNotes").val(),
+                    idCliente = $("#btnAddNote").data("clientid"),
+                    objData = {
+                        "_method":"addNotes",
+                        "note": strNote,
+                        "idCliente": idCliente
+                    };
+
+                $.post("../core/controllers/client.php", objData, function(result){
+                    fnMostrarNotas(idCliente);
+                    $("#txtNotes").val("");
+                });
+            }
+        });
     });
 
     function registerClient() {
@@ -252,6 +300,7 @@
                             return `
                                 <a href="javascript:void(0);" class="btn btn-outline-danger btnDeleteClient" title="Delete"><i class="bi bi-trash"></i></a>
                                 <a href="javascript:void(0);" class="btn btn-outline-warning btnModifyClient" title="Modify"><i class="bi bi-pencil"></i></a>
+                                <a href="javascript:void(0);" class="btn btn-outline-secondary btnNotas" title="Add note"><i class="bi bi-list-check"></i></a>
                             `;
                         }
                     }
@@ -358,6 +407,14 @@
 
                         $(".btnPanelDetalle").click();
                     });
+
+                    $(".btnNotas").unbind().click(function(){
+                        let data = getData($(this), dataTableClient);
+                        $("#btnAddNote").attr("data-clientid", data.id);
+
+                        $(".btnPanelNotes").click();
+                        fnMostrarNotas(data.id);
+                    });
                 },
                 searching: false,
                 pageLength: 20,
@@ -386,8 +443,45 @@
         $(".labelState").html(myLang.labelState);
         $(".labelZip").html(myLang.labelZip);
         $(".labelOtionalInfo").html(myLang.labelOtionalInfo);
+    }
 
+    function fnMostrarNotas(idCliente){
+        let objData = {
+                "_method":"getNotes",
+                "idCliente": idCliente
+            };
 
+        $.post("../core/controllers/client.php", objData, function(result){
+            let filas = "";
+
+            $("#tblNotes").html("");
+
+            // Se recore el contenido del array de notas
+            $.each( result.data, function(index, item){
+                filas += `
+                    <tr>
+                        <td>${index +1}</td>
+                        <td>${item.nota}</td>
+                        <td class="text-center">
+                            <a href="javascript:void(0);" data-id="${item.id}" class="btn btn-outline-danger btn-sm btnDeleteNote me-2" title="Delete"><i class="bi bi-trash"></i></a>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            $("#tblNotes").append(filas);
+
+            $(".btnDeleteNote").unbind().click( function(){
+                let objData = {
+                    "_method":"deleteNotes",
+                    "id": $(this).data("id")
+                };
+
+                $.post("../core/controllers/client.php", objData, function(result){
+                    fnMostrarNotas(idCliente);
+                });
+            });
+        });
     }
 </script>
 
