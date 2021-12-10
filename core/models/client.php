@@ -181,10 +181,30 @@
 			$cmd = '
 				SELECT id, nota FROM client_notes WHERE client_id =:client_id;
 			';
+
+			$parametros = array(
+				':client_id'	=> $clientId
+			);
 			
 			$sql = $pdo->prepare($cmd);
-			$sql->execute();
+			$sql->execute($parametros);
 
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
+
+		public function deleteNotes($id){
+			$pdo = new Conexion();
+			$cmd = '
+				DELETE FROM client_notes WHERE id =:id;
+			';
+
+			$parametros = array(
+				':id'	=> $id
+			);
+			
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
 		}
 	}
