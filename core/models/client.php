@@ -136,4 +136,20 @@
 
 			return TRUE;
 		}
+
+		public function translate($clientId){
+			$pdo = new Conexion();
+			$cmd = '
+				UPDATE client SET leads = 0 WHERE id =:clientId;
+			';
+
+			$parametros = array(
+				':clientId' => $clientId
+			);
+			
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
 	}

@@ -12,6 +12,7 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2 lblNamePage">Leads</h1>
     <button type="button" class="btnPanelDetalle d-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDetail">Show details</button>
+    <button type="button" class="btnPanelNotes d-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNotes">Show notes</button>
 </div>
 
 <table class="table table-striped align-middle" id="leadsList"></table>
@@ -49,6 +50,37 @@
                 </table>
             </div>
         </div>      
+    </div>
+</div>
+
+<!-- Panel lateral para ver o agregar notas del prospecto -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNotes" aria-labelledby="offcanvasWithBackdropLabel3"  >
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel3">Leads notes</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="form-floating mb-3">
+            <textarea class="form-control" placeholder="Leave a notes here" id="txtNotes" style="height: 100px"></textarea>
+            <label for="txtNotes">Leave a notes here</label>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-3 d-flex justify-content-end">
+                <button type="button" class="btn btn-outline-success" id="btnAddNote" data-clientid="0">Add note</button>
+            </div>
+        </div>
+
+        <table class="table align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">#</th>
+                    <th class="labelControl2" scope="col">#</th>
+                    <th class="labelControl3" scope="col">Note</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody id="tblNotes"></tbody>
+        </table>
     </div>
 </div>
 
@@ -115,7 +147,8 @@
                         render: function ( data, type, row ){
                             return `
                                 <a href="javascript:void(0);" class="btn btn-outline-danger btnDeleteLead" title="Delete"><i class="bi bi-trash"></i></a>
-                                <a href="javascript:void(0);" class="btn btn-outline-warning btnModifyLead" title="Modify"><i class="bi bi-pencil"></i></a>
+                                <a href="javascript:void(0);" class="btn btn-outline-warning btnModifyLead" title="Modify"><i class="bi bi-arrow-left-right"></i></a>
+                                <a href="javascript:void(0);" class="btn btn-outline-secondary btnNotas" title="Add note"><i class="bi bi-list-check"></i></a>
                             `;
                         }
                     }
@@ -146,6 +179,29 @@
                         }
                     });
 
+                    $(".btnModifyLead").unbind().click(function(){
+                        let data = getData($(this), dataTableLead),
+                            buton = $(this);
+
+                        if (confirm(`You want to change this lead (${data.nombre}) to client?`)){
+                            buton.attr("disabled","disabled");
+                            buton.html('<i class="bi bi-clock-history"></i>');
+
+                            let objData = {
+                                "_method":"translate",
+                                "clientId": data.id
+                            };
+
+                            $.post("../core/controllers/client.php", objData, function(result) {
+                                buton.removeAttr("disabled");
+                                buton.html('<i class="bi bi-arrow-left-right"></i>');
+
+                                loadLeads();
+                            });
+
+                        }
+                    });
+
                     $(".btnDetailLead").unbind().click(function(){
                         let data = getData($(this), dataTableLead);
 
@@ -157,6 +213,12 @@
                         $(".lblCiudad").html(`${data.ciudad} ${data.estado} ${data.codigo_postal}`);
 
                         $(".btnPanelDetalle").click();
+                    });
+
+                    $(".btnNotas").unbind().click(function(){
+                        let data = getData($(this), dataTableLead);
+
+                        $(".btnPanelNotes").click();
                     });
                 },
                 searching: false,

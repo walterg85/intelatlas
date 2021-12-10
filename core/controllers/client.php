@@ -63,11 +63,19 @@
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
-		}
-		else if($vars['_method'] == 'Delete'){
+		} else if($vars['_method'] == 'Delete'){
 			$response = array(
 				'codeResponse' 	=> 200,
 				'data' 			=> $clientModel->deleteClient( $vars['clientId'] )
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");			
+			exit(json_encode($response));
+		} else if($vars['_method'] == 'translate'){
+			$response = array(
+				'codeResponse' 	=> 200,
+				'data' 			=> $clientModel->translate( $vars['clientId'] )
 			);
 
 			header('HTTP/1.1 200 Ok');

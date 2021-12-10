@@ -575,26 +575,26 @@
                 (response) => response.json()
             ).then(function(ipinfo){
                 // Obtener la hora local del usuario
-                    let dt = new Date(),
-                        time = dt.getHours() + ":" + dt.getMinutes(),
-                        ip = JSON.stringify(ipinfo),
-                        objData = {
-                            message: $("#inputInitialMessage").val(),
-                            email: $("#inputMail").val(),
-                            name: $("#inputName").val(),
-                            phone: $("#inputPhone").val(),
-                            ip: ip,
-                            chatIp: ipinfo.ip,
-                            _method: "dejarMensaje",
-                            _time: time
-                        };
+                let dt = new Date(),
+                    time = dt.getHours() + ":" + dt.getMinutes(),
+                    ip = JSON.stringify(ipinfo),
+                    objData = {
+                        message: $("#inputInitialMessage").val(),
+                        email: $("#inputMail").val(),
+                        name: $("#inputName").val(),
+                        phone: $("#inputPhone").val(),
+                        ip: ip,
+                        chatIp: ipinfo.ip,
+                        _method: "dejarMensaje",
+                        _time: time
+                    };
 
-                    // Enviar la peticion de inicio y saludo
-                    $.post(`${base_url}/core/controllers/chat.php`, objData, function (chatId) {
-                        $(".lblWelcome").addClass("d-none");
-                        $("#divRegistro").addClass("d-none");
-                        $("#chatLog").removeClass("d-none");
-                    });
+                // Enviar la peticion de inicio y saludo
+                $.post(`${base_url}/core/controllers/chat.php`, objData, function (chatId) {
+                    $(".lblWelcome").addClass("d-none");
+                    $("#divRegistro").addClass("d-none");
+                    $("#chatLog").removeClass("d-none");
+                });
             });
         }
     </script>
