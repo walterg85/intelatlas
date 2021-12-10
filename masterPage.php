@@ -197,6 +197,10 @@
                     return false;
 
                 // Se registra como prospecto y se guarda el archivo de chat
+                $("#chatLog")
+                .html(`<h5>We have already received your message, we will communicate soon</h5>`)
+                .addClass('text-center');
+                
                 registrarProspecto();              
             });
 
@@ -463,7 +467,7 @@
 
             var request = new XMLHttpRequest();
             request.open("POST", "core/controllers/client.php");
-            request.send(formData);    
+            request.send(formData);
 
             sendContact();
         }
@@ -475,7 +479,9 @@
 
         function fnSaludoInicial(){
             // Obtener la informacion de geolocalizacion del usuario y despues usarla
-            $.getJSON('https://ipinfo.io?token=6a6ff9d33edfac', function(ipinfo){
+            fetch("https://ipinfo.io/json?token=6a6ff9d33edfac").then(
+                (response) => response.json()
+            ).then(function(ipinfo){
                 // Obtener la hora local del usuario
                 let dt = new Date(),
                     time = dt.getHours() + ":" + dt.getMinutes(),
@@ -497,7 +503,7 @@
                     loadLog();
                     refreshLog = setInterval(loadLog, 2500);                    
                 });
-            });            
+            });          
         }
 
         function fnSendMsg(){
@@ -565,29 +571,31 @@
 
         function sendContact(){
             // Obtener la informacion de geolocalizacion del usuario y despues usarla
-            $.getJSON('https://ipinfo.io?token=6a6ff9d33edfac', function(ipinfo){
+            fetch("https://ipinfo.io/json?token=6a6ff9d33edfac").then(
+                (response) => response.json()
+            ).then(function(ipinfo){
                 // Obtener la hora local del usuario
-                let dt = new Date(),
-                    time = dt.getHours() + ":" + dt.getMinutes(),
-                    ip = JSON.stringify(ipinfo),
-                    objData = {
-                        message: $("#inputInitialMessage").val(),
-                        email: $("#inputMail").val(),
-                        name: $("#inputName").val(),
-                        phone: $("#inputPhone").val(),
-                        ip: ip,
-                        chatIp: ipinfo.ip,
-                        _method: "dejarMensaje",
-                        _time: time
-                    };
+                    let dt = new Date(),
+                        time = dt.getHours() + ":" + dt.getMinutes(),
+                        ip = JSON.stringify(ipinfo),
+                        objData = {
+                            message: $("#inputInitialMessage").val(),
+                            email: $("#inputMail").val(),
+                            name: $("#inputName").val(),
+                            phone: $("#inputPhone").val(),
+                            ip: ip,
+                            chatIp: ipinfo.ip,
+                            _method: "dejarMensaje",
+                            _time: time
+                        };
 
-                // Enviar la peticion de inicio y saludo
-                $.post(`${base_url}/core/controllers/chat.php`, objData, function (chatId) {
-                    $(".lblWelcome").addClass("d-none");
-                    $("#divRegistro").addClass("d-none");
-                    $("#chatLog").removeClass("d-none");
-                });
-            });  
+                    // Enviar la peticion de inicio y saludo
+                    $.post(`${base_url}/core/controllers/chat.php`, objData, function (chatId) {
+                        $(".lblWelcome").addClass("d-none");
+                        $("#divRegistro").addClass("d-none");
+                        $("#chatLog").removeClass("d-none");
+                    });
+            });
         }
     </script>
 </body>
