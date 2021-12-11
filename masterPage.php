@@ -210,33 +210,36 @@
             $("#btnSendmessage").click( fnSendMsg);
 
             $(".lblControl").on("click", function(){
-                if (confirm('Do you really want to end the chat with tech support?')){
-                    // Detener la busqueda de log
-                    clearInterval(refreshLog);
+                (async () => {
+                    const tmpResult = await showConfirmation('Do you really want to end the chat with tech support?', "", "Yes");
+                    if(tmpResult.isConfirmed){
+                        // Detener la busqueda de log
+                        clearInterval(refreshLog);
 
-                    let dt = new Date(),
-                        time = dt.getHours() + ":" + dt.getMinutes(),
-                        cliData = JSON.parse( localStorage.getItem("cliData") ),
-                        geo = JSON.parse( cliData.ip);
+                        let dt = new Date(),
+                            time = dt.getHours() + ":" + dt.getMinutes(),
+                            cliData = JSON.parse( localStorage.getItem("cliData") ),
+                            geo = JSON.parse( cliData.ip);
 
-                    let objData = {
-                        chatId: cliData.chatId,
-                        ip: geo.ip,
-                        _method: "closeChat",
-                        _time: time
-                    };
+                        let objData = {
+                            chatId: cliData.chatId,
+                            ip: geo.ip,
+                            _method: "closeChat",
+                            _time: time
+                        };
 
-                    $.post(`${base_url}/core/controllers/chat.php`, objData, function(){
-                        // Borrar todos los datos
-                        $("#chatLog").html("");
-                        localStorage.removeItem("cliData");
+                        $.post(`${base_url}/core/controllers/chat.php`, objData, function(){
+                            // Borrar todos los datos
+                            $("#chatLog").html("");
+                            localStorage.removeItem("cliData");
 
-                        intervalContador = true;
-                        contador = 0;
+                            intervalContador = true;
+                            contador = 0;
 
-                        $(".chat-btn").click();
-                    });
-                }
+                            $(".chat-btn").click();
+                        });
+                    }
+                })()
             });
 
             $(".linkChat").click( function(){
@@ -482,9 +485,11 @@
 
         function fnSaludoInicial(){
             // Obtener la informacion de geolocalizacion del usuario y despues usarla
-            fetch("https://ipinfo.io/json?token=6a6ff9d33edfac").then(
-                (response) => response.json()
-            ).then(function(ipinfo){
+            objData = {
+                _method: "loadIpconfig"
+            };
+
+            $.post(`${base_url}/core/controllers/chat.php`, objData, function (ipinfo) {
                 // Obtener la hora local del usuario
                 let dt = new Date(),
                     time = dt.getHours() + ":" + dt.getMinutes(),
@@ -506,7 +511,7 @@
                     loadLog();
                     refreshLog = setInterval(loadLog, 2500);                    
                 });
-            });          
+            });
         }
 
         function fnSendMsg(){
@@ -565,16 +570,16 @@
                 }
             }).fail(function() {
                 $("#chatLog").html("");
-                clearInterval(refreshLog);
-                localStorage.removeItem("cliData");
             });
         }
 
         function sendContact(){
             // Obtener la informacion de geolocalizacion del usuario y despues usarla
-            fetch("https://ipinfo.io/json?token=6a6ff9d33edfac").then(
-                (response) => response.json()
-            ).then(function(ipinfo){
+            objData = {
+                _method: "loadIpconfig"
+            };
+            
+            $.post(`${base_url}/core/controllers/chat.php`, objData, function (ipinfo) {
                 // Obtener la hora local del usuario
                 let dt = new Date(),
                     time = dt.getHours() + ":" + dt.getMinutes(),
@@ -642,6 +647,23 @@
                 confirmButtonText: confirmButtonText,
                 allowOutsideClick: false
             });
+        }
+
+        window.addEventListener('online',  updateIndicator);
+        window.addEventListener('offline', updateIndicator);
+
+        function updateIndicator() {
+            let isOnline = window.navigator.onLine;
+
+            if(isOnline){
+                showAlert("success", "The network connection has been restored");
+                loadLog();
+                refreshLog = setInterval(loadLog, 2500);
+            } else {
+                showAlert("error", "The network connection has been lost");
+                clearInterval(refreshLog);
+                $("#chatLog").html("");
+            }
         }
     </script>
 </body>
