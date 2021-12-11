@@ -225,6 +225,20 @@
 			// sleep(2);
 			header('HTTP/1.1 200 Ok');
 			exit($chatId);
+		} else if($put_vars['_method'] == 'loadIpconfig'){
+			$arrContextOptions = array(
+				"ssl"=>array(
+					"verify_peer"=>false,
+					"verify_peer_name"=>false
+				)
+			);
+
+			$json 		= file_get_contents("https://ipinfo.io/json?token=6a6ff9d33edfac", false, stream_context_create($arrContextOptions));
+			$details 	= json_decode($json, true);			
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");
+			exit(json_encode($details));
 		}
 	}
 
