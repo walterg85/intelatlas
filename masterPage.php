@@ -278,7 +278,7 @@
                                 <li>
                                     <a class="dropdown-item" href="${base_url}/product/index.php?pid=${prod.id}">
                                         <img src="${img}" alt="twbs" height="32" class="rounded flex-shrink-0 me-2">
-                                        ${prod.name}
+                                        ${(lang == 'en') ? prod.name : prod.optional_name}
                                     </a>
                                 </li>
                             `;

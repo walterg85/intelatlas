@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 10-12-2021 a las 23:09:13
+-- Tiempo de generación: 21-12-2021 a las 18:52:57
 -- Versión del servidor: 8.0.17
 -- Versión de PHP: 7.3.10
 
@@ -196,7 +196,7 @@ CREATE TABLE `product` (
   `id` int(11) NOT NULL,
   `sku` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
   `name` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
-  `descriptions` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0',
+  `descriptions` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `price` float NOT NULL DEFAULT '0',
   `sale_price` float NOT NULL DEFAULT '0',
   `discount` int(11) NOT NULL DEFAULT '0',
@@ -210,9 +210,9 @@ CREATE TABLE `product` (
   `stock` int(11) NOT NULL DEFAULT '0',
   `ranking` int(11) NOT NULL DEFAULT '0',
   `active` int(11) NOT NULL DEFAULT '0',
-  `optional_name` varchar(250) DEFAULT NULL,
-  `optional_description` varchar(500) DEFAULT NULL,
-  `alternatives` varchar(1500) NOT NULL
+  `optional_name` varchar(250) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `optional_description` varchar(500) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `alternatives` varchar(1500) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Catalogo de productos';
 
 -- --------------------------------------------------------
