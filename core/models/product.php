@@ -241,23 +241,26 @@
 			$pdo = new Conexion();
 
 			$cmd = '
-				SELECT
-					id, 
-					name,
-					optional_name,
-					descriptions, 
-					optional_description,
-					price,
-					sale_price, 
-					thumbnail, 
-					images, 
-					create_date,
-					dimensions,
-					alternatives
-				FROM 
-					product
-				WHERE active = 1
-					AND name LIKE "%'. str_replace(' ', '%', $query) .'%"
+				SELECT * FROM (
+					SELECT
+						id, 
+						CONCAT(name, " ", optional_name) AS textcompleto,
+						name,
+						optional_name,
+						descriptions, 
+						optional_description,
+						price,
+						sale_price, 
+						thumbnail, 
+						images, 
+						create_date,
+						dimensions,
+						alternatives
+					FROM 
+						product
+					WHERE active = 1
+				) universo
+				WHERE textcompleto LIKE "%'. str_replace(' ', '%', $query) .'%"
 				ORDER BY id DESC
 			';
 
