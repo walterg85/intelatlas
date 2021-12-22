@@ -188,7 +188,9 @@
             lang                = (window.navigator.language).substring(0,2),
             intervalContador    = null, // Contador para establecer los 20 segundos para lanzar el chat
             contador            = 0,
-            estadoChat          = false;
+            estadoChat          = false,
+            emitirSonido        = true,
+            mensageRecibido     = "";
 
         $(document).ready(function(){
             $(".nav-link").click( function(){
@@ -203,7 +205,7 @@
 
                 // Se registra como prospecto y se guarda el archivo de chat
                 $("#chatLog")
-                .html(`<h5>We have already received your message, we will communicate soon</h5>`)
+                .html(`<h5>${mensageRecibido}</h5>`)
                 .addClass('text-center');
                 
                 registrarProspecto();              
@@ -377,8 +379,9 @@
                 $("#btnStart").html(myLang.btnStart);
                 $("#inputNewMessage").attr("placeholder", myLang.inputNewMessage);
                 $("#btnSendmessage").html(myLang.btnSendmessage);
-                $("#msgReceived").html(myLang.msgReceived);
-                $(".labelFinish").html(myLang.labelFinish);                
+                $(".labelFinish").html(myLang.labelFinish);
+
+                mensageRecibido = myLang.msgReceived;
             });
         }
         
@@ -456,7 +459,7 @@
 
         function registrarProspecto(){
             $("#chatLog")
-                .html(`<h5 id="msgReceived">We have already received your message, we will communicate soon</h5>`)
+                .html(`<h5>${mensageRecibido}</h5>`)
                 .addClass('text-center');
 
             let formData = new FormData();
@@ -540,6 +543,7 @@
 
             // Enviar la peticion y actualizar el log
             $.post(`${base_url}/core/controllers/chat.php`, objData, function(){
+                emitirSonido = false;
                 $("#inputNewMessage").val("");
                 loadLog();
             });
@@ -559,8 +563,16 @@
                     $("#chatLog").html(result.message);
 
                     let newscrollHeight = $("#chatLog")[0].scrollHeight - 20;
-                    if(newscrollHeight > oldscrollHeight)
+                    if(newscrollHeight > oldscrollHeight){
                         $("#chatLog").animate({ scrollTop: newscrollHeight }, 'normal');
+
+                        if(emitirSonido){
+                            let audio = new Audio(`${base_url}/assets/sound/bell.wav`);
+                            audio.play();
+                        }
+
+                        emitirSonido = true;                        
+                    }
                 }else{
                     $("#chatLog").html("");
                     clearInterval(refreshLog);
