@@ -57,7 +57,8 @@
 
 <script type="text/javascript">
     var chatActive = "",
-        refreshLog = null;
+        refreshLog = null,
+        audio = new Audio(`../assets/sound/bell.wav`);
 
     $(document).ready(function(){
         currentPage = "chat";
@@ -213,10 +214,13 @@
                     if(item.estatus == 0)
                         chat.find(".cliName").addClass("text-danger");
 
-                    if(item.unread > 0)
+                    if(item.unread > 0){
                         chat.find(".chatCount")
                             .removeClass("d-none")
                             .html(item.unread);
+
+                        audio.play();                        
+                    }
 
                     chat.data("chatid", item.id);
                     chat.data("current", (origin.name == "no name") ? pad(item.id, 5) : origin.name + ` - ${geo.ip}`);
@@ -244,8 +248,10 @@
             $("#chatDetails").removeClass("d-none");
 
             let newscrollHeight = $("#chatLog")[0].scrollHeight - 20;
-            if(newscrollHeight > oldscrollHeight)
+            if(newscrollHeight > oldscrollHeight){
                 $("#chatLog").animate({ scrollTop: newscrollHeight }, 'normal');
+                audio.play();
+            }
 
             if(result.estatus == 0){
                 $("#txtMessage").attr("disabled", "disabled");

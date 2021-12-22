@@ -186,7 +186,8 @@
             lang                = (window.navigator.language).substring(0,2),
             intervalContador    = null, // Contador para establecer los 20 segundos para lanzar el chat
             contador            = 0,
-            estadoChat          = false;
+            estadoChat          = false,
+            emitirSonido        = true;
 
         $(document).ready(function(){
             $(".nav-link").click( function(){
@@ -536,6 +537,7 @@
 
             // Enviar la peticion y actualizar el log
             $.post(`${base_url}/core/controllers/chat.php`, objData, function(){
+                emitirSonido = false;
                 $("#inputNewMessage").val("");
                 loadLog();
             });
@@ -555,8 +557,16 @@
                     $("#chatLog").html(result.message);
 
                     let newscrollHeight = $("#chatLog")[0].scrollHeight - 20;
-                    if(newscrollHeight > oldscrollHeight)
+                    if(newscrollHeight > oldscrollHeight){
                         $("#chatLog").animate({ scrollTop: newscrollHeight }, 'normal');
+
+                        if(emitirSonido){
+                            let audio = new Audio(`${base_url}/assets/sound/bell.wav`);
+                            audio.play();
+                        }
+
+                        emitirSonido = true;                        
+                    }
                 }else{
                     $("#chatLog").html("");
                     clearInterval(refreshLog);
