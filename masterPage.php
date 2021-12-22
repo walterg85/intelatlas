@@ -137,7 +137,7 @@
     <input type="checkbox" id="check"><label class="chat-btn" for="check"><i class="fa fa-commenting-o comment"></i><i class="fa fa-close close"></i></label>
     <div class="wrapper">
         <div class="header">
-            <h6 class="labelChatTitle">Let's Chat - Online</h6>
+            <h6 class="labelChatTitle text-center">Let's Chat - Online</h6>
         </div>
         <a href="javascript:void(0);"class="list-group-item lblControl d-none">
             <span><i class="fa fa-power-off"></i> <text class="labelFinish">Finish chatting</text></span>
@@ -152,7 +152,9 @@
                 <input type="text" class="form-control" placeholder="Email" id="inputMail">
                 <input type="text" class="form-control" placeholder="Phone" id="inputPhone">
                 <textarea class="form-control" placeholder="Your Text Message" id="inputInitialMessage"></textarea>
-                <button class="btn btn-success btn-block pull-right" id="btnStart">Submit</button>
+                <div class="d-grid gap-2">
+                    <button class="btn text-light" id="btnStart">Submit</button>
+                </div>
             </div>
             <div id="divConversasion" class="d-none">
                 <textarea class="form-control" placeholder="Your Message" id="inputNewMessage"></textarea>
@@ -370,10 +372,12 @@
                 $(".lblWelcome").html(myLang.chatSubTitle);
                 $("#inputName").attr("placeholder", myLang.inputName);
                 $("#inputMail").attr("placeholder", myLang.inputMail);
+                $("#inputPhone").attr("placeholder", myLang.inputPhone);
                 $("#inputInitialMessage").attr("placeholder", myLang.inputInitialMessage);
                 $("#btnStart").html(myLang.btnStart);
                 $("#inputNewMessage").attr("placeholder", myLang.inputNewMessage);
                 $("#btnSendmessage").html(myLang.btnSendmessage);
+                $("#msgReceived").html(myLang.msgReceived);
                 $(".labelFinish").html(myLang.labelFinish);                
             });
         }
@@ -452,7 +456,7 @@
 
         function registrarProspecto(){
             $("#chatLog")
-                .html(`<h5>We have already received your message, we will communicate soon</h5>`)
+                .html(`<h5 id="msgReceived">We have already received your message, we will communicate soon</h5>`)
                 .addClass('text-center');
 
             let formData = new FormData();
