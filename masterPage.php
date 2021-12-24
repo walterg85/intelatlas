@@ -34,7 +34,7 @@
     <link href="<?php echo $base_url; ?>/assets/css/style.css?v=1.2" rel="stylesheet">
 
     <!-- Stylo del chat -->   
-    <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/chat.css?v=1.1">
+    <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/chat.css?v=1.2">
 
     <!-- sweetalert2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
