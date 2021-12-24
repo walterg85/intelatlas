@@ -169,7 +169,7 @@
                 <div class="collapse" id="collapseFile">
                     <div class="card card-body">
                         <label for="inputFileobj" class="form-label">Select the compressed file</label>
-                        <input class="form-control" type="file" id="inputFileobj">
+                        <input class="form-control" type="file" id="inputFileobj" name="inputFileobj">
                     </div>
                 </div>
             </div>
@@ -277,6 +277,7 @@
             $("#addProductForm").removeClass("was-validated");
             $("#tblDescripcions").html("");
             $("#swPopular").prop("checked", false);
+            $("#collapseFile").removeClass("show");
             arrayDescripciones = [];
         });
 
@@ -411,6 +412,9 @@
 
         let popular = ($("#swPopular").is(':checked')) ? 1 : 0;
         formData.append("inputDescriptionSp", popular);
+
+        let esdigital = ($("#swDigital").is(':checked')) ? 1 : 0;
+        formData.append("esdigital", esdigital);
 
         $.each(productPhotos, function( index, value ) {
             if(value)
