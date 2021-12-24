@@ -20,7 +20,8 @@
                 'inputPrice'            => floatval($vars['inputPrice']),
                 'inputSalePrice'        => floatval($vars['inputSalePrice']),
                 'dimensions'            => $vars['pConfig'],
-                'inputAlternative'      => $vars['inputAlternative']
+                'inputAlternative'      => $vars['inputAlternative'],
+                'esdigital'             => $vars['esdigital']
             );
 
             if($vars['productId'] == 0){
@@ -67,6 +68,19 @@
                         $thumbnail = $images[0];
 
                     $productModel->updateThumbnails($productId, $thumbnail, json_encode($images, JSON_FORCE_OBJECT));
+                }
+
+                if(!empty($_FILES['inputFileobj'])){
+                    $folder     = "assets/digital/{$productId}";
+                    $archivo    = $_FILES['inputFileobj'];
+
+                    if(rmDir_rf("../../${folder}"))
+                        mkdir(dirname(__FILE__, 3) . "/{$folder}", 0777, true);
+
+                    $filename = $archivo['name'];
+                    $tempname = $archivo['tmp_name'];
+
+                    move_uploaded_file($tempname, "../../{$folder}/{$filename}");
                 }
 
                 $productModel->insertCategory($productId, $vars['inputCategory']);
@@ -196,6 +210,19 @@
     function is_dir_empty($dir) {
       if (!is_readable($dir)) return NULL;
       return (count(scandir($dir)) == 2);
+    }
+
+    function rmDir_rf($carpeta){
+        $folderCont = scandir($carpeta);
+        foreach ($folderCont as $clave => $valor) {
+            if(is_dir($folderCont[$clave].'/'.$valor) && $valor!='.' && $valor!='..'){
+                rmDir_rf($carpeta.'/'.$folderCont[$clave]);
+            }else{
+                @unlink($carpeta.'/'.$folderCont[$clave]);
+            }
+        }
+        rmdir($carpeta);
+        return TRUE;
     }
 
     header('HTTP/1.1 400 Bad Request');

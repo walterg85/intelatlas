@@ -10,9 +10,9 @@
 			$pdo = new Conexion();
 			$cmd = '
 				INSERT INTO product
-						(name, descriptions, price, sale_price, optional_name, optional_description, create_date, dimensions, active, alternatives)
+						(name, descriptions, price, sale_price, optional_name, optional_description, create_date, dimensions, active, alternatives, esdigital)
 				VALUES
-					(:name, :descriptions, :price, :sale_price, :optional_name, :optional_description, now(), :dimensions, 1, :alternatives)
+					(:name, :descriptions, :price, :sale_price, :optional_name, :optional_description, now(), :dimensions, 1, :alternatives, :esdigital)
 			';
 
 			$parametros = array(
@@ -23,7 +23,8 @@
 				':optional_name'		=> $data['inputNameSp'],
 				':optional_description' => $data['inputDescriptionSp'],
 				':dimensions'			=> $data['dimensions'],
-				':alternatives'			=> $data['inputAlternative']
+				':alternatives'			=> $data['inputAlternative'],
+				':esdigital'			=> $data['esdigital']
 			);
 
 			try{
@@ -149,7 +150,8 @@
 					price =:price, 
 					sale_price =:sale_price,
 					dimensions =:dimensions,
-					alternatives =:alternatives
+					alternatives =:alternatives,
+					esdigital =:esdigital
 				WHERE id =:productId
 			';
 
@@ -161,8 +163,9 @@
 				':optional_name'		=> $data['inputNameSp'],
 				':optional_description' => $data['inputDescriptionSp'],
 				'productId'				=> $data['productId'],
-				':dimensions'			=>  $data['dimensions'],
-				':alternatives'			=> $data['inputAlternative']
+				':dimensions'			=> $data['dimensions'],
+				':alternatives'			=> $data['inputAlternative'],
+				':esdigital'			=> $data['esdigital']
 			);
 
 			$sql = $pdo->prepare($cmd);
