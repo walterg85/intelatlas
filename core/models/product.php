@@ -95,7 +95,8 @@
 					p.images, 
 					p.create_date,
 					p.dimensions,
-					p.alternatives
+					p.alternatives,
+					p.esdigital
 				FROM 
 					product AS p
 				WHERE p.active = 1 '.$strWhere.'
@@ -190,7 +191,8 @@
 					images, 
 					create_date,
 					dimensions,
-					alternatives
+					alternatives,
+					esdigital
 				FROM 
 					product
 				WHERE active = 1 AND id =:id
@@ -222,7 +224,8 @@
 					images, 
 					create_date,
 					dimensions,
-					alternatives
+					alternatives,
+					esdigital
 				FROM 
 					product
 				WHERE active = 1
