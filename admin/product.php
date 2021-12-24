@@ -160,6 +160,20 @@
                 </div>
             </div>
 
+            <div class="mb-3">
+                <div class="form-check form-switch h6">
+                    <input class="form-check-input" type="checkbox" id="swDigital" data-bs-toggle="collapse" data-bs-target="#collapseFile">
+                    <label class="form-check-label swDigital" for="swDigital"> It is a digital product</label>
+                </div>
+
+                <div class="collapse" id="collapseFile">
+                    <div class="card card-body">
+                        <label for="inputFileobj" class="form-label">Select the compressed file</label>
+                        <input class="form-control" type="file" id="inputFileobj">
+                    </div>
+                </div>
+            </div>
+
             <div class="row mb-3">
                 <div class="col-3 d-none img1">
                     <img src="#" class="img-thumbnail" alt="Product image" id="img1">
