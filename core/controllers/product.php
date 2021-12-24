@@ -213,15 +213,18 @@
     }
 
     function rmDir_rf($carpeta){
-        $folderCont = scandir($carpeta);
-        foreach ($folderCont as $clave => $valor) {
-            if(is_dir($folderCont[$clave].'/'.$valor) && $valor!='.' && $valor!='..'){
-                rmDir_rf($carpeta.'/'.$folderCont[$clave]);
-            }else{
-                @unlink($carpeta.'/'.$folderCont[$clave]);
+        if(is_dir($carpeta)){
+            $folderCont = scandir($carpeta);
+            foreach ($folderCont as $clave => $valor) {
+                if(is_dir($folderCont[$clave].'/'.$valor) && $valor!='.' && $valor!='..'){
+                    rmDir_rf($carpeta.'/'.$folderCont[$clave]);
+                }else{
+                    @unlink($carpeta.'/'.$folderCont[$clave]);
+                }
             }
+            rmdir($carpeta);
         }
-        rmdir($carpeta);
+        
         return TRUE;
     }
 

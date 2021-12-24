@@ -584,6 +584,15 @@
                         let estatus = (data.optional_description == 1) ? true : false;
                         $("#swPopular").prop("checked", estatus);
 
+                        let esdigital = (data.esdigital == 1) ? true : false;
+                        $("#swDigital").prop("checked", esdigital);
+
+                        if(esdigital){
+                            $("#collapseFile").addClass("show");
+                        } else {
+                            $("#collapseFile").removeClass("show");
+                        }
+
                         arrayDescripciones = JSON.parse(data.descriptions);
                         listarDescripciones();
 
