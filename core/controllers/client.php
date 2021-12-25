@@ -13,6 +13,7 @@
 		$response 		= array(
 			'codeResponse' => 0
 		);
+		$message = '';
 
 		if($vars['_method'] == 'POST'){
 			$clientData = array(
@@ -26,11 +27,32 @@
 				'inputState'	=> $vars['inputState'],
 				'inputZip'		=> $vars['inputZip'],
 				'inputInfo'		=> $vars['inputInfo'],
-				'inputLeads'	=> $vars['leads']
+				'inputLeads'	=> $vars['leads'],
+				'password'		=> ''
 			);
 
 			if($vars['clientId'] == 0){
+				if($vars['leads'] == 0){
+					$password 	= generateRandomPass(8);
+					$clientData['password'] = encryptPass($password);
+				}
+				
 				$tmpResponse = $clientModel->register($clientData);
+
+				if($vars['leads'] == 0){
+					// Se bypasea por que no tengo activo el mailserver, se debe activar ya en hosting
+					$to      	= $vars['inputEmail'];				
+					$subject 	= 'Account registration in intelatlas';
+					$message 	= '
+						You have been registered in intelatlas as a client, to access the user account area, 
+						you must use your email '. $vars["inputEmail"] .', and use the following password: '. $password .', 
+						for your security it is necessary to change it later.
+					';
+					// $headers = 'From: webmaster@clubtres.com'       . "\r\n" .
+					            'Reply-To: webmaster@clubtres.com' . "\r\n" .
+					            'X-Mailer: PHP/' . phpversion();
+					// mail($to, $subject, $message, $headers);
+				}
 			}else{
 				$clientData['clientId'] 	= $vars['clientId'];				
 				$tmpResponse 				= $clientModel->updates($clientData);
@@ -38,7 +60,8 @@
 
 			if($tmpResponse){
 				$response = array(
-					'codeResponse' => 200
+					'codeResponse' => 200,
+					'message' => $message
 				);
 			}
 
@@ -73,9 +96,26 @@
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
 		} else if($vars['_method'] == 'translate'){
-			$response = array(
+			$password 	= generateRandomPass(8);
+			$strPass    = encryptPass($password);
+			
+			// Se bypasea por que no tengo activo el mailserver, se debe activar ya en hosting
+			$to      	= $vars['email'];				
+			$subject 	= 'Account registration in intelatlas';
+			$message 	= '
+				You have been registered in intelatlas as a client, to access the user account area, 
+				you must use your email '. $vars["email"] .', and use the following password: '. $password .', 
+				for your security it is necessary to change it later.
+			';
+			// $headers = 'From: webmaster@clubtres.com'       . "\r\n" .
+			            'Reply-To: webmaster@clubtres.com' . "\r\n" .
+			            'X-Mailer: PHP/' . phpversion();
+			// mail($to, $subject, $message, $headers);
+
+			$response 	= array(
 				'codeResponse' 	=> 200,
-				'data' 			=> $clientModel->translate( $vars['clientId'] )
+				'data' 			=> $clientModel->translate( $vars['clientId'], $strPass ),
+				'message'		=> $message
 			);
 
 			header('HTTP/1.1 200 Ok');
@@ -109,6 +149,26 @@
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
 		}
+	}
+
+	function generateRandomPass($length = 10) {
+	    $characters 		= '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	    $charactersLength 	= strlen($characters);
+	    $randomString 		= '';
+
+	    for ($i = 0; $i < $length; $i++) {
+	        $randomString .= $characters[rand(0, $charactersLength - 1)];
+	    }
+
+	    return $randomString;
+	}
+
+	function encryptPass($strPassword) {
+		$options = [
+		    'cost' => 12
+		];
+
+		return password_hash($strPassword, PASSWORD_BCRYPT, $options);
 	}
 
 	header('HTTP/1.1 400 Bad Request');
