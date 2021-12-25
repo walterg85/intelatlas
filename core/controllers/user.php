@@ -87,6 +87,30 @@
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
+		} else if($vars['_method'] == '_ValidateClient'){
+			$tmpResponse = $userModel->loginClient($vars['username']);
+
+			if($tmpResponse && password_verify($vars['userpassword'], $tmpResponse->contraseña)){
+					unset($tmpResponse->contraseña);
+
+					$response = array(
+						'codeResponse' 	=> 200,
+						'data' 			=> $tmpResponse,
+						'message' 		=> 'Welcome'
+					);
+
+					$_SESSION['intelatlasClientLoged']	= TRUE;
+					$_SESSION['intelatlasClientData']	= $tmpResponse;
+			} else {
+				$response = array(
+					'codeResponse'	=> 0,
+					'message' 		=> 'Username or password incorrect'
+				);
+			}
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");			
+			exit(json_encode($response));
 		}
 	}
 

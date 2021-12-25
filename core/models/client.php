@@ -8,9 +8,9 @@
 			$pdo = new Conexion();
 			$cmd = '
 				INSERT INTO client
-						(nombre, apellido, direccion_a, direccion_b, telefono, ciudad, estado, codigo_postal, adicional, registro, estatus, email, leads)
+						(nombre, apellido, direccion_a, direccion_b, telefono, ciudad, estado, codigo_postal, adicional, registro, estatus, email, leads, contraseña)
 				VALUES
-					(:nombre, :apellido, :direccion_a, :direccion_b, :telefono, :ciudad, :estado, :codigo_postal, :adicional, now(), 1, :email, :leads)
+					(:nombre, :apellido, :direccion_a, :direccion_b, :telefono, :ciudad, :estado, :codigo_postal, :adicional, now(), 1, :email, :leads, :password)
 			';
 
 			$parametros = array(
@@ -24,7 +24,8 @@
 				':estado'			=> $data['inputState'],
 				':codigo_postal'	=> $data['inputZip'],
 				':adicional'		=> $data['inputInfo'],
-				':leads'			=> $data['inputLeads']
+				':leads'			=> $data['inputLeads'],
+				':password'			=> $data['password']
 			);
 
 			try{
@@ -137,14 +138,15 @@
 			return TRUE;
 		}
 
-		public function translate($clientId){
+		public function translate($clientId, $passw){
 			$pdo = new Conexion();
 			$cmd = '
-				UPDATE client SET leads = 0 WHERE id =:clientId;
+				UPDATE client SET leads = 0, contraseña =:passw WHERE id =:clientId;
 			';
 
 			$parametros = array(
-				':clientId' => $clientId
+				':clientId' => $clientId,
+				':passw' => $passw
 			);
 			
 			$sql = $pdo->prepare($cmd);
