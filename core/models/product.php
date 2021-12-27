@@ -335,4 +335,33 @@
 
 			return $dato['existe'];
 		}
+
+		public function getProductosComprados($clientId){
+			$pdo = new Conexion();
+			$cmd = '
+				SELECT
+					id, 
+					name,
+					optional_name,
+					descriptions, 
+					optional_description,
+					price,
+					sale_price, 
+					thumbnail, 
+					images, 
+					create_date,
+					dimensions,
+					alternatives,
+					esdigital
+				FROM 
+					product
+				WHERE id IN(SELECT product_id FROM client_downloads WHERE client_id =:client_id)';
+			$parametros = array(
+				':client_id'	=> $clientId
+			);
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}
 	}

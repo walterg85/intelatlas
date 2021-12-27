@@ -227,6 +227,26 @@
 
                 exit( json_encode($response) );
             }
+        } else if($vars['_method'] == 'getProductsDigitales'){
+            $comprados = $productModel->getProductosComprados($_SESSION['intelatlasClientData']->id);
+
+            if($comprados){
+                foreach ($comprados as $key => $value) {
+                    $headers = array('alg' => 'HS256', 'typ' => 'JWT');
+                    $payload = array('producto' => $value['name'], 'exp' => (time() + 300));
+                    $comprados[$key]['linkto'] = generate_jwt($headers, $payload);
+                }
+            }
+
+            $response = array(
+                'codeResponse'  => 200,
+                'data'          => $comprados,
+                'message'       => 'Ok'
+            );
+
+            header('HTTP/1.1 200 Ok');
+            header("Content-Type: application/json; charset=UTF-8");            
+            exit(json_encode($response));
         }
     }
 
