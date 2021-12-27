@@ -34,7 +34,7 @@
     <link href="<?php echo $base_url; ?>/assets/css/style.css?v=1.6" rel="stylesheet">
 
     <!-- Stylo del chat -->   
-    <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/chat.css?v=1.2">
+    <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/chat.css?v=1.3">
 
     <!-- sweetalert2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -49,7 +49,7 @@
         width: 100% !important;
     }
     .fixBaground{
-        background-image: linear-gradient(to left top, #f73a66, #fb4d5e, #fe5e57, #ff6e51, #ff7e4d);
+        background-image: linear-gradient(to top left, #7E2395, #9A348E);
         height: 160px;
     }
 </style>
@@ -129,8 +129,6 @@
     </footer>
     <!-- End Footer -->
 
-    <div id="preloader"></div>
-
     <!-- ==== Formulario para el chat ==== -->
     <input type="checkbox" id="check"><label class="chat-btn" for="check"><i class="fa fa-commenting-o comment"></i><i class="fa fa-close close"></i></label>
     <div class="wrapper bg-light">
@@ -141,7 +139,6 @@
             <h6 class="labelChatTitle text-center mt-2">Let's Chat - Online</h6>
         </div>
         <div class="text-center p-2">
-            <span class="lblWelcome">Please fill out the form to start chat!</span>
             <div id="chatLog" class="d-none"></div>
         </div>
         <div class="chat-form">
@@ -156,7 +153,7 @@
             </div>
             <div id="divConversasion" class="d-none">
                 <textarea class="form-control" rows="1" placeholder="Your Message" id="inputNewMessage"></textarea>
-                <button class="btn btn-success btn-block pull-right" data-round="1" id="btnSendmessage">Send</button>
+                <button class="btn pull-right" data-round="1" id="btnSendmessage">Send</button>
             </div>
         </div>
     </div>
@@ -369,7 +366,6 @@
                 myLang = data[lang]["chat"];
 
                 $(".labelChatTitle").html(myLang.chatTitle);
-                $(".lblWelcome").html(myLang.chatSubTitle);
                 $("#inputName").attr("placeholder", myLang.inputName);
                 $("#inputMail").attr("placeholder", myLang.inputMail);
                 $("#inputPhone").attr("placeholder", myLang.inputPhone);
@@ -407,7 +403,6 @@
                     estadoChat = (result.data.value == 1) ? true : false;
 
                 if(estadoChat){
-                    $(".lblWelcome").addClass("d-none");
                     $("#divRegistro").addClass("d-none");
                     $("#divConversasion").removeClass("d-none");
                     $("#chatLog").removeClass("d-none");
@@ -419,7 +414,6 @@
                     $("#inputMail").val(cliData.mail);
                     $("#inputName").val(cliData.name);
 
-                    $(".lblWelcome").addClass("d-none");
                     $("#divRegistro").addClass("d-none");
                     $("#divConversasion").removeClass("d-none");
                     $("#chatLog").removeClass("d-none");
@@ -611,7 +605,6 @@
 
                 // Enviar la peticion de inicio y saludo
                 $.post(`${base_url}/core/controllers/chat.php`, objData, function (chatId) {
-                    $(".lblWelcome").addClass("d-none");
                     $("#divRegistro").addClass("d-none");
                     $("#chatLog").removeClass("d-none");
                 });

@@ -1,8 +1,5 @@
 /**
-* Template Name: Anyar - v4.7.0
-* Template URL: https://bootstrapmade.com/anyar-free-multipurpose-one-page-bootstrap-theme/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
+* Template Name: IA - v1.1.0
 */
 
 /*--------------------------------------------------------------
@@ -12,7 +9,6 @@ body {
   font-family: "Open Sans", sans-serif;
   color: #444444;
 }
-
 
 a {
   text-decoration: none;
@@ -28,7 +24,6 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Raleway", sans-serif;
 }
 
-
 .logo {
   font-size: 35px;
   background: -webkit-linear-gradient(#08a045, #689918);
@@ -40,51 +35,7 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-/*--------------------------------------------------------------
-# Preloader
---------------------------------------------------------------*/
-#preloader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 9999;
-  overflow: hidden;
-  background: #fff;
-}
 
-#preloader:before {
-  content: "";
-  position: fixed;
-  top: calc(50% - 30px);
-  left: calc(50% - 30px);
-  border: 6px solid #0880e8;
-  border-top-color: #bfe0fd;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  -webkit-animation: animate-preloader 1s linear infinite;
-  animation: animate-preloader 1s linear infinite;
-}
-
-@-webkit-keyframes animate-preloader {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes animate-preloader {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 /*--------------------------------------------------------------
 # Disable aos animation delay on mobile devices
 --------------------------------------------------------------*/
@@ -128,7 +79,7 @@ h1, h2, h3, h4, h5, h6 {
   background: transparent;
 }
 #topbar .cta a {
-  background-image: linear-gradient(to right, #018E43, #01B756);
+  background-image: linear-gradient(to left, #018E43, #01B756);
   padding: 6px 24px 8px 24px;
   display: inline-block;
   transition: 0.3s;
@@ -206,7 +157,7 @@ h1, h2, h3, h4, h5, h6 {
   top: 60px;
 }
 #header.header-scrolled {
-  background: #6e0e9e;
+  background-image: linear-gradient(to top left, #7E2395, #9A348E);
   top: 0;
 }
 

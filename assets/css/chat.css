@@ -42,6 +42,25 @@
     border: none
 }
 
+#btnStart {
+    background-image: linear-gradient(to left, #018E43, #01B756);
+    border: #01B756;
+}
+
+#btnSendmessage {
+    background-image: linear-gradient(to left, #018E43, #01B756);
+    border: #01B756;
+}
+
+
+#btnStart:hover {
+    background: #01B756;
+  }
+
+  #btnSendmessage:hover {
+    background: #01B756;
+  }
+
 .wrapper {
     position: fixed;
     right: 20px;
@@ -86,12 +105,6 @@ button {
     box-shadow: none
 }
 
-.btn,
-.btn:focus,
-.btn:hover {
-    background-color: blue;
-    border: blue
-}
 
 #check {
     display: none !important
