@@ -1,7 +1,3 @@
-body {
-    background-color: #eee
-}
-
 .chat-btn {
     position: fixed;
     right: 14px;
@@ -46,12 +42,30 @@ body {
     border: none
 }
 
+#btnStart {
+    background-image: linear-gradient(to left, #018E43, #01B756);
+    border: #01B756;
+}
+
+#btnSendmessage {
+    background-image: linear-gradient(to left, #018E43, #01B756);
+    border: #01B756;
+}
+
+
+#btnStart:hover {
+    background: #01B756;
+  }
+
+  #btnSendmessage:hover {
+    background: #01B756;
+  }
+
 .wrapper {
     position: fixed;
     right: 20px;
     bottom: 100px;
     width: 300px;
-    background-color: #bfbfbf;
     border-radius: 5px;
     /*opacity: 0;*/
     display: none !important;
@@ -66,7 +80,7 @@ body {
 
 .header {
     padding: 13px;
-    background-color: #6e0e9e;
+    background-image: linear-gradient(to right, #F6CCA2, #F2B87D);
     border-radius: 5px 5px 0px 0px;
     margin-bottom: 10px;
     color: #fff
@@ -91,12 +105,6 @@ button {
     box-shadow: none
 }
 
-.btn,
-.btn:focus,
-.btn:hover {
-    background-color: blue;
-    border: blue
-}
 
 #check {
     display: none !important

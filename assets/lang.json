@@ -35,12 +35,11 @@
 			"strTax": "Tax"
 		},
 		"chat":{
-			"chatTitle":"Free consultation!",
-			"chatSubTitle": "Fill form to start!",
+			"chatTitle":"Free Consultation!",
 			"inputName": "Name",
 			"inputMail": "Email",
 			"inputPhone": "Phone",
-			"inputInitialMessage": "Your Text Message",
+			"inputInitialMessage": "Your Message",
 			"btnStart": "Submit",
 			"btnSendmessage":"Send",
 			"inputNewMessage": "Your Message",
@@ -77,24 +76,23 @@
 			"labelSeccion": "Procesar Pago",
 			"lblLetrero": "Completa el pago y nos pondremos en contacto contigo para empezar a trabajar juntos en tu proyecto.",
 			"labelCart": "Tu pedido",
-			"labelCoupon": "Apicar cupon",
+			"labelCoupon": "Aplicar cupon",
 			"inputCode": "Codigo de cupon",
 			"lalelShip": "Costo de envio",
 			"strCupon": "Descuento",
 			"strTax": "Impuesto"
 		},
 		"chat":{
-			"chatTitle":"Consulta gratis!",
-			"chatSubTitle": "¡Complete el formulario para comenzar!",
+			"chatTitle":"Consulta Gratis!",
 			"inputName": "Nombre",
 			"inputMail": "Correo electronico",
 			"inputPhone": "Telefono",
-			"inputInitialMessage": "Tu mensaje de texto",
+			"inputInitialMessage": "Tu mensaje",
 			"btnStart": "Enviar",
-			"btnSendmessage":"Enviar mensaje",
+			"btnSendmessage":"Enviar",
 			"inputNewMessage": "Tu mensaje",
 			"msgReceived": "Hemos recibido tu mensaje! Nos pondremos en contacto contigo pronto",
-			"labelFinish": "Terminar la charla"
+			"labelFinish": "Finalizar Charla"
 		}
 	}
 }
