@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 24-12-2021 a las 19:59:54
+-- Tiempo de generación: 27-12-2021 a las 18:59:40
 -- Versión del servidor: 8.0.17
 -- Versión de PHP: 7.3.10
 
@@ -80,6 +80,20 @@ CREATE TABLE `client` (
   `email` varchar(250) DEFAULT NULL,
   `leads` int(11) DEFAULT NULL,
   `contraseña` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `client_downloads`
+--
+
+DROP TABLE IF EXISTS `client_downloads`;
+CREATE TABLE `client_downloads` (
+  `id` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -301,6 +315,12 @@ ALTER TABLE `client`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `client_downloads`
+--
+ALTER TABLE `client_downloads`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `client_notes`
 --
 ALTER TABLE `client_notes`
@@ -386,6 +406,12 @@ ALTER TABLE `chat`
 -- AUTO_INCREMENT de la tabla `client`
 --
 ALTER TABLE `client`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `client_downloads`
+--
+ALTER TABLE `client_downloads`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --

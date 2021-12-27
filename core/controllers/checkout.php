@@ -22,19 +22,7 @@
 			);
 
 			$order = $checkoutModel->createOrder($orderData);
-			if($order){
-				$response = array(
-					'codeResponse'	=> 200,
-					'message' 		=> 'Registered order',
-					'id' 			=> $order
-				);
-				$checkoutModel->createOrderDetail( json_decode($vars['order'], TRUE), $order );
-			}else{
-				$response = array(
-					'codeResponse'	=> 0,
-					'message' 		=> 'order not registered'
-				);
-			}
+			
 
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
