@@ -207,4 +207,29 @@
 			$sql->execute($parametros);
 			return TRUE;
 	    }
+
+	    public function setProductoDigital($data){
+			$pdo = new Conexion();
+			$cmd = '
+				INSERT INTO client_downloads
+						(client_id, order_id, product_id)
+				VALUES
+					(:client_id, :order_id, :product_id)
+			';
+
+			$parametros = array(
+				':client_id' 	=> $data['clienteId'],
+				':order_id' 	=> $data['orderId'],
+				':product_id' 	=> $data['productoId']
+			);
+
+			try{
+				$sql = $pdo->prepare($cmd);
+				$sql->execute($parametros);
+			} catch (PDOException $e) {
+		        return $e->getMessage();
+		    }
+
+			return TRUE;
+	    }
 	}

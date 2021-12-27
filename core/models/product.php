@@ -308,7 +308,8 @@
 					images, 
 					create_date,
 					dimensions,
-					alternatives
+					alternatives,
+					esdigital
 				FROM 
 					product
 				WHERE id in ('.$indexes.')

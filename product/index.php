@@ -90,23 +90,24 @@
                 }
             }
 
-            newItem.id                      = currentItem.id;
-            newItem.name                    = currentItem.name;
-            newItem.optional_name           = currentItem.optional_name;
-            newItem.descriptions            = currentItem.descriptions;
-            newItem.optional_description    = currentItem.optional_description;
-            newItem.thumbnail               = currentItem.thumbnail;
-            newItem.price                   = ((currentItem.sale_price).length > 0 && currentItem.sale_price > 0) ? currentItem.sale_price : currentItem.price;
-
-            // if( (currentItem.sale_price).length > 0 && currentItem.sale_price > 0){
-            //     newItem.price = currentItem.sale_price;
-            // }else{
-            //     newItem.price = currentItem.price;
-            // }
-
             if(currentCart[newItemId]){
                 currentCart[newItemId].qty = currentCart[newItemId].qty + 1;
             }else{
+                newItem.id                      = currentItem.id;
+                newItem.name                    = currentItem.name;
+                newItem.optional_name           = currentItem.optional_name;
+                newItem.descriptions            = currentItem.descriptions;
+                newItem.optional_description    = currentItem.optional_description;
+                newItem.thumbnail               = currentItem.thumbnail;
+                newItem.esdigital               = currentItem.esdigital;
+                newItem.price                   = ((currentItem.sale_price).length > 0 && currentItem.sale_price > 0) ? currentItem.sale_price : currentItem.price;
+
+                // if( (currentItem.sale_price).length > 0 && currentItem.sale_price > 0){
+                //     newItem.price = currentItem.sale_price;
+                // }else{
+                //     newItem.price = currentItem.price;
+                // }
+                
                 newItem.qty = 1;
                 currentCart[newItemId] = newItem;
             }

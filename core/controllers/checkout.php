@@ -22,7 +22,32 @@
 			);
 
 			$order = $checkoutModel->createOrder($orderData);
-			
+			if($order){
+				$checkoutModel->createOrderDetail( json_decode($vars['order'], TRUE), $order );
+
+				if (isset($_SESSION['intelatlasClientLoged'])){
+					$pDigitales = json_decode( $vars['productosDigitales'] );
+					foreach ($pDigitales as $key => $value) {
+						$valores = array(
+							'clienteId' 	=> $_SESSION['intelatlasClientData']->id,
+							'productoId' 	=> $value,
+							'orderId' 		=> $order
+						);
+						$checkoutModel->setProductoDigital( $valores );
+					}
+				}
+
+				$response = array(
+					'codeResponse'	=> 200,
+					'message' 		=> 'Registered order',
+					'id' 			=> $order
+				);
+			}else{
+				$response = array(
+					'codeResponse'	=> 0,
+					'message' 		=> 'order not registered'
+				);
+			}
 
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
