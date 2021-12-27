@@ -99,4 +99,19 @@
 
 			return TRUE;
 		}
+
+		public function loginClient($uname) {
+			$pdo = new Conexion();
+			$cmd = 'SELECT id, email, contraseña, nombre, apellido, direccion_a, direccion_b, telefono, ciudad, estado, codigo_postal, adicional FROM client WHERE email =:uname AND estatus = 1 AND leads = 0';
+
+			$parametros = array(
+				':uname' => $uname
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+
+			return $sql->fetch();
+		}
 	}

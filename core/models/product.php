@@ -10,9 +10,9 @@
 			$pdo = new Conexion();
 			$cmd = '
 				INSERT INTO product
-						(name, descriptions, price, sale_price, optional_name, optional_description, create_date, dimensions, active, alternatives)
+						(name, descriptions, price, sale_price, optional_name, optional_description, create_date, dimensions, active, alternatives, esdigital)
 				VALUES
-					(:name, :descriptions, :price, :sale_price, :optional_name, :optional_description, now(), :dimensions, 1, :alternatives)
+					(:name, :descriptions, :price, :sale_price, :optional_name, :optional_description, now(), :dimensions, 1, :alternatives, :esdigital)
 			';
 
 			$parametros = array(
@@ -23,7 +23,8 @@
 				':optional_name'		=> $data['inputNameSp'],
 				':optional_description' => $data['inputDescriptionSp'],
 				':dimensions'			=> $data['dimensions'],
-				':alternatives'			=> $data['inputAlternative']
+				':alternatives'			=> $data['inputAlternative'],
+				':esdigital'			=> $data['esdigital']
 			);
 
 			try{
@@ -94,7 +95,8 @@
 					p.images, 
 					p.create_date,
 					p.dimensions,
-					p.alternatives
+					p.alternatives,
+					p.esdigital
 				FROM 
 					product AS p
 				WHERE p.active = 1 '.$strWhere.'
@@ -149,7 +151,8 @@
 					price =:price, 
 					sale_price =:sale_price,
 					dimensions =:dimensions,
-					alternatives =:alternatives
+					alternatives =:alternatives,
+					esdigital =:esdigital
 				WHERE id =:productId
 			';
 
@@ -161,8 +164,9 @@
 				':optional_name'		=> $data['inputNameSp'],
 				':optional_description' => $data['inputDescriptionSp'],
 				'productId'				=> $data['productId'],
-				':dimensions'			=>  $data['dimensions'],
-				':alternatives'			=> $data['inputAlternative']
+				':dimensions'			=> $data['dimensions'],
+				':alternatives'			=> $data['inputAlternative'],
+				':esdigital'			=> $data['esdigital']
 			);
 
 			$sql = $pdo->prepare($cmd);
@@ -187,7 +191,8 @@
 					images, 
 					create_date,
 					dimensions,
-					alternatives
+					alternatives,
+					esdigital
 				FROM 
 					product
 				WHERE active = 1 AND id =:id
@@ -219,7 +224,8 @@
 					images, 
 					create_date,
 					dimensions,
-					alternatives
+					alternatives,
+					esdigital
 				FROM 
 					product
 				WHERE active = 1

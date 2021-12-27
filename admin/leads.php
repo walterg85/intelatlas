@@ -209,7 +209,8 @@
 
                                 let objData = {
                                     "_method":"translate",
-                                    "clientId": data.id
+                                    "clientId": data.id,
+                                    "email": data.email
                                 };
 
                                 $.post("../core/controllers/client.php", objData, function(result) {

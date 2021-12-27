@@ -34,6 +34,7 @@
     <link href="<?php echo $base_url; ?>/assets/css/style.css?v=1.6" rel="stylesheet">
 
     <!-- Stylo del chat -->   
+
     <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/chat.css?v=1.3">
 
     <!-- sweetalert2 -->
@@ -88,6 +89,7 @@
                         <li><a class="nav-link scrollto active link1" href="#web-price">Websites</a></li>
                         <li><a class="nav-link scrollto link2" href="#pricing">Online Store</a></li>          
                         <li><a class="nav-link scrollto link3" href="#cta">Custom Packages</a></li>
+                        <li><a class="nav-link scrollto link4" href="account.php">My account</a></li>
                     </ul>
                     <i class="bi bi-list mobile-nav-toggle"></i>
                 </nav><!-- .navbar -->

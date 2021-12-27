@@ -160,6 +160,20 @@
                 </div>
             </div>
 
+            <div class="mb-3">
+                <div class="form-check form-switch h6">
+                    <input class="form-check-input" type="checkbox" id="swDigital" data-bs-toggle="collapse" data-bs-target="#collapseFile">
+                    <label class="form-check-label swDigital" for="swDigital"> It is a digital product</label>
+                </div>
+
+                <div class="collapse" id="collapseFile">
+                    <div class="card card-body">
+                        <label for="inputFileobj" class="form-label">Select the compressed file</label>
+                        <input class="form-control" type="file" id="inputFileobj" name="inputFileobj">
+                    </div>
+                </div>
+            </div>
+
             <div class="row mb-3">
                 <div class="col-3 d-none img1">
                     <img src="#" class="img-thumbnail" alt="Product image" id="img1">
@@ -263,6 +277,7 @@
             $("#addProductForm").removeClass("was-validated");
             $("#tblDescripcions").html("");
             $("#swPopular").prop("checked", false);
+            $("#collapseFile").removeClass("show");
             arrayDescripciones = [];
         });
 
@@ -397,6 +412,9 @@
 
         let popular = ($("#swPopular").is(':checked')) ? 1 : 0;
         formData.append("inputDescriptionSp", popular);
+
+        let esdigital = ($("#swDigital").is(':checked')) ? 1 : 0;
+        formData.append("esdigital", esdigital);
 
         $.each(productPhotos, function( index, value ) {
             if(value)
@@ -565,6 +583,15 @@
 
                         let estatus = (data.optional_description == 1) ? true : false;
                         $("#swPopular").prop("checked", estatus);
+
+                        let esdigital = (data.esdigital == 1) ? true : false;
+                        $("#swDigital").prop("checked", esdigital);
+
+                        if(esdigital){
+                            $("#collapseFile").addClass("show");
+                        } else {
+                            $("#collapseFile").removeClass("show");
+                        }
 
                         arrayDescripciones = JSON.parse(data.descriptions);
                         listarDescripciones();
