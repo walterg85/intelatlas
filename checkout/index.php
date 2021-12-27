@@ -409,42 +409,6 @@
     }
 </script>
 
-<script type="text/javascript">
-    paypal.Buttons({
-                // Sets up the transaction when a payment button is clicked
-                createOrder: function(data, actions) {
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: {
-                                value: parseFloat(grantotal).toFixed(2)
-                            }
-                        }]
-                    });
-                },
-                // Finalize the transaction after payer approval
-                onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(orderData) {
-                        if(orderData.status == "COMPLETED"){
-                            let objData = {
-                                "_method":"_POST",
-                                "amount": grantotal,
-                                "ship_price": ship_price,
-                                "shipping_address": JSON.stringify(orderData.purchase_units[0].shipping.address),
-                                "payment_data": JSON.stringify(orderData),
-                                "order": JSON.stringify(orderDetails),
-                                "coupon": $("#inputCode").val()
-                            };
 
-                            $.post("../core/controllers/checkout.php", objData, function(result) {
-                                localStorage.removeItem("currentCart");
-                                window.location.replace(`../order/index.php?id=${result.id}`);
-                            });
-                        }else{
-                            showAlert("error", "Payment was not processed correctly, please try again.");
-                        }
-                    });
-                }
-            }).render('#paypal-button-container');
-</script>
 </body>
 </html>
