@@ -633,8 +633,10 @@
     function initComponent() {
         // Controlar tipo de objeto que intentan subir
         $('input[type="file"]').unbind().change( function(){
+            if( $( this ).attr("name") == "inputFileobj" )
+                return false;
+            
             let ext = $( this ).val().split('.').pop();
-
             if ($( this ).val() != ''){
                 if($.inArray(ext, ["jpg", "jpeg", "png", "bmp", "raw", "tiff"]) != -1){
                     if($(this)[0].files[0].size > 5242880){

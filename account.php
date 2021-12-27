@@ -41,6 +41,53 @@
                             </ul>
                         </nav>
                     </div>
+                    <div class="col-5 ms-5">
+                        <form id="clientForm" class="needs-validation" novalidate>
+                            <input type="hidden" name="clientId" id="clientId" value="0">
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="inputName" class="form-label labelName">Name</label>
+                                    <input type="text" id="inputName" name="inputName" class="form-control" autocomplete="off" maxlength="250" required value="<?php echo $_SESSION['intelatlasClientData']->nombre; ?>">
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="inputLastname" class="form-label labelLastname">Last name</label>
+                                    <input type="text" id="inputLastname" name="inputLastname" class="form-control" autocomplete="off" maxlength="50" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="inputEmail" class="form-label labelMail">Email</label>
+                                    <input type="text" id="inputEmail" name="inputEmail" class="form-control" autocomplete="off" maxlength="20" required>
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="inputPhone" class="form-label labelPhone">Phone</label>
+                                    <input type="text" id="inputPhone" name="inputPhone" class="form-control" autocomplete="off" maxlength="20" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputAddress" class="form-label labelAddress">Address</label>
+                                <input type="text" id="inputAddress" name="inputAddress" class="form-control" autocomplete="off" maxlength="500" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputAddress2" class="form-label labelAddress2">Address 2</label>
+                                <input type="text" id="inputAddress2" name="inputAddress2" class="form-control" autocomplete="off" maxlength="500">
+                            </div>
+                            <div class="row">
+                                <div class="col-5 mb-3">
+                                    <label for="inputCity" class="form-label labelCity">City</label>
+                                    <input type="text" id="inputCity" name="inputCity" class="form-control" autocomplete="off" maxlength="50" required>
+                                </div>
+                                <div class="col-4 mb-3">
+                                    <label for="inputState" class="form-label labelState">State</label>
+                                    <input type="text" id="inputState" name="inputState" class="form-control" autocomplete="off" maxlength="50" required>
+                                </div>
+                                <div class="col-3 mb-3">
+                                    <label for="inputZip" class="form-label labelZip">Zip</label>
+                                    <input type="text" id="inputZip" name="inputZip" class="form-control" autocomplete="off" maxlength="10" required>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>
@@ -52,6 +99,9 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $("#btnLogin").click( fnValidarInfo);
+
+        $(".nav-link").removeClass("active");
+        $(".link4").addClass("active");
     });
 
     function fnValidarInfo(){
