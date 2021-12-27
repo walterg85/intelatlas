@@ -186,10 +186,38 @@
             header('HTTP/1.1 200 Ok');
             header("Content-Type: application/json; charset=UTF-8");            
             exit(json_encode($response));
+        } else if($vars['_method'] == 'download'){
+            $bearer_token   = get_bearer_token();
+            $is_jwt_valid   = is_jwt_valid($bearer_token);
+
+            if($is_jwt_valid){
+
+                $link = getProdutsPhotos(dirname(__FILE__, 3) . "/assets/digital/".$vars['pid'], $vars['pid'], 1);
+
+
+                $response = array(
+                    'codeResponse'  => 200,
+                    'link' => $link
+                );          
+
+                header('HTTP/1.1 200 Ok');
+                header("Content-Type: application/json; charset=UTF-8");
+                exit(json_encode($response));
+            } else{
+                header('HTTP/1.1 200 Ok');
+                header("Content-Type: application/json; charset=UTF-8");
+
+                $response = array(
+                    'codeResponse' => 401,
+                    'message' => 'Unauthorized'
+                );
+
+                exit( json_encode($response) );
+            }
         }
     }
 
-    function getProdutsPhotos($dir, $producId) {
+    function getProdutsPhotos($dir, $producId, $download = 0) {
         $result = array();
         $cdir   = scandir($dir);
 
@@ -199,7 +227,11 @@
                     if (!is_dir_empty( $dir . DIRECTORY_SEPARATOR . $value ))
                         $result[$value] = getProdutsPhotos($dir . DIRECTORY_SEPARATOR . $value, $producId);
                 } else {
-                    $result[] = "assets/img/product/{$producId}/{$value}";
+                    if($download == 0){
+                        $result[] = "assets/img/product/{$producId}/{$value}";
+                    } else {
+                        $result[] = "assets/digital/{$producId}/{$value}";
+                    }
                 }
             }
         }
