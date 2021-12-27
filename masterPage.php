@@ -31,10 +31,10 @@
     <link href="<?php echo $base_url; ?>/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="<?php echo $base_url; ?>/assets/css/style.css?v=1.2" rel="stylesheet">
+    <link href="<?php echo $base_url; ?>/assets/css/style.css?v=1.6" rel="stylesheet">
 
     <!-- Stylo del chat -->   
-    <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/chat.css?v=1.1">
+    <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/chat.css?v=1.2">
 
     <!-- sweetalert2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -59,11 +59,11 @@
         <div id="topbar" class="fixed-top d-flex align-items-center ">
             <div class="container d-flex align-items-center justify-content-center justify-content-md-between">
                 <div class="contact-info d-flex align-items-center">
-                    <a class="text-decoration-none changeLang" href="javascript:void(0);"><i class="ri-earth-line"></i> Español</a>
-                    <a class="text-decoration-none" href="tel:520-955-8534"><i class="bi bi-phone-fill phone-icon"></i> +1 (520) 955-8534</a>
+                    <a class="text-decoration-none changeLang" href="javascript:void(0);"><i class="bi bi-envelope-fill"></i> Español</a>
+                    <a class="text-decoration-none" href="tel:520-955-8534"><i class="bi bi-telephone-plus-fill"></i> +1 (520) 955-8534</a>
                 </div>
                 <div class="cta d-none d-md-block">
-                    <a href="javascript:void(0);" class="scrollto linkChat">Let's Talk!</a>
+                    <a href="javascript:void(0);" class="scrollto linkChat text-light">Let's Talk!</a>
                 </div>
             </div>
         </div>
@@ -72,11 +72,9 @@
         <!-- ======= Header ======= -->
         <header id="header" class="fixed-top d-flex align-items-center ">
             <div class="container d-flex align-items-center justify-content-between">
-            <a class="logo" href="/">I<span class="logo-blue">A</span></a>
-                <!-- Uncomment below if you prefer to use an image logo -->
-                <!-- <a href=index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+                <a class="logo" href="/">I<span class="logo-blue">A</span></a>
 
-                <text><i class="ri-shopping-cart-line text-light btnCheckout"></i> <span class="badge bg-warning rounded-pill qtyCart btnCheckout">0</span></text>
+                <text><i class="bi bi-cart3 text-light btnCheckout"></i> <span class="badge qtyCart btnCheckout">0</span></text>
                 <div class="search-box">
                     <button class="btn-search"><i class="ri-search-line"></i></button>
                     <div class="dropdown">
@@ -135,13 +133,13 @@
 
     <!-- ==== Formulario para el chat ==== -->
     <input type="checkbox" id="check"><label class="chat-btn" for="check"><i class="fa fa-commenting-o comment"></i><i class="fa fa-close close"></i></label>
-    <div class="wrapper">
-        <div class="header">
-            <h6 class="labelChatTitle text-center">Let's Chat - Online</h6>
+    <div class="wrapper bg-light">
+        <div class="header pt-2">
+            <a href="javascript:void(0);"class="lblControl d-none">
+                <span><i class="fa fa-power-off"></i> <text class="labelFinish">Finish chatting</text></span>
+            </a>
+            <h6 class="labelChatTitle text-center mt-2">Let's Chat - Online</h6>
         </div>
-        <a href="javascript:void(0);"class="list-group-item lblControl d-none">
-            <span><i class="fa fa-power-off"></i> <text class="labelFinish">Finish chatting</text></span>
-        </a>
         <div class="text-center p-2">
             <span class="lblWelcome">Please fill out the form to start chat!</span>
             <div id="chatLog" class="d-none"></div>
@@ -157,7 +155,7 @@
                 </div>
             </div>
             <div id="divConversasion" class="d-none">
-                <textarea class="form-control" placeholder="Your Message" id="inputNewMessage"></textarea>
+                <textarea class="form-control" rows="1" placeholder="Your Message" id="inputNewMessage"></textarea>
                 <button class="btn btn-success btn-block pull-right" data-round="1" id="btnSendmessage">Send</button>
             </div>
         </div>
@@ -345,7 +343,7 @@
 
         function switchLanguage(lang){
             $.post(`${base_url}/assets/lang.json`, {}, function(data) {
-                $(".changeLang").html(`<i class="ri-earth-line"></i> ${data[lang]["buttonText"]}`);
+                $(".changeLang").html(`<i class="bi bi-globe2"></i> ${data[lang]["buttonText"]}`);
 
                 let myLang = data[lang]["home"];
                 $("#inputSearch").attr("placeholder", myLang.search);

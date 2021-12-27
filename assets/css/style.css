@@ -117,26 +117,25 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration: underline;
 }
 #topbar .contact-info i {
-  color: #6e0e9e;
+  color: #F2B87D;
   line-height: 0;
   margin-right: 5px;
 }
-#topbar .contact-info .phone-icon {
+#topbar .contact-info .bi-telephone-plus-fill {
   margin-left: 15px;
 }
 #topbar .cta {
   background: transparent;
 }
 #topbar .cta a {
-  color: #fff;
-  background: #6e0e9e;
+  background-image: linear-gradient(to right, #018E43, #01B756);
   padding: 6px 24px 8px 24px;
   display: inline-block;
   transition: 0.3s;
   border-radius: 50px;
 }
 #topbar .cta a:hover {
-  background: #580d7e;
+  background: #01B756;
 }
 
 /*--------------------------------------------------------------
@@ -446,7 +445,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 #hero:before {
   content: "";
-  background-image: linear-gradient(to left top, #f73a66, #fb4d5e, #fe5e57, #ff6e51, #ff7e4d);
+  background-image: linear-gradient(to top left, #7E2395, #9A348E);
   position: absolute;
   bottom: 0;
   top: 0;
