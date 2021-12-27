@@ -209,4 +209,19 @@
 
 			return TRUE;
 		}
+
+		public function getClientId($usId) {
+			$pdo = new Conexion();
+			$cmd = 'SELECT id, email, nombre, apellido, direccion_a, direccion_b, telefono, ciudad, estado, codigo_postal, adicional FROM client WHERE id=:id';
+
+			$parametros = array(
+				':id' => $usId
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+
+			return $sql->fetch();
+		}
 	}

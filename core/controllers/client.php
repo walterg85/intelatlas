@@ -56,6 +56,7 @@
 			}else{
 				$clientData['clientId'] 	= $vars['clientId'];				
 				$tmpResponse 				= $clientModel->updates($clientData);
+				$_SESSION['intelatlasClientData'] = $clientModel->getClientId($vars['clientId']);
 			}
 
 			if($tmpResponse){
