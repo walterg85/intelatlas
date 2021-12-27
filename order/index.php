@@ -66,6 +66,11 @@
         </div>
     </div>
     <div class="row" id="ListProduct"></div>
+
+    <!-- Auxiliar para descarga  -->
+    <form method="get" id="frmDownload" class="d-none" action="#">
+        <button id="btnDownload" type="submit">Download!</button>
+    </form>
 </section>
 
 <script type="text/javascript">
@@ -130,7 +135,7 @@
             $(".lblTotal").html( formatter.format(result.data.order.amount) );
 
             $("#contenedorItems").html("");
-            console.log(result.data.detail);
+
             $.each(result.data.detail, function(index, prod){
                 let item = $(".prodsItemClone").clone(),
                     config = JSON.parse(prod.selected_options),
@@ -158,10 +163,42 @@
 
                 item.find(".imagep").attr("src", img);
                 item.find(".lblNameItem").html(`${prod.quantity} - ${(lang == "en") ? prod.name : prod.optional_name}  ${size}  ${color}`);
+
+                if(prod.esdigital == 1)
+                    item.find(".lblNameItem").append(`<a href="javascript:void(0);" data-token="${prod.linkto}" data-pid="${prod.id}" class="ms-2 download">Download</a>`);
+
                 item.find(".lblPriceProd").html( formatter.format(prod.price) );
 
                 item.removeClass("d-none prodsItemClone");
                 $(item).appendTo("#contenedorItems");
+            });
+
+            $(".download").unbind().click( function(){
+                let token = $(this).data("token"),
+                    pid   = $(this).data("pid");
+
+                $.ajax({
+                    url: `${base_url}/core/controllers/product.php`,
+                    data: {
+                        _method: "download",
+                        pid: pid
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    },
+                    success: function(response){
+                        if(response.codeResponse == 200){
+                            showAlert("success", "Download in progress");
+                            // document.location.href = ;
+                            $("#frmDownload").attr("action", `${base_url}/${response.link[0]}`);
+                            $("#btnDownload").click();
+                        }else{
+                            showAlert("warning", "Error generating download link, try again later");
+                        }
+                    }
+                });
             });
 
             $(".lblItems").html( (result.data.detail).length );

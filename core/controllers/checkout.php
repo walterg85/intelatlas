@@ -53,9 +53,23 @@
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
 		} else if($vars['_method'] == '_GET') {
+			$tmpData = $checkoutModel->getOrder( $vars['currentOrderId'] );
+			$detail = [];
+			foreach ($tmpData['detail'] as $key => $producto) {
+				if($producto['esdigital'] == 1){
+					$headers = array('alg' => 'HS256', 'typ' => 'JWT');
+					$payload = array('producto' => $producto['name'], 'exp' => (time() + 300));
+					$producto['linkto'] = generate_jwt($headers, $payload);
+				}
+
+				$detail[] = $producto;
+			}
+
+			$tmpData['detail'] = $detail;
+
 			$response = array(
 				'codeResponse'	=> 200,
-				'data' 			=> $checkoutModel->getOrder( $vars['currentOrderId'] )
+				'data' 			=> $tmpData
 			);
 
 			header('HTTP/1.1 200 Ok');
