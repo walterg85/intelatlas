@@ -46,11 +46,19 @@
                     </div>
                 </div>
                 <h3 class="lblPrice">$430.99</h3>
-                <div class="buttons d-flex flex-row mt-5 gap-3"> <button class="btn btn-outline-dark btnAddtocart">Add To Cart</button></div>
+                <div class="buttons d-flex flex-row mt-5 gap-3">
+                    <button class="btn btn-outline-dark btnAddtocart">Add To Cart</button>
+                    <button class="btn btn-outline-success btnDownload d-none">Download file</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Auxiliar para descarga  -->
+<form method="get" id="frmDownload" class="d-none" action="#">
+    <button id="btnDownload" type="submit">Download!</button>
+</form>
 
 
 <script>
@@ -231,6 +239,38 @@
 
                         });
                     }
+                }
+
+                if(info.linkto.length > 0){
+                    $(".btnDownload").removeClass("d-none");
+
+                    $(".btnDownload").unbind().click( function(){
+                        let token = info.linkto,
+                            pid   = productId;
+
+                        $.ajax({
+                            url: `${base_url}/core/controllers/product.php`,
+                            data: {
+                                _method: "download",
+                                pid: pid
+                            },
+                            type: 'POST',
+                            dataType: 'json',
+                            headers: {
+                                "Authorization": `Bearer ${token}`
+                            },
+                            success: function(response){
+                                if(response.codeResponse == 200){
+                                    showAlert("success", "Download in progress");
+                                    // document.location.href = ;
+                                    $("#frmDownload").attr("action", `${base_url}/${response.link[0]}`);
+                                    $("#btnDownload").click();
+                                }else{
+                                    showAlert("warning", "Error generating download link, try again later");
+                                }
+                            }
+                        });
+                    });
                 }
             }
         });

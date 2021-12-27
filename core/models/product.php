@@ -321,4 +321,18 @@
 
 			return $sql->fetchAll(PDO::FETCH_ASSOC);
 		}
+
+		public function verificarCompra($productId, $clientId){
+			$pdo = new Conexion();
+			$cmd = 'SELECT COUNT(id) AS existe FROM client_downloads WHERE client_id =:client_id AND product_id =:product_id';
+			$parametros = array(
+				':client_id'	=> $clientId,
+				':product_id'	=> $productId
+			);
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$dato = $sql->fetch(PDO::FETCH_ASSOC);
+
+			return $dato['existe'];
+		}
 	}

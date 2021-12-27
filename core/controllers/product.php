@@ -123,6 +123,19 @@
             if($productData){
                 foreach ($productData as $key => $value) {
                     $productData[$key]['categoria'] = $productModel->getCategories($value['id']);
+                    $productData[$key]['linkto'] = '';
+
+                    if (isset($_SESSION['intelatlasClientLoged'])){
+                        if($value['esdigital'] == 1){
+                            $comprado = $productModel->verificarCompra($value['id'], $_SESSION['intelatlasClientData']->id);
+
+                            if($comprado > 0){
+                                $headers = array('alg' => 'HS256', 'typ' => 'JWT');
+                                $payload = array('producto' => $value['name'], 'exp' => (time() + 300));
+                                $productData[$key]['linkto'] = generate_jwt($headers, $payload);
+                            }
+                        }
+                    }
                 }
             }
 
