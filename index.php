@@ -81,6 +81,8 @@
 <!-- End Pricing Section -->
 
 <script type="text/javascript">
+    let setFnButton = null;
+
     $(document).ready(function(){
         loadData("listWebPrice", "Website");
         loadData("listStorePrice", "Store");
@@ -103,7 +105,7 @@
 
         $("#fixBaground").removeClass("fixBaground");
 
-        setInterval(activeBoton, 1500);
+        setFnButton = setInterval(activeBoton, 1500);
     });
 
     function loadData(obj, category){
@@ -195,6 +197,7 @@
 
     // Activar accion del boton
     function activeBoton(){
+        clearInterval(setFnButton);
         $(".btnAddtocart").unbind().click(function(){
             let currentItem = $(this).data("item"),
                 newItem = {},
@@ -204,22 +207,21 @@
             if(!currentCart){
                 localStorage.setItem("currentCart", "{}");
                 currentCart = {};
-            }                    
-
-            newItem.id = currentItem.id;
-            newItem.name = currentItem.name;
-            newItem.optional_name = currentItem.optional_name;
-            newItem.descriptions = currentItem.descriptions;
-            newItem.optional_description = currentItem.optional_description;
-            newItem.thumbnail = currentItem.thumbnail;
-
-            newItem.price = currentItem.price;
+            }
 
             if(currentCart[currentItem.id]){
                 currentCart[currentItem.id].qty = currentCart[currentItem.id].qty + 1;
             }else{
-                newItem.qty = 1;
-                currentCart[currentItem.id] = newItem;
+                newItem.id                      = currentItem.id;
+                newItem.name                    = currentItem.name;
+                newItem.optional_name           = currentItem.optional_name;
+                newItem.descriptions            = currentItem.descriptions;
+                newItem.optional_description    = currentItem.optional_description;
+                newItem.thumbnail               = currentItem.thumbnail;
+                newItem.price                   = currentItem.price;
+                newItem.esdigital               = currentItem.esdigital;
+                newItem.qty                     = 1;
+                currentCart[currentItem.id]     = newItem;
             }
 
             localStorage.setItem("currentCart", JSON.stringify(currentCart));
