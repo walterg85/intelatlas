@@ -64,7 +64,7 @@
                     <a class="text-decoration-none" href="tel:520-955-8534"><i class="bi bi-telephone-plus-fill"></i> +1 (520) 955-8534</a>
                 </div>
                 <div class="cta d-none d-md-block">
-                    <a href="javascript:void(0);" class="scrollto linkChat text-light">Let's Talk!</a>
+                    <a href="javascript:void(0);" class="scrollto linkChat text-light link5">Let's Talk!</a>
                 </div>
             </div>
         </div>
@@ -234,9 +234,10 @@
                             $("#chatLog").html("");
                             localStorage.removeItem("cliData");
 
-                            intervalContador = true;
+                            intervalContador = null;
                             contador = 0;
 
+                            getConfig(false);
                             $(".chat-btn").click();
                         });
                     }
@@ -305,9 +306,6 @@
             // Accion para la suscripcion
             $("#btnSuscribe").click( function(e){
                 e.preventDefault();
-
-                console.log(1);
-
                 if( $("#txtEmail").val() != "" )
                     fnSuscribe();
             });
@@ -352,6 +350,8 @@
                 $(".link1").html(myLang.link1);
                 $(".link2").html(myLang.link2);
                 $(".link3").html(myLang.link3);
+                $(".link4").html(myLang.link4);
+                $(".link5").html(myLang.link5);
                 $(".bannerTittle").html(myLang.bannerTittle);
                 $(".bannerSubTittle").html(myLang.bannerSubTittle);
                 $(".ctaCall").html(myLang.ctaCall);
@@ -361,6 +361,8 @@
                 $(".subTittle").html(myLang.subTittle);
                 $(".subSubTittle").html(myLang.subSubTittle);
                 $("#btnSuscribe").val(myLang.btnSuscribe);
+                $(".labelPurchase1").html(myLang.labelPurchase1);
+                $(".labelPurchase2").html(myLang.labelPurchase2);
 
                 // Page title
                 document.title = myLang.pageTitle;
@@ -393,7 +395,7 @@
             });
         }
 
-        function getConfig(){
+        function getConfig(initial = true){
             let objData = {
                 _method: "getUnique",
                 parametro: "chat"
@@ -409,6 +411,11 @@
                     $("#divConversasion").removeClass("d-none");
                     $("#chatLog").removeClass("d-none");
                     $(".lblControl").removeClass("d-none");
+                } else {
+                    $("#divRegistro").removeClass("d-none");
+                    $("#divConversasion").addClass("d-none");
+                    $("#chatLog").addClass("d-none");
+                    $(".lblControl").addClass("d-none");
                 }
             }).done( function(){
                 let cliData = JSON.parse( localStorage.getItem("cliData") );
@@ -425,7 +432,7 @@
                     refreshLog = setInterval(loadLog, 2500);
                 }else{
                     // Si la configuracion del chat no esta activa, no se muetra el formulario automaticamente
-                    if(estadoChat){
+                    if(estadoChat && initial){
                         intervalContador = setInterval( function(){
                             // Incrementar el contador en 1
                             contador += 1;

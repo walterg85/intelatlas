@@ -10,6 +10,8 @@
 			"link1": "Websites",
 			"link2": "Online Store",
 			"link3": "Custom Packages",
+			"link4": "My account",
+			"link5": "Let's Talk!",
 			"myCart": "My Cart",
 			"btnKeepShopping": "Keep Shopping",
 			"categories": "Top Categories",
@@ -22,7 +24,9 @@
 			"ctaStoreSubTittle": "Get your own website and start selling online today!",
 			"subTittle": "Subscribe to our newsletter",
 			"subSubTittle": "And get exclusive deals you wont find anywhere else!",
-			"btnSuscribe": "Subscribe"
+			"btnSuscribe": "Subscribe",
+			"labelPurchase1": "Order now",
+			"labelPurchase2": "Buy Now"
 		},
 		"checkout":{
 			"labelSeccion": "Process Payment",
@@ -58,6 +62,8 @@
 			"link1": "Paginas Web",
 			"link2": "Tienda en linea",
 			"link3": "Paquetes Personalizados",
+			"link4": "Mi cuenta",
+			"link5": "¡Hablemos!",
 			"myCart": "Mi Carrito",
 			"btnKeepShopping": "Seguir Comprando",
 			"categories": "Categorías Populares",
@@ -70,7 +76,9 @@
 			"ctaStoreSubTittle": "Obtén tu propio sitio web y comienza a vender en línea hoy!",
 			"subTittle": "Subscribete a nuestro boletín",
 			"subSubTittle": "Subscribete para recibir las últimas noticias y ofertas!",
-			"btnSuscribe": "Suscribirse"
+			"btnSuscribe": "Suscribirse",
+			"labelPurchase1": "Ordenar ahora",
+			"labelPurchase2": "Comprar ahora"
 		},
 		"checkout":{
 			"labelSeccion": "Procesar Pago",
