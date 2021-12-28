@@ -9,7 +9,7 @@
         <div class="carousel-container">
             <h2 class="animate__animated animate__fadeInDown pName">Websites and more</h2>
             <p class="animate__animated animate__fadeInUp pPrice">Basic website only $189</p>
-            <a href="javascript:void(0);" class="btn-get-started animate__animated animate__fadeInUp scrollto btnAddtocart">Order now</a>
+            <a href="javascript:void(0);" class="btn-get-started animate__animated animate__fadeInUp scrollto btnAddtocart labelPurchase1">Order now</a>
         </div>
     </div>
 
@@ -41,7 +41,7 @@
                 <h4 class="lblPrice"></h4>
                 <ul class="lblDescriptions"></ul>
                 <div class="btn-wrap">
-                    <a href="javascript:void(0);" class="btn-buy btnAddtocart">Buy Now</a>
+                    <a href="javascript:void(0);" class="btn-buy btnAddtocart labelPurchase2">Buy Now</a>
                 </div>
             </div>
         </div>
