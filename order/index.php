@@ -191,9 +191,10 @@
                     success: function(response){
                         if(response.codeResponse == 200){
                             showAlert("success", "Download in progress");
+                            console.log(response.codeResponse);
                             // document.location.href = ;
-                            $("#frmDownload").attr("action", `${base_url}/${response.link[0]}`);
-                            $("#btnDownload").click();
+                            // $("#frmDownload").attr("action", `${base_url}/${response.link[0]}`);
+                            // $("#btnDownload").click();
                         }else{
                             showAlert("warning", "Error generating download link, try again later");
                         }
