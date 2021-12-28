@@ -206,11 +206,12 @@
             if($is_jwt_valid){
 
                 $link = getProdutsPhotos(dirname(__FILE__, 3) . "/assets/digital/".$vars['pid'], $vars['pid'], 1);
-
+                $file = file_get_contents('../../'.$link[0]);
+                $data = base64_encode($file);
 
                 $response = array(
                     'codeResponse'  => 200,
-                    'link' => $link
+                    'link' => $data
                 );          
 
                 header('HTTP/1.1 200 Ok');
