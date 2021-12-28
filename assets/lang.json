@@ -49,6 +49,25 @@
 			"inputNewMessage": "Your Message",
 			"msgReceived": "We have received your message! We will be in touch soon",
 			"labelFinish": "End chat"
+		},
+		"account":{
+			"labelWelcome": "Welcome",
+			"link1": "Profile",
+			"link2": "My digital purchases",
+			"link3": "Password",
+			"link4": "Logout",
+			"formLabel1": "Name",
+			"formLabel2": "Last name",
+			"formLabel3": "Email",
+			"formLabel4": "Phone",
+			"formLabel5": "Address",
+			"formLabel6": "Address 2",
+			"formLabel7": "City",
+			"formLabel8": "State",
+			"formLabel9": "Zip",
+			"formLabel10": "Optional info",
+			"labelButon": "<i class='bi bi-check2'></i> Save information",
+			"tituloTab2": "My digital products"
 		}
 	},
 	"es":{
@@ -101,6 +120,25 @@
 			"inputNewMessage": "Tu mensaje",
 			"msgReceived": "Hemos recibido tu mensaje! Nos pondremos en contacto contigo pronto",
 			"labelFinish": "Finalizar Charla"
+		},
+		"account":{
+			"labelWelcome": "Bienvenido",
+			"link1": "Perfil",
+			"link2": "Compras digitales",
+			"link3": "Contraseña",
+			"link4": "Cerrar sesion",
+			"formLabel1": "Nombre",
+			"formLabel2": "Apellido",
+			"formLabel3": "Correo electronico",
+			"formLabel4": "Telefono",
+			"formLabel5": "Dirreccion",
+			"formLabel6": "Dirreccion 2",
+			"formLabel7": "Ciudad",
+			"formLabel8": "Estado",
+			"formLabel9": "Codigo postal",
+			"formLabel10": "Informacion adicional",
+			"labelButon": "<i class='bi bi-check2'></i> Guardar informacion",
+			"tituloTab2": "Mis productos digitales"
 		}
 	}
 }
