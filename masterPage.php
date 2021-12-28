@@ -145,7 +145,7 @@
         </div>
         <div class="chat-form">
             <div id="divRegistro">
-                <input type="text" class="form-control" placeholder="Name" id="inputName">
+                <input type="text" class="form-control" placeholder="Name" id="inputNameChat">
                 <input type="text" class="form-control" placeholder="Email" id="inputMail">
                 <input type="text" class="form-control" placeholder="Phone" id="inputPhone">
                 <textarea class="form-control" placeholder="Your Text Message" id="inputInitialMessage"></textarea>
@@ -197,7 +197,7 @@
             // Control de chat
             $("#btnStart").on("click", function(){
                 // Validar que se hayan ingresado todos los datos adecuadamente
-                if(($("#inputMail").val()).length == 0 || ($("#inputName").val()).length == 0 || ($("#inputInitialMessage").val()).length == 0 || ($("#inputPhone").val()).length == 0)
+                if(($("#inputMail").val()).length == 0 || ($("#inputNameChat").val()).length == 0 || ($("#inputInitialMessage").val()).length == 0 || ($("#inputPhone").val()).length == 0)
                     return false;
 
                 // Se registra como prospecto y se guarda el archivo de chat
@@ -370,7 +370,7 @@
                 myLang = data[lang]["chat"];
 
                 $(".labelChatTitle").html(myLang.chatTitle);
-                $("#inputName").attr("placeholder", myLang.inputName);
+                $("#inputNameChat").attr("placeholder", myLang.inputName);
                 $("#inputMail").attr("placeholder", myLang.inputMail);
                 $("#inputPhone").attr("placeholder", myLang.inputPhone);
                 $("#inputInitialMessage").attr("placeholder", myLang.inputInitialMessage);
@@ -421,7 +421,7 @@
                 let cliData = JSON.parse( localStorage.getItem("cliData") );
                 if(cliData){
                     $("#inputMail").val(cliData.mail);
-                    $("#inputName").val(cliData.name);
+                    $("#inputNameChat").val(cliData.name);
 
                     $("#divRegistro").addClass("d-none");
                     $("#divConversasion").removeClass("d-none");
@@ -467,7 +467,7 @@
 
             formData.append("_method", "POST");
             formData.append("leads", 1);
-            formData.append("inputName", $("#inputName").val());
+            formData.append("inputName", $("#inputNameChat").val());
             formData.append("inputLastname", "");
             formData.append("inputAddress", "");
             formData.append("inputAddress2", "");
@@ -604,7 +604,7 @@
                     objData = {
                         message: $("#inputInitialMessage").val(),
                         email: $("#inputMail").val(),
-                        name: $("#inputName").val(),
+                        name: $("#inputNameChat").val(),
                         phone: $("#inputPhone").val(),
                         ip: ip,
                         chatIp: ipinfo.ip,

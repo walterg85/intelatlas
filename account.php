@@ -33,12 +33,13 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <p>Welcome</p>
+                        <p class="lead labelWelcome">Welcome</p>
                         <nav class="navbar">
                             <ul>
                                 <li><a href="javascript:void(0);" id="linkData" class="active" style="color:#0a58ca !important;">Profile</a></li>
-                                <li><a href="javascript:void(0);" id="linkList" class="" style="color:#0a58ca !important;">my digital purchases</a></li>
-                                <li><a href="core/controllers/_logout.php" id="linkList" class="" style="color:#0a58ca !important;">Logout</a></li>
+                                <li><a href="javascript:void(0);" id="linkList" class="" style="color:#0a58ca !important;">My digital purchases</a></li>
+                                <li><a href="javascript:void(0);" id="linkPassword" class="" style="color:#0a58ca !important;">Password</a></li>
+                                <li><a href="core/controllers/_logout.php" id="linkLogout" class="" style="color:#0a58ca !important;">Logout</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -99,17 +100,15 @@
                         </form>
                     </div>
                     <div class="col-5 ms-5 d-none" id="tbList">
-                        <p class="lead mb-3">My digital products</p>
-                        <ul id="listaDescarga" class="text-left"></ul>
+                        <p class="lead mb-3 tituloTab2">My digital products</p>
+                        <ul id="listaDescarga" class="ms-3" style="text-align: left !important;"></ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Auxiliar para descarga  -->
-        <form method="get" id="frmDownload" class="d-none" action="#">
-            <button id="btnDownload" type="submit">Download!</button>
-        </form>
+        <script src="assets/js/mimes.js"></script>
+        <script src="assets/js/download.js"></script>
 <?php
     }
 ?>
@@ -138,7 +137,20 @@
             $("#tbList").removeClass("d-none");
         });
 
+        $(".changeLang").click( function(){
+            if (localStorage.getItem("currentLag") == "es") {
+                localStorage.setItem("currentLag", "en");
+                lang = "en";
+            }else{
+                localStorage.setItem("currentLag", "es");
+                lang = "es";
+            }
+            switchLanguage(lang);
+            switchLanguageB();
+        });
+
         fnLoadMyproducts();
+        switchLanguageB();
     });
 
     function fnValidarInfo(){
@@ -230,9 +242,9 @@
                     success: function(response){
                         if(response.codeResponse == 200){
                             showAlert("success", "Download in progress");
-                            // document.location.href = ;
-                            $("#frmDownload").attr("action", `${base_url}/${response.link[0]}`);
-                            $("#btnDownload").click();
+
+                            let base64File = `data:${mimestypes[`.${response.ext}`]};base64,${response.link}`;
+                            download(base64File, response.file, mimestypes[`.${response.ext}`]);
                         }else{
                             showAlert("warning", "Error generating download link, try again later");
                         }
@@ -241,6 +253,32 @@
             });
         });
     }
+
+    function switchLanguageB(){
+            $.post(`${base_url}/assets/lang.json`, {}, function(data) {
+
+                let myLang = data[lang]["account"];
+                $(".labelWelcome").html(myLang.labelWelcome);
+                $("#linkData").html(myLang.link1);
+                $("#linkList").html(myLang.link2);
+                $("#linkPassword").html(myLang.link3);
+                $("#linkLogout").html(myLang.link4);
+
+                $(".labelName").html(myLang.formLabel1);
+                $(".labelLastname").html(myLang.formLabel2);
+                $(".labelMail").html(myLang.formLabel3);
+                $(".labelPhone").html(myLang.formLabel4);
+                $(".labelAddress").html(myLang.formLabel5);
+                $(".labelAddress2").html(myLang.formLabel6);
+                $(".labelCity").html(myLang.formLabel7);
+                $(".labelState").html(myLang.formLabel8);
+                $(".labelZip").html(myLang.formLabel9);
+                $(".labelOtionalInfo").html(myLang.formLabel10);
+                $("#updateClient").html(myLang.labelButon);
+
+                $(".tituloTab2").html(myLang.tituloTab2);
+            });
+        }
 </script>
 
 <?php
