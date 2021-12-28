@@ -22,10 +22,53 @@
                             <input type="password" id="txtPassword" class="form-control">
                         </div>
                         <button type="button" id="btnLogin" class="btn btn-success mb-3">Confirm identity</button>
+
+                        <a href="javascript:void(0);" class="text-decoration-none mx-2" data-bs-toggle="modal" data-bs-target="#mdlCreateaccount">Create new account</a> |
+                        <a href="javascript:void(0);" class="text-decoration-none ms-2">Recover password</a>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- Modal para Registrar nueva cuenta -->
+        <div class="modal fade" id="mdlCreateaccount" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Create new account</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addClientForm" class="needs-validation" novalidate>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="inputName" class="form-label labelName">Name</label>
+                                    <input type="text" id="inputName" name="inputName" class="form-control" autocomplete="off" maxlength="250" required>
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="inputLastname" class="form-label labelLastname">Last name</label>
+                                    <input type="text" id="inputLastname" name="inputLastname" class="form-control" autocomplete="off" maxlength="50" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mb-3">
+                                    <label for="inputEmail" class="form-label labelMail">Email</label>
+                                    <input type="text" id="inputEmail" name="inputEmail" class="form-control" autocomplete="off" maxlength="20" required>
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="inputPassword" class="form-label labelPassword">Password</label>
+                                    <input type="password" id="inputPassword" name="inputPassword" class="form-control" autocomplete="off" maxlength="20" required>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary btnClose" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-success">Create</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 <?php
     } else {
 ?>
@@ -103,6 +146,26 @@
                         <p class="lead mb-3 tituloTab2">My digital products</p>
                         <ul id="listaDescarga" class="ms-3" style="text-align: left !important;"></ul>
                     </div>
+                    <div class="col-5 ms-5 d-none" id="tbPassword">
+                        <p class="lead mb-3 tituloTab3">Change my password</p>
+                        <form class="needs-validation-restore" novalidate>
+                            <div class="mb-3 position-relative">
+                                <label for="inputNewPassword" class="form-label inputNewPassword">Please enter your new password</label>
+                                <input type="password" class="form-control" id="inputNewPassword" required>
+                                <div class="invalid-tooltip">
+                                    This required
+                                </div>
+                            </div>
+                            <div class="mb-3 position-relative">
+                                <label for="inputConfirmPassword" class="form-label inputConfirmPassword">Please confirm your new password</label>
+                                <input type="password" class="form-control" id="inputConfirmPassword" required>
+                                <div class="invalid-tooltip lableVerify">
+                                    This required
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline-success btnChangepassword">Change my password</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>
@@ -115,6 +178,9 @@
 
 
 <script type="text/javascript">
+    let messagePassword = "",
+        messageVerify = "";
+
     $(document).ready(function(){
         $("#btnLogin").click( fnValidarInfo);
 
@@ -126,15 +192,31 @@
         $("#linkData").click( function(){
             $(this).addClass("active");
             $("#linkList").removeClass("active");
+            $("#linkPassword").removeClass("active");
+
             $("#tbData").removeClass("d-none");
             $("#tbList").addClass("d-none");
+            $("#tbPassword").addClass("d-none");
         });
 
         $("#linkList").click( function(){
             $(this).addClass("active");
             $("#linkData").removeClass("active");
-            $("#tbData").addClass("d-none");
+            $("#linkPassword").removeClass("active");
+
             $("#tbList").removeClass("d-none");
+            $("#tbData").addClass("d-none");
+            $("#tbPassword").addClass("d-none");
+        });
+
+        $("#linkPassword").click( function(){
+            $(this).addClass("active");
+            $("#linkData").removeClass("active");
+            $("#linkList").removeClass("active");
+
+            $("#tbPassword").removeClass("d-none");
+            $("#tbData").addClass("d-none");
+            $("#tbList").addClass("d-none");
         });
 
         $(".changeLang").click( function(){
@@ -148,6 +230,9 @@
             switchLanguage(lang);
             switchLanguageB();
         });
+
+        // Accion para cambiar la contraseña
+        $(".btnChangepassword").click( fnChangepassword);
 
         fnLoadMyproducts();
         switchLanguageB();
@@ -255,30 +340,81 @@
     }
 
     function switchLanguageB(){
-            $.post(`${base_url}/assets/lang.json`, {}, function(data) {
+        $.post(`${base_url}/assets/lang.json`, {}, function(data) {
 
-                let myLang = data[lang]["account"];
-                $(".labelWelcome").html(myLang.labelWelcome);
-                $("#linkData").html(myLang.link1);
-                $("#linkList").html(myLang.link2);
-                $("#linkPassword").html(myLang.link3);
-                $("#linkLogout").html(myLang.link4);
+            let myLang = data[lang]["account"];
+            $(".labelWelcome").html(myLang.labelWelcome);
+            $("#linkData").html(myLang.link1);
+            $("#linkList").html(myLang.link2);
+            $("#linkPassword").html(myLang.link3);
+            $("#linkLogout").html(myLang.link4);
 
-                $(".labelName").html(myLang.formLabel1);
-                $(".labelLastname").html(myLang.formLabel2);
-                $(".labelMail").html(myLang.formLabel3);
-                $(".labelPhone").html(myLang.formLabel4);
-                $(".labelAddress").html(myLang.formLabel5);
-                $(".labelAddress2").html(myLang.formLabel6);
-                $(".labelCity").html(myLang.formLabel7);
-                $(".labelState").html(myLang.formLabel8);
-                $(".labelZip").html(myLang.formLabel9);
-                $(".labelOtionalInfo").html(myLang.formLabel10);
-                $("#updateClient").html(myLang.labelButon);
+            $(".labelName").html(myLang.formLabel1);
+            $(".labelLastname").html(myLang.formLabel2);
+            $(".labelMail").html(myLang.formLabel3);
+            $(".labelPhone").html(myLang.formLabel4);
+            $(".labelAddress").html(myLang.formLabel5);
+            $(".labelAddress2").html(myLang.formLabel6);
+            $(".labelCity").html(myLang.formLabel7);
+            $(".labelState").html(myLang.formLabel8);
+            $(".labelZip").html(myLang.formLabel9);
+            $(".labelOtionalInfo").html(myLang.formLabel10);
+            $("#updateClient").html(myLang.labelButon);
 
-                $(".tituloTab2").html(myLang.tituloTab2);
-            });
+            $(".tituloTab2").html(myLang.tituloTab2);
+            $(".tituloTab3").html(myLang.tituloTab3);
+
+            $(".inputNewPassword").html(myLang.inputNewPassword);
+            $(".inputConfirmPassword").html(myLang.inputConfirmPassword);
+            $(".btnChangepassword").html(myLang.btnChangepassword);
+            messagePassword = myLang.messagePassword;
+            messageVerify = myLang.messageVerify;
+            $(".invalid-tooltip").html(myLang.invalid_tooltip);
+        });
+    }
+
+    // Metodo para cambiar contraseña
+    function fnChangepassword() {
+        let forms = document.querySelectorAll('.needs-validation-restore'),
+            continuar = true;
+
+        Array.prototype.slice.call(forms).forEach(function (form){ 
+                if (!form.checkValidity()) {
+                        continuar = false;
+                }
+
+                form.classList.add('was-validated');
+        });
+
+        if(!continuar)
+            return false;
+
+        if( $("#inputNewPassword").val() != $("#inputConfirmPassword").val() ){
+            $(".needs-validation-restore").removeClass("was-validated");
+            $("#inputConfirmPassword").addClass("is-invalid");
+            $(".lableVerify").html(messageVerify);
+            return false;
         }
+
+        let objData = {
+            "_method": "updatePasswordConfig",
+            "newPassword": $("#inputConfirmPassword").val()
+        };
+
+        $.ajax({
+            url: `core/controllers/client.php`,
+            data: objData,
+            type: 'POST',
+            dataType: 'json',
+            success: function(response){
+                showAlert("success", messagePassword);
+                $("#inputConfirmPassword").val("");
+                $("#inputNewPassword").val("");
+                $(".needs-validation-restore").removeClass("was-validated");
+                $("#inputConfirmPassword").removeClass("is-invalid");
+            }
+        });
+    }
 </script>
 
 <?php

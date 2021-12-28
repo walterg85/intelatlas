@@ -187,7 +187,8 @@
             contador            = 0,
             estadoChat          = false,
             emitirSonido        = true,
-            mensageRecibido     = "";
+            mensageRecibido     = "",
+            messageInicial      = "";
 
         $(document).ready(function(){
             $(".nav-link").click( function(){
@@ -378,6 +379,7 @@
                 $("#inputNewMessage").attr("placeholder", myLang.inputNewMessage);
                 $("#btnSendmessage").html(myLang.btnSendmessage);
                 $(".labelFinish").html(myLang.labelFinish);
+                messageInicial = myLang.messageInicial;
 
                 mensageRecibido = myLang.msgReceived;
             });
@@ -503,7 +505,7 @@
                     time = dt.getHours() + ":" + dt.getMinutes(),
                     ip = JSON.stringify(ipinfo),
                     objData = {
-                        message: "Hello, welcome, can we help you with something? it is a pleasure to help you",
+                        message: messageInicial,
                         email: "No email",
                         name: "no name",
                         phone: "No phone",
