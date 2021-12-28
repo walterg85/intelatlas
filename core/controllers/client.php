@@ -149,6 +149,16 @@
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
+		} else if($vars['_method'] == 'updatePasswordConfig'){
+			$clientModel->updatePasswordConfig( $_SESSION['intelatlasClientData']->id, encryptPass($vars['newPassword']) );
+
+			$response = array(
+				'codeResponse' 	=> 200
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");			
+			exit(json_encode($response));
 		}
 	}
 

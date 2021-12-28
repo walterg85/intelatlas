@@ -224,4 +224,21 @@
 
 			return $sql->fetch();
 		}
+
+		public function updatePasswordConfig($usId, $password){
+			$pdo = new Conexion();
+			$cmd = '
+				UPDATE client SET contraseña =:pass WHERE id =:id
+			';
+
+			$parametros = array(
+				':id' 		=> $usId,
+				':pass'		=> $password
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
 	}

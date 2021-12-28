@@ -48,7 +48,8 @@
 			"btnSendmessage":"Send",
 			"inputNewMessage": "Your Message",
 			"msgReceived": "We have received your message! We will be in touch soon",
-			"labelFinish": "End chat"
+			"labelFinish": "End chat",
+			"messageInicial": "Hello, welcome, can we help you with something? it is a pleasure to help you"
 		},
 		"account":{
 			"labelWelcome": "Welcome",
@@ -67,7 +68,14 @@
 			"formLabel9": "Zip",
 			"formLabel10": "Optional info",
 			"labelButon": "<i class='bi bi-check2'></i> Save information",
-			"tituloTab2": "My digital products"
+			"tituloTab2": "My digital products",
+			"tituloTab3": "Change my password",
+			"inputNewPassword": "Please enter your new password",
+			"inputConfirmPassword": "Please confirm your new password",
+			"btnChangepassword": "Change my password",
+			"messagePassword": "The password has been changed",
+			"messageVerify": "Passwords do not match",
+			"invalid_tooltip": "This required"
 		}
 	},
 	"es":{
@@ -119,7 +127,8 @@
 			"btnSendmessage":"Enviar",
 			"inputNewMessage": "Tu mensaje",
 			"msgReceived": "Hemos recibido tu mensaje! Nos pondremos en contacto contigo pronto",
-			"labelFinish": "Finalizar Charla"
+			"labelFinish": "Finalizar Charla",
+			"messageInicial": "Hola, bienvenido, ¿podemos ayudarte en algo? es un placer ayudarte"
 		},
 		"account":{
 			"labelWelcome": "Bienvenido",
@@ -138,7 +147,14 @@
 			"formLabel9": "Codigo postal",
 			"formLabel10": "Informacion adicional",
 			"labelButon": "<i class='bi bi-check2'></i> Guardar informacion",
-			"tituloTab2": "Mis productos digitales"
+			"tituloTab2": "Mis productos digitales",
+			"tituloTab3": "Cambiar mi contraseña",
+			"inputNewPassword": "Por favor ingresa tu nueva contraseña",
+			"inputConfirmPassword": "Por favor confirma tu nueva contraseña",
+			"btnChangepassword": "Cambiar mi contraseña",
+			"messagePassword": "La contraseña se ha cambiado",
+			"messageVerify": "Las contraseñas no coinciden",
+			"invalid_tooltip": "Esto es requerido"
 		}
 	}
 }
