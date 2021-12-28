@@ -55,11 +55,8 @@
     </div>
 </div>
 
-<!-- Auxiliar para descarga  -->
-<form method="get" id="frmDownload" class="d-none" action="#">
-    <button id="btnDownload" type="submit">Download!</button>
-</form>
-
+<script src="../assets/js/mimes.js"></script>
+<script src="../assets/js/download.js"></script>
 
 <script>
     $(document).ready(function(){
@@ -262,9 +259,9 @@
                             success: function(response){
                                 if(response.codeResponse == 200){
                                     showAlert("success", "Download in progress");
-                                    // document.location.href = ;
-                                    $("#frmDownload").attr("action", `${base_url}/${response.link[0]}`);
-                                    $("#btnDownload").click();
+
+                                    let base64File = `data:${mimestypes[`.${response.ext}`]};base64,${response.link}`;
+                                    download(base64File, response.file, mimestypes[`.${response.ext}`]);
                                 }else{
                                     showAlert("warning", "Error generating download link, try again later");
                                 }

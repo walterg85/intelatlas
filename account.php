@@ -38,6 +38,7 @@
                             <ul>
                                 <li><a href="javascript:void(0);" id="linkData" class="active" style="color:#0a58ca !important;">Profile</a></li>
                                 <li><a href="javascript:void(0);" id="linkList" class="" style="color:#0a58ca !important;">my digital purchases</a></li>
+                                <li><a href="core/controllers/_logout.php" id="linkList" class="" style="color:#0a58ca !important;">Logout</a></li>
                             </ul>
                         </nav>
                     </div>

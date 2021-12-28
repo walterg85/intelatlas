@@ -211,7 +211,9 @@
 
                 $response = array(
                     'codeResponse'  => 200,
-                    'link' => $data
+                    'link' => $data,
+                    'ext' => $ext = pathinfo('../../'.$link[0], PATHINFO_EXTENSION),
+                    'file' => $ext = pathinfo('../../'.$link[0], PATHINFO_BASENAME)
                 );          
 
                 header('HTTP/1.1 200 Ok');
