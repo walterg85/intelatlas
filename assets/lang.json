@@ -75,7 +75,14 @@
 			"btnChangepassword": "Change my password",
 			"messagePassword": "The password has been changed",
 			"messageVerify": "Passwords do not match",
-			"invalid_tooltip": "This required"
+			"invalid_tooltip": "This required",
+			"labelCreateaccount": "Create new account",
+			"labelRecoveryPassw": "Recover password",
+			"inputRestoreMail": "Email to restore",
+			"btnClose": "Close",
+			"btnRestore": "Submit",
+			"btnCreateAccount": "Create account",
+			"btnLogin": "Confirm identity"
 		}
 	},
 	"es":{
@@ -154,7 +161,14 @@
 			"btnChangepassword": "Cambiar mi contraseña",
 			"messagePassword": "La contraseña se ha cambiado",
 			"messageVerify": "Las contraseñas no coinciden",
-			"invalid_tooltip": "Esto es requerido"
+			"invalid_tooltip": "Esto es requerido",
+			"labelCreateaccount": "Crear nueva cuenta",
+			"labelRecoveryPassw": "Recuperar contraseña",
+			"inputRestoreMail": "Correo electronico para recuperacion",
+			"btnClose": "Cerrar",
+			"btnRestore": "Enviar",
+			"btnCreateAccount": "Crear cuenta",
+			"btnLogin": "Confirmar identidad"
 		}
 	}
 }

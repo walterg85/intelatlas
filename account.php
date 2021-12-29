@@ -19,15 +19,15 @@
                 <div class="row">
                     <div class="col-5 mb-3">
                         <div class="mb-3">
-                            <label for="txtClientEmail" class="form-label">Email address</label>
+                            <label for="txtClientEmail" class="form-label labelMail">Email address</label>
                             <input type="email" class="form-control" id="txtClientEmail" placeholder="">
                         </div>
                         <div class="">
-                            <label for="txtPassword" class="form-label">Password</label>
+                            <label for="txtPassword" class="form-label linkPassword">Password</label>
                             <input type="password" id="txtPassword" class="form-control">
                         </div>
-                        <a href="javascript:void(0);" class="text-decoration-none mx-2" data-bs-toggle="modal" data-bs-target="#mdlCreateaccount">Create new account</a> |
-                        <a href="javascript:void(0);" class="text-decoration-none ms-2" data-bs-toggle="modal" data-bs-target="#mdlRestorepassword">Recover password</a>
+                        <a href="javascript:void(0);" class="text-decoration-none mx-2 labelCreateaccount" data-bs-toggle="modal" data-bs-target="#mdlCreateaccount">Create new account</a> |
+                        <a href="javascript:void(0);" class="text-decoration-none ms-2 labelRecoveryPassw" data-bs-toggle="modal" data-bs-target="#mdlRestorepassword">Recover password</a>
                     </div>
                     <div class="col-12">
                         <button type="button" id="btnLogin" class="btn btn-success mb-3">Confirm identity</button>
@@ -41,7 +41,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Create new account</h5>
+                        <h5 class="modal-title labelCreateaccount" id="staticBackdropLabel">Create new account</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -61,10 +61,10 @@
                                     <label for="inputEmailNewClient" class="form-label labelMail">Email</label>
                                     <input type="text" id="inputEmailNewClient" name="inputEmailNewClient" class="form-control" autocomplete="off" maxlength="20" required>
                                 </div>
-                                <!-- <div class="col mb-3">
+                                <div class="col mb-3">
                                     <label for="inputPasswordNewClient" class="form-label labelPassword">Password</label>
                                     <input type="password" id="inputPasswordNewClient" name="inputPasswordNewClient" class="form-control" autocomplete="off" maxlength="20" required>
-                                </div> -->
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -81,7 +81,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel2">Restore password</h5>
+                        <h5 class="modal-title labelRecoveryPassw" id="staticBackdropLabel2">Restore password</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -251,7 +251,7 @@
 
 <script type="text/javascript">
     let messagePassword = "",
-        messageVerify = "";
+        messageVerify   = "";
 
     $(document).ready(function(){
         $("#btnLogin").click( fnValidarInfo);
@@ -325,15 +325,15 @@
     });
 
     function fnValidarInfo(){
-        let username = $("#txtClientEmail").val(),
-            userpassword = $("#txtPassword").val(),
-            objData = {
+        let username        = $("#txtClientEmail").val(),
+            userpassword    = $("#txtPassword").val(),
+            objData         = {
                 "_method":"_ValidateClient",
                 "username": username,
                 "userpassword": userpassword
             };
 
-        $.post("core/controllers/user.php", objData, function(result) {
+        $.post(`${base_url}/core/controllers/user.php`, objData, function(result) {
             if(result.codeResponse == 0){
                 showAlert("warning", result.message);
             } else {
@@ -432,7 +432,7 @@
             $(".labelWelcome").html(myLang.labelWelcome);
             $("#linkData").html(myLang.link1);
             $("#linkList").html(myLang.link2);
-            $("#linkPassword").html(myLang.link3);
+            $("#linkPassword, .linkPassword").html(myLang.link3);
             $("#linkLogout").html(myLang.link4);
 
             $(".labelName").html(myLang.formLabel1);
@@ -456,6 +456,14 @@
             messagePassword = myLang.messagePassword;
             messageVerify = myLang.messageVerify;
             $(".invalid-tooltip").html(myLang.invalid_tooltip);
+
+            $(".labelCreateaccount").html(myLang.labelCreateaccount);
+            $(".labelRecoveryPassw").html(myLang.labelRecoveryPassw);
+            $("#inputRestoreMail").attr("placeholder", myLang.inputRestoreMail);
+            $(".btnClose").html(myLang.btnClose);
+            $("#btnRestore").html(myLang.btnRestore);
+            $("#btnCreateAccount").html(myLang.btnCreateAccount);
+            $("#btnLogin").html(myLang.btnLogin);
         });
     }
 
@@ -544,6 +552,7 @@
                 formData.append("inputZip", "");
                 formData.append("inputInfo", "");
                 formData.append("clientId", 0);
+                formData.append("password", $("#inputPasswordNewClient").val());
 
                 var request = new XMLHttpRequest();
                 request.open("POST", "core/controllers/client.php");

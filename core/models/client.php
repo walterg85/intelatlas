@@ -185,7 +185,7 @@
 			';
 
 			$parametros = array(
-				':client_id'	=> $clientId
+				':client_id' => $clientId
 			);
 			
 			$sql = $pdo->prepare($cmd);
@@ -196,12 +196,10 @@
 
 		public function deleteNotes($id){
 			$pdo = new Conexion();
-			$cmd = '
-				DELETE FROM client_notes WHERE id =:id;
-			';
+			$cmd = 'DELETE FROM client_notes WHERE id =:id;';
 
 			$parametros = array(
-				':id'	=> $id
+				':id' => $id
 			);
 			
 			$sql = $pdo->prepare($cmd);
@@ -212,7 +210,24 @@
 
 		public function getClientId($usId) {
 			$pdo = new Conexion();
-			$cmd = 'SELECT id, email, nombre, apellido, direccion_a, direccion_b, telefono, ciudad, estado, codigo_postal, adicional FROM client WHERE id=:id';
+			$cmd = '
+				SELECT 
+					id, 
+					email, 
+					nombre, 
+					apellido, 
+					direccion_a, 
+					direccion_b, 
+					telefono, 
+					ciudad, 
+					estado, 
+					codigo_postal, 
+					adicional 
+				FROM 
+					client 
+				WHERE 
+					id=:id
+			';
 
 			$parametros = array(
 				':id' => $usId
@@ -227,13 +242,11 @@
 
 		public function updatePasswordConfig($usId, $password){
 			$pdo = new Conexion();
-			$cmd = '
-				UPDATE client SET contraseña =:pass WHERE id =:id
-			';
+			$cmd = 'UPDATE client SET contraseña =:pass WHERE id =:id';
 
 			$parametros = array(
-				':id' 		=> $usId,
-				':pass'		=> $password
+				':id'	=> $usId,
+				':pass'	=> $password
 			);
 
 			$sql = $pdo->prepare($cmd);
