@@ -241,4 +241,19 @@
 
 			return TRUE;
 		}
+
+		public function validarEmail($email){
+			$pdo = new Conexion();
+			$cmd = 'SELECT count(id) AS existe FROM client WHERE email=:email';
+
+			$parametros = array(
+				':email' => $email
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+
+			return $sql->fetch()->existe;
+		}
 	}
