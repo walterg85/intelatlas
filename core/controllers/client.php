@@ -168,6 +168,72 @@
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
+		} else if($vars['_method'] == '_RestorePassword'){
+			$data = $clientModel->getTorestore($vars['email']);
+
+			// Generar token para recuperacion de contraseña
+			// Al tiempo actual se le suman 900 Segundos (15 min), para que al paso de ello no sea valido el token
+			$headers = array('alg' => 'HS256', 'typ' => 'JWT');
+			$payload = array('usEmail' => $vars['email'], 'exp' => (time() + 900));
+			$token = generate_jwt($headers, $payload);
+			//==============================================
+
+			if($data->existe > 0){
+				//Se bypasea por que no tengo activo el mailserver, se debe activar ya en hosting
+				// $to      = $vars['email'];
+				//    $subject = 'Restore de password';
+				//    $message = '
+				//    	Recover your account and reset your password in the following link: http://localhost/clubtres/user/recoverypassword.php?restore='. $data->id .'&token='. $token.'
+				//    ';
+				//    $headers = 'From: webmaster@clubtres.com'       . "\r\n" .
+				//               'Reply-To: webmaster@clubtres.com' . "\r\n" .
+				//               'X-Mailer: PHP/' . phpversion();
+				//    mail($to, $subject, $message, $headers);
+
+				// Esto es solo para completar el proceso sin interuppciones, se debe borrar
+				$data->url = 'http://localhost/intelatlas/account.php?restore='. $data->id .'&token='. $token;
+			}
+			
+			$response = array(
+				'codeResponse' 	=> 200,
+				'data'			=> $data
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");			
+			exit(json_encode($response));
+		} else if($vars['_method'] == 'updatePassword'){
+			$bearer_token 	= get_bearer_token();
+			$is_jwt_valid 	= is_jwt_valid($bearer_token);
+
+			if($is_jwt_valid){
+				$newPassword 	= encryptPass($vars['newPassword']);
+
+				$usData = array(
+					'clientId' 	=> $vars['clientId'],
+					'password'	=> $newPassword
+				);
+				
+				$clientModel->updatePassword($usData);
+
+				$response = array(
+					'codeResponse' 	=> 200
+				);			
+
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");
+				exit(json_encode($response));
+			} else{
+				header('HTTP/1.1 200 Ok');
+				header("Content-Type: application/json; charset=UTF-8");
+
+				$response = array(
+					'codeResponse' => 401,
+					'message' => 'Unauthorized'
+				);
+
+				exit( json_encode($response) );
+			}
 		}
 	}
 

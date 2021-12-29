@@ -256,4 +256,36 @@
 
 			return $sql->fetch()->existe;
 		}
+
+		// Metodo para buscaar un usuario especifico
+        public function getTorestore($email){
+            $pdo = new Conexion();
+            $cmd = 'SELECT COUNT(id) AS existe, id FROM client WHERE email =:email AND estatus = 1';
+
+            $parametros = array(
+                ':email' => $email
+            );
+
+            $sql = $pdo->prepare($cmd);
+            $sql->execute($parametros);
+            $sql->setFetchMode(PDO::FETCH_OBJ);
+
+            return $sql->fetch();
+        }
+
+        // Metodo para actulizar contraseña
+        public function updatePassword($data){
+            $pdo = new Conexion();
+            $cmd = 'UPDATE client SET contraseña =:password WHERE id =:clientId ';
+
+            $parametros = array(
+                ':password'	=> $data['password'],
+                ':clientId'	=> $data['clientId']
+            );
+
+            $sql = $pdo->prepare($cmd);
+            $sql->execute($parametros);
+
+            return TRUE;
+        }
 	}
