@@ -82,7 +82,10 @@
 			"btnClose": "Close",
 			"btnRestore": "Submit",
 			"btnCreateAccount": "Create account",
-			"btnLogin": "Confirm identity"
+			"btnLogin": "Confirm identity",
+			"messageExist": "This email address is already registered",
+			"messageSuccess": "registered customer account, check your email for more details",
+			"messageNoregistered": "The user is not registered"
 		}
 	},
 	"es":{
@@ -168,7 +171,10 @@
 			"btnClose": "Cerrar",
 			"btnRestore": "Enviar",
 			"btnCreateAccount": "Crear cuenta",
-			"btnLogin": "Confirmar identidad"
+			"btnLogin": "Confirmar identidad",
+			"messageExist": "Este correo electronico ya esta registrado",
+			"messageSuccess": "Cuenta registrada, revice su correo para mas detalles",
+			"messageNoregistered": "El usuario no esta registrado"
 		}
 	}
 }
