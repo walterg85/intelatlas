@@ -33,7 +33,7 @@
 
 			if($vars['clientId'] == 0){
 				if($vars['leads'] == 0){
-					$password 	= generateRandomPass(8);
+					$password 	= (array_key_exists('password', $vars)) ? $vars['password'] : generateRandomPass(8);
 					$clientData['password'] = encryptPass($password);
 				}
 				
@@ -173,9 +173,9 @@
 
 			// Generar token para recuperacion de contraseña
 			// Al tiempo actual se le suman 900 Segundos (15 min), para que al paso de ello no sea valido el token
-			$headers = array('alg' => 'HS256', 'typ' => 'JWT');
-			$payload = array('usEmail' => $vars['email'], 'exp' => (time() + 900));
-			$token = generate_jwt($headers, $payload);
+			$headers 	= array('alg' => 'HS256', 'typ' => 'JWT');
+			$payload 	= array('usEmail' => $vars['email'], 'exp' => (time() + 900));
+			$token 		= generate_jwt($headers, $payload);
 			//==============================================
 
 			if($data->existe > 0){
@@ -207,7 +207,7 @@
 			$is_jwt_valid 	= is_jwt_valid($bearer_token);
 
 			if($is_jwt_valid){
-				$newPassword 	= encryptPass($vars['newPassword']);
+				$newPassword = encryptPass($vars['newPassword']);
 
 				$usData = array(
 					'clientId' 	=> $vars['clientId'],
@@ -215,7 +215,6 @@
 				);
 				
 				$clientModel->updatePassword($usData);
-
 				$response = array(
 					'codeResponse' 	=> 200
 				);			
