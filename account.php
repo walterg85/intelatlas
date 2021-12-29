@@ -251,7 +251,10 @@
 
 <script type="text/javascript">
     let messagePassword = "",
-        messageVerify   = "";
+        messageVerify   = "",
+        messageExist    = "",
+        messageSuccess  = "",
+        messageNoregistered = "";
 
     $(document).ready(function(){
         $("#btnLogin").click( fnValidarInfo);
@@ -464,6 +467,10 @@
             $("#btnRestore").html(myLang.btnRestore);
             $("#btnCreateAccount").html(myLang.btnCreateAccount);
             $("#btnLogin").html(myLang.btnLogin);
+
+            messageExist = myLang.messageExist;
+            messageSuccess = myLang.messageSuccess;
+            messageNoregistered = myLang.messageNoregistered;
         });
     }
 
@@ -535,7 +542,7 @@
             if(result.existe > 0){
                 $(".needs-validation-client").removeClass("was-validated");
                 $("#inputEmailNewClient").addClass("is-invalid");
-                showAlert("warning", "This email address is already registered");
+                showAlert("warning", messageExist);
             } else {
                 let formData = new FormData();
 
@@ -563,7 +570,7 @@
                 $("#inputEmailNewClient").removeClass("is-invalid");
                 $("#mdlCreateaccount").modal("hide");
 
-                showAlert("success", "registered customer account, check your email for more details");
+                showAlert("success", messageSuccess);
             }
         });
     }
@@ -590,7 +597,7 @@
 
         $.post("core/controllers/client.php", objData, function(result) {
             if(result.data.existe == 0){
-                showAlert("warning", "The user is not registered");
+                showAlert("warning", messageNoregistered);
             } else {
                 $(".needs-validation-restorepassword").removeClass("was-validated");
                 $("#inputRestoreMail").val("");
