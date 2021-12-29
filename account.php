@@ -2,29 +2,35 @@
     @session_start();
     // Se inicia el metodo para encapsular todo el contenido de las paginas (bufering), para dar salida al HTML 
     ob_start();
-?>
 
-<style type="text/css"></style>
+    $clientID   = (array_key_exists('restore', $_GET)) ? $_GET['restore'] : 0;
+    $token      = (array_key_exists('token', $_GET)) ? $_GET['token'] : '';
+?>
+<script type="text/javascript">
+    var clientId    = <?php echo $clientID ?>,
+        token       = "<?php echo $token ?>";
+</script>
 
 <?php
-    if (!isset($_SESSION['intelatlasClientLoged'])){
+    if (!isset($_SESSION['intelatlasClientLoged']) && $clientID == 0){
 ?>
         <section class="pricing">
             <div class="container">
                 <div class="row">
-                    <div class="col-5">
+                    <div class="col-5 mb-3">
                         <div class="mb-3">
                             <label for="txtClientEmail" class="form-label">Email address</label>
                             <input type="email" class="form-control" id="txtClientEmail" placeholder="">
                         </div>
-                        <div class="mb-3">
+                        <div class="">
                             <label for="txtPassword" class="form-label">Password</label>
                             <input type="password" id="txtPassword" class="form-control">
                         </div>
-                        <button type="button" id="btnLogin" class="btn btn-success mb-3">Confirm identity</button>
-
                         <a href="javascript:void(0);" class="text-decoration-none mx-2" data-bs-toggle="modal" data-bs-target="#mdlCreateaccount">Create new account</a> |
-                        <a href="javascript:void(0);" class="text-decoration-none ms-2">Recover password</a>
+                        <a href="javascript:void(0);" class="text-decoration-none ms-2" data-bs-toggle="modal" data-bs-target="#mdlRestorepassword">Recover password</a>
+                    </div>
+                    <div class="col-12">
+                        <button type="button" id="btnLogin" class="btn btn-success mb-3">Confirm identity</button>
                     </div>
                 </div>
             </div>
@@ -69,8 +75,31 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal para Restaurar contraseña -->
+        <div class="modal fade" id="mdlRestorepassword" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel2">Restore password</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="needs-validation-restorepassword" novalidate>
+                            <div class="mb-4">
+                                <input type="text" class="form-control" id="inputRestoreMail" name="inputRestoreMail" aria-describedby="emailHelp" placeholder="Email to restore" required>
+                            </div>
+                            <button type="button" class="w-100 btn btn-success" id="btnRestore">Submit</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary btnClose" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 <?php
-    } else {
+    } else if(isset($_SESSION['intelatlasClientLoged']) && $clientID == 0){
 ?>
         <section class="pricing">
             <div class="container">
@@ -173,6 +202,49 @@
         <script src="assets/js/mimes.js"></script>
         <script src="assets/js/download.js"></script>
 <?php
+    } else{
+?>
+        <section class="pricing">
+            <div class="container">
+                <div class="row">
+                    <div class="col-5 mb-3">
+                        <form class="needs-validation-restorenewpassword" novalidate>
+                            <div class="mb-3 position-relative">
+                                <label for="inputNewPasswordRestore" class="form-label">Please enter your new password</label>
+                                <input type="password" style="width:200px;" class="form-control" id="inputNewPasswordRestore" required>
+                                <div class="invalid-tooltip">
+                                    This required
+                                </div>
+                            </div>
+                            <div class="mb-3 position-relative">
+                                <label for="inputConfirmPasswordRestore" class="form-label">Please confirm your new password</label>
+                                <input type="password" style="width:200px;" class="form-control" id="inputConfirmPasswordRestore" required>
+                                <div class="invalid-tooltip lableVerify">
+                                    This required
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn btn-success mb-3" id="btnRestoreNewPassword">Change my password</button>
+                        </form>
+
+                        <form class="needs-validation-sendlink d-none" novalidate>
+                            <div class="mb-3 position-relative">
+                                <label for="inputRestoreMailnew" class="form-label">
+                                    The password recovery link has expired, you must generate a new link
+                                </label>
+                                <input style="width:200px;" type="text" class="form-control" id="inputRestoreMailnew" name="inputRestoreMailnew" aria-describedby="emailHelp" placeholder="Email to restore" required>
+                                <div class="invalid-tooltip">
+                                    This required
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn btn-success" id="btnSendlink">Send me a new link</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+<?php
     }
 ?>
 
@@ -236,6 +308,17 @@
 
         // Accion para crear cuenta de cliente
         $("#btnCreateAccount").click( fnCreateAccount);
+
+        // Activar solicitud de restableciiento
+        $("#btnRestore").click( fnRestorePassword);
+
+        // Validar que sea un id valido
+        if(clientId == 0)
+            $("#btnRestoreNewPassword").prop("disabled", "disabled");
+
+        $("#btnRestoreNewPassword").click( fnResotre);
+
+        $("#btnSendlink").click( fnSendNewLink);
 
         fnLoadMyproducts();
         switchLanguageB();
@@ -472,6 +555,116 @@
                 $("#mdlCreateaccount").modal("hide");
 
                 showAlert("success", "registered customer account, check your email for more details");
+            }
+        });
+    }
+
+    function fnRestorePassword(){
+        let forms = document.querySelectorAll('.needs-validation-restorepassword'),
+            continuar = true;
+
+        Array.prototype.slice.call(forms).forEach(function (form){ 
+                if (!form.checkValidity()) {
+                        continuar = false;
+                }
+
+                form.classList.add('was-validated');
+        });
+
+        if(!continuar)
+                return false;
+
+        let objData = {
+            "_method": "_RestorePassword",
+            "email": $("#inputRestoreMail").val()
+        };
+
+        $.post("core/controllers/client.php", objData, function(result) {
+            if(result.data.existe == 0){
+                showAlert("warning", "The user is not registered");
+            } else {
+                $(".needs-validation-restorepassword").removeClass("was-validated");
+                $("#inputRestoreMail").val("");
+                $("#mdlRestorepassword").modal("hide");
+                showAlert("success", "An email was sent with the league to reset your password");
+            }
+        });
+    }
+
+    function fnResotre(){
+        let forms = document.querySelectorAll('.needs-validation-restorenewpassword'),
+            continuar = true;
+
+        Array.prototype.slice.call(forms).forEach(function (form){ 
+                if (!form.checkValidity()) {
+                        continuar = false;
+                }
+
+                form.classList.add('was-validated');
+        });
+
+        if(!continuar)
+            return false;
+
+        if( $("#inputNewPasswordRestore").val() != $("#inputConfirmPasswordRestore").val() ){
+            $(".needs-validation-restorenewpassword").removeClass("was-validated");
+            $("#inputConfirmPasswordRestore").addClass("is-invalid");
+            $(".lableVerify").html("Passwords do not match");
+            return false;
+        }
+
+        let objData = {
+            "_method": "updatePassword",
+            "newPassword": $("#inputConfirmPasswordRestore").val(),
+            "clientId": clientId
+        };
+
+        $.ajax({
+            url: `${base_url}/core/controllers/client.php`,
+            data: objData,
+            type: 'POST',
+            dataType: 'json',
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
+            success: function(response){
+                if(response.codeResponse == 200){
+                    window.location.replace("account.php");
+                }else{
+                    $(".needs-validation-restorenewpassword").addClass("d-none");
+                    $(".needs-validation-sendlink").removeClass("d-none");
+                }
+            }
+        });
+    }
+
+    function fnSendNewLink(){
+        let forms = document.querySelectorAll('.needs-validation-sendlink'),
+            continuar = true;
+
+        Array.prototype.slice.call(forms).forEach(function (form){ 
+                if (!form.checkValidity()) {
+                        continuar = false;
+                }
+
+                form.classList.add('was-validated');
+        });
+
+        if(!continuar)
+                return false;
+
+        let objData = {
+            "_method": "_RestorePassword",
+            "email": $("#inputRestoreMailnew").val()
+        };
+
+        $.post("core/controllers/client.php", objData, function(result) {
+            if(result.data.existe == 0){
+                showAlert("warning", "The user is not registered");
+            } else {
+                $(".needs-validation-sendlink").removeClass("was-validated");
+                $("#inputRestoreMailnew").val("");
+                showAlert("success", "An email was sent with the league to reset your password");
             }
         });
     }
