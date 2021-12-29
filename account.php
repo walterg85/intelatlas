@@ -39,32 +39,32 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="addClientForm" class="needs-validation" novalidate>
+                        <form id="addClientForm" class="needs-validation-client" novalidate>
                             <div class="row">
                                 <div class="col mb-3">
-                                    <label for="inputName" class="form-label labelName">Name</label>
-                                    <input type="text" id="inputName" name="inputName" class="form-control" autocomplete="off" maxlength="250" required>
+                                    <label for="inputNameNewClient" class="form-label labelName">Name</label>
+                                    <input type="text" id="inputNameNewClient" name="inputNameNewClient" class="form-control" autocomplete="off" maxlength="250" required>
                                 </div>
                                 <div class="col mb-3">
-                                    <label for="inputLastname" class="form-label labelLastname">Last name</label>
-                                    <input type="text" id="inputLastname" name="inputLastname" class="form-control" autocomplete="off" maxlength="50" required>
+                                    <label for="inputLastnameNewClient" class="form-label labelLastname">Last name</label>
+                                    <input type="text" id="inputLastnameNewClient" name="inputLastnameNewClient" class="form-control" autocomplete="off" maxlength="50" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col mb-3">
-                                    <label for="inputEmail" class="form-label labelMail">Email</label>
-                                    <input type="text" id="inputEmail" name="inputEmail" class="form-control" autocomplete="off" maxlength="20" required>
+                                    <label for="inputEmailNewClient" class="form-label labelMail">Email</label>
+                                    <input type="text" id="inputEmailNewClient" name="inputEmailNewClient" class="form-control" autocomplete="off" maxlength="20" required>
                                 </div>
-                                <div class="col mb-3">
-                                    <label for="inputPassword" class="form-label labelPassword">Password</label>
-                                    <input type="password" id="inputPassword" name="inputPassword" class="form-control" autocomplete="off" maxlength="20" required>
-                                </div>
+                                <!-- <div class="col mb-3">
+                                    <label for="inputPasswordNewClient" class="form-label labelPassword">Password</label>
+                                    <input type="password" id="inputPasswordNewClient" name="inputPasswordNewClient" class="form-control" autocomplete="off" maxlength="20" required>
+                                </div> -->
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary btnClose" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-outline-success">Create</button>
+                        <button type="button" class="btn btn-outline-success" id="btnCreateAccount">Create account</button>
                     </div>
                 </div>
             </div>
@@ -233,6 +233,9 @@
 
         // Accion para cambiar la contraseña
         $(".btnChangepassword").click( fnChangepassword);
+
+        // Accion para crear cuenta de cliente
+        $("#btnCreateAccount").click( fnCreateAccount);
 
         fnLoadMyproducts();
         switchLanguageB();
@@ -412,6 +415,63 @@
                 $("#inputNewPassword").val("");
                 $(".needs-validation-restore").removeClass("was-validated");
                 $("#inputConfirmPassword").removeClass("is-invalid");
+            }
+        });
+    }
+
+    // Metodo para crear la cuenta de cliente
+    function fnCreateAccount(){
+        let forms = document.querySelectorAll('.needs-validation-client'),
+            continuar = true;
+
+        Array.prototype.slice.call(forms).forEach(function (form){ 
+                if (!form.checkValidity()) {
+                        continuar = false;
+                }
+
+                form.classList.add('was-validated');
+        });
+
+        if(!continuar)
+            return false;
+
+        let data = {
+            "_method": "validarEmail",
+            "email": $("#inputEmailNewClient").val()
+        };
+
+        $.post(`${base_url}/core/controllers/client.php`, data, function(result){
+            if(result.existe > 0){
+                $(".needs-validation-client").removeClass("was-validated");
+                $("#inputEmailNewClient").addClass("is-invalid");
+                showAlert("warning", "This email address is already registered");
+            } else {
+                let formData = new FormData();
+
+                formData.append("_method", "POST");
+                formData.append("leads", 0);
+                formData.append("inputName", $("#inputNameNewClient").val());
+                formData.append("inputLastname", $("#inputLastnameNewClient").val());
+                formData.append("inputAddress", "");
+                formData.append("inputAddress2", "");
+                formData.append("inputEmail", $("#inputEmailNewClient").val());
+                formData.append("inputPhone", "");
+                formData.append("inputCity", "");
+                formData.append("inputState", "");
+                formData.append("inputZip", "");
+                formData.append("inputInfo", "");
+                formData.append("clientId", 0);
+
+                var request = new XMLHttpRequest();
+                request.open("POST", "core/controllers/client.php");
+                request.send(formData);
+
+                $("#addClientForm")[0].reset();
+                $(".needs-validation-client").removeClass("was-validated");
+                $("#inputEmailNewClient").removeClass("is-invalid");
+                $("#mdlCreateaccount").modal("hide");
+
+                showAlert("success", "registered customer account, check your email for more details");
             }
         });
     }
