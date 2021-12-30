@@ -9,7 +9,10 @@
 
 	    	// Año actual
 	    	$cmd = '
-	    		SELECT SUM(amount) AS venta_total FROM `order` WHERE order_date BETWEEN :inicio AND :fin
+	    		SELECT
+	    			(SELECT SUM(amount) FROM `order` WHERE status > 0 AND order_date BETWEEN :inicio AND :fin) AS venta_total,
+	    			(SELECT SUM(importe) FROM `invoice` WHERE estatus IN(1,2) AND activo = 1 AND fecha BETWEEN :inicio AND :fin) AS venta_factura,
+	    			(SELECT SUM(importe) FROM `invoice` WHERE estatus IN(1) AND activo = 1 AND fecha BETWEEN :inicio AND :fin) AS adeudos;
 	    	';
 
 	    	$parametros = array(
@@ -24,10 +27,6 @@
 			$result['anioActual'] = $sql->fetch();
 
 			// Año pasado
-			$cmd = '
-	    		SELECT SUM(amount) AS venta_total FROM `order` WHERE order_date BETWEEN :inicio AND :fin
-	    	';
-
 	    	$parametros = array(
 	    		':inicio' 	=> $data['anioPasado'].'-01-01 00:00:00',
 	    		':fin' 		=> $data['anioPasado'].'-12-31 23:59:59'
@@ -38,6 +37,25 @@
 			$sql->setFetchMode(PDO::FETCH_OBJ);
 
 			$result['anioPasado'] = $sql->fetch();
+
+			// Mes actual
+	    	$cmd = '
+	    		SELECT
+	    			(SELECT SUM(amount) FROM `order` WHERE status > 0 AND order_date BETWEEN :inicio AND :fin) AS venta_total,
+	    			(SELECT SUM(importe) FROM `invoice` WHERE estatus IN(1,2) AND activo = 1 AND fecha BETWEEN :inicio AND :fin) AS venta_factura,
+	    			(SELECT SUM(importe) FROM `invoice` WHERE estatus IN(1) AND activo = 1 AND fecha BETWEEN :inicio AND :fin) AS adeudos;
+	    	';
+
+	    	$parametros = array(
+	    		':inicio' 	=> $data['anioActual'].'-'. $data['mesActual'] .'-01 00:00:00',
+	    		':fin' 		=> $data['anioActual'].'-'. $data['mesActual'] .'-'. $data['ultimoDiaMes'] .' 23:59:59'
+	    	);
+
+	    	$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+
+			$result['mesActual'] = $sql->fetch();
 
 			return $result;
 	    }

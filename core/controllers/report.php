@@ -13,8 +13,10 @@
 
 		if($vars['_method'] == 'getResumen') {
 			$data = array(
-				'anioActual' => $vars['anioActual'],
-				'anioPasado' => $vars['anioPasado']
+				'anioActual'	=> $vars['anioActual'],
+				'anioPasado'	=> $vars['anioPasado'],
+				'mesActual'		=> $vars['mesActual'],
+				'ultimoDiaMes'	=> $vars['ultimoDiaMes']
 			);
 
 			$response = array(

@@ -93,39 +93,57 @@
         $("#mesActual").html(arrMes[lang][mesActual]);
 
         getResumen();
+
+        Date.prototype.getWeekNumber = function () {
+            var d = new Date(+this);  //Creamos un nuevo Date con la fecha de "this".
+            d.setHours(0, 0, 0, 0);   //Nos aseguramos de limpiar la hora.
+            d.setDate(d.getDate() + 4 - (d.getDay() || 7)); // Recorremos los días para asegurarnos de estar "dentro de la semana"
+            //Finalmente, calculamos redondeando y ajustando por la naturaleza de los números en JS:
+            return Math.ceil((((d - new Date(d.getFullYear(), 0, 1)) / 8.64e7) + 1) / 7);
+        }
+
+        console.log( new Date().getWeekNumber() );
     }
 
     function getResumen(){
-        let _Data = {
+        let ultimoDiaMes = new Date(anioActual, currentDate.getMonth() + 1, 0),
+             _Data = {
             "_method": "getResumen",
             "anioPasado": anioPasado,
-            "anioActual": anioActual
+            "anioActual": anioActual,
+            "mesActual": mesActual,
+            "ultimoDiaMes": ultimoDiaMes.getDate()
         };
 
         $.post("../core/controllers/report.php", _Data, function(result){
             let data = result.data;
 
-            if(data.anioPasado.venta_total){
-                $("#anioPasadoSales").html(formatter.format(data.anioPasado.venta_total));
-                $("#anioPasadoDebt").html("$0.00");
-                $("#anioPasadoReceived").html("$0.00");
-            }else{
-                $("#anioPasadoSales").html("$0.00");
-                $("#anioPasadoDebt").html("$0.00");
-                $("#anioPasadoReceived").html("$0.00");
-            }
+            // Vaciar resultados para el mes actual
+            let venta_paypal    = (data.anioActual.venta_total) ? parseFloat(data.anioActual.venta_total) : 0,
+                venta_facturas  = (data.anioActual.venta_factura) ? parseFloat(data.anioActual.venta_factura) : 0,
+                adeudos         = (data.anioActual.adeudos) ? parseFloat(data.anioActual.adeudos) : 0;
 
-            if(data.anioActual.venta_total){
-                $("#anioActualSales").html(formatter.format(data.anioActual.venta_total));
-                $("#anioActualDebt").html("$0.00");
-                $("#anioActualReceived").html("$0.00");
-            }else{
-                $("#anioActualSales").html("$0.00");
-                $("#anioActualDebt").html("$0.00");
-                $("#anioActualReceived").html("$0.00");
-            }
+            $("#anioActualSales").html(formatter.format( venta_paypal + venta_facturas ));
+            $("#anioActualDebt").html(formatter.format( adeudos ));
+            $("#anioActualReceived").html(formatter.format( (venta_paypal + venta_facturas) - adeudos ));
 
-            
+            // Vaciar resultados para el año anterior
+            venta_paypal    = (data.anioPasado.venta_total) ? parseFloat(data.anioPasado.venta_total) : 0,
+            venta_facturas  = (data.anioPasado.venta_factura) ? parseFloat(data.anioPasado.venta_factura) : 0,
+            adeudos         = (data.anioPasado.adeudos) ? parseFloat(data.anioPasado.adeudos) : 0;
+
+            $("#anioPasadoSales").html(formatter.format( venta_paypal + venta_facturas ));
+            $("#anioPasadoDebt").html(formatter.format( adeudos ));
+            $("#anioPasadoReceived").html(formatter.format( (venta_paypal + venta_facturas) - adeudos ));
+
+            // Vaciar resultados para el mes actual
+            venta_paypal    = (data.mesActual.venta_total) ? parseFloat(data.mesActual.venta_total) : 0,
+            venta_facturas  = (data.mesActual.venta_factura) ? parseFloat(data.mesActual.venta_factura) : 0,
+            adeudos         = (data.mesActual.adeudos) ? parseFloat(data.mesActual.adeudos) : 0;
+
+            $("#mesActualSales").html(formatter.format( venta_paypal + venta_facturas ));
+            $("#mesActualDebt").html(formatter.format( adeudos ));
+            $("#mesActualReceived").html(formatter.format( (venta_paypal + venta_facturas) - adeudos ));
         });
     }
 </script>
