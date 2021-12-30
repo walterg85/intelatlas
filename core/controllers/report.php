@@ -13,15 +13,28 @@
 
 		if($vars['_method'] == 'getResumen') {
 			$data = array(
-				'anioActual'	=> $vars['anioActual'],
-				'anioPasado'	=> $vars['anioPasado'],
-				'mesActual'		=> $vars['mesActual'],
-				'ultimoDiaMes'	=> $vars['ultimoDiaMes']
+				'anioActual'		=> $vars['anioActual'],
+				'anioPasado'		=> $vars['anioPasado'],
+				'mesActual'			=> $vars['mesActual'],
+				'ultimoDiaMes'		=> $vars['ultimoDiaMes'],
+				'primerDiaSemana'	=> $vars['primerDiaSemana'],
+				'ultimoDiaSemana'	=> $vars['ultimoDiaSemana']
 			);
+
+			$resumenMes = [];
+			for ($i=1; $i < 13; $i++) { 
+				$result = $reportmodel->getResumenMonth( $data['anioActual'] . '-' . str_pad($i, 2, '0', STR_PAD_LEFT) );
+
+				$venta = ($result->total_venta) ? $result->total_venta : 0;
+				$factura = ($result->venta_factura) ? $result->venta_factura : 0;
+
+				$resumenMes[] = $venta + $factura;
+			}
 
 			$response = array(
 				'codeResponse' 	=> 200,
-				'data' 			=> $reportmodel->getResumen( $data )
+				'data' 			=> $reportmodel->getResumen( $data ),
+				'dataMes'		=> $resumenMes
 			);
 
 			header('HTTP/1.1 200 Ok');

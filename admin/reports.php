@@ -6,7 +6,7 @@
     <h1 class="h2 lblNamePage">Reports</h1>
 </div>
 
-<div class="row row-cols-1 row-cols-md-2 g-4">
+<div class="row row-cols-1 row-cols-md-2 g-4 mb-3">
     <div class="col">
         <div class="card">
             <h5 class="card-header">
@@ -58,11 +58,16 @@
             </div>
         </div>
     </div>
-
-
 </div>
 
+<div class="row">
+    <p class="lead mb-0">Total sales in the current year</p>
+    <div class="col-6">
+        <canvas class="my-4 w-100" id="myChart"></canvas>
+    </div>
+</div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
 <script type="text/javascript">
     var anioActual = 0,
         anioPasado = 0,
@@ -79,8 +84,14 @@
             minimumFractionDigits: 2
         });
 
-    $(document).ready(function(){
-    });
+    Date.prototype.getWeekNumber = function () {
+        var d = new Date(+this);
+        d.setHours(0, 0, 0, 0);
+        d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+        return Math.ceil((((d - new Date(d.getFullYear(), 0, 1)) / 8.64e7) + 1) / 7);
+    }
+
+    $(document).ready(function(){});
 
     function changePageLang(){
         anioActual = currentDate.getFullYear();
@@ -93,26 +104,20 @@
         $("#mesActual").html(arrMes[lang][mesActual]);
 
         getResumen();
-
-        Date.prototype.getWeekNumber = function () {
-            var d = new Date(+this);  //Creamos un nuevo Date con la fecha de "this".
-            d.setHours(0, 0, 0, 0);   //Nos aseguramos de limpiar la hora.
-            d.setDate(d.getDate() + 4 - (d.getDay() || 7)); // Recorremos los días para asegurarnos de estar "dentro de la semana"
-            //Finalmente, calculamos redondeando y ajustando por la naturaleza de los números en JS:
-            return Math.ceil((((d - new Date(d.getFullYear(), 0, 1)) / 8.64e7) + 1) / 7);
-        }
-
-        console.log( new Date().getWeekNumber() );
     }
 
     function getResumen(){
         let ultimoDiaMes = new Date(anioActual, currentDate.getMonth() + 1, 0),
+            semanaActual = new Date().getWeekNumber(),
+            primerDiaSemana = new Date(anioActual, 0, (semanaActual - 1) * 7 + 1);
              _Data = {
             "_method": "getResumen",
             "anioPasado": anioPasado,
             "anioActual": anioActual,
-            "mesActual": mesActual,
-            "ultimoDiaMes": ultimoDiaMes.getDate()
+            "mesActual": mesActual + 1,
+            "ultimoDiaMes": ultimoDiaMes.getDate(),
+            "primerDiaSemana": primerDiaSemana.getDate(),
+            "ultimoDiaSemana": currentDate.getDate()
         };
 
         $.post("../core/controllers/report.php", _Data, function(result){
@@ -144,6 +149,58 @@
             $("#mesActualSales").html(formatter.format( venta_paypal + venta_facturas ));
             $("#mesActualDebt").html(formatter.format( adeudos ));
             $("#mesActualReceived").html(formatter.format( (venta_paypal + venta_facturas) - adeudos ));
+
+            // Vaciar resultados para la semana actual
+            venta_paypal    = (data.semanaActual.venta_total) ? parseFloat(data.semanaActual.venta_total) : 0,
+            venta_facturas  = (data.semanaActual.venta_factura) ? parseFloat(data.semanaActual.venta_factura) : 0,
+            adeudos         = (data.semanaActual.adeudos) ? parseFloat(data.semanaActual.adeudos) : 0;
+
+            $("#semanaActualSales").html(formatter.format( venta_paypal + venta_facturas ));
+            $("#semanaActualDebt").html(formatter.format( adeudos ));
+            $("#semanaActualReceived").html(formatter.format( (venta_paypal + venta_facturas) - adeudos ));
+
+            // Imprimir grafica
+            printChart(null);
+        });
+    }
+
+    function printChart(data){
+        // Graphs
+        let canva = document.getElementById('myChart');
+
+        let myChart = new Chart(canva, {
+            type: 'line',
+            data: {
+                labels: arrMes[lang],
+                datasets: [{
+                    data: [
+                        15339,
+                        21345,
+                        18483,
+                        24003,
+                        23489,
+                        24092,
+                        12034
+                    ],
+                    lineTension: 0,
+                    backgroundColor: 'transparent',
+                    borderColor: '#007bff',
+                    borderWidth: 4,
+                    pointBackgroundColor: '#007bff'
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: false
+                        }
+                    }]
+                },
+                legend: {
+                    display: false
+                }
+            }
         });
     }
 </script>
