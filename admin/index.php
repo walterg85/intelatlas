@@ -135,6 +135,11 @@
                                 <i class="bi bi-sliders"></i> Settings
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="linkReports" href="reports.php">
+                                <i class="bi bi-calculator-fill"></i> Reports
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </nav>
