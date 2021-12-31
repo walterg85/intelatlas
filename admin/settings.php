@@ -161,10 +161,10 @@
     <div class="offcanvas-body">
         <form id="frmNewuser" class="needs-validation-userform" novalidate>
             <div class="row">
-                <div class="col-12 mb-3">
+                <!-- <div class="col-12 mb-3">
                     <label for="inputName" class="form-label labelName">Owner</label>
                     <input type="text" id="inputName" name="inputName" class="form-control" autocomplete="off" maxlength="250" required>
-                </div>
+                </div> -->
                 <div class="col mb-3">
                     <label for="inputUserName" class="form-label inputUserName">Username</label>
                     <input type="text" id="inputUserName" name="inputUserName" class="form-control" autocomplete="off" maxlength="50" required>
@@ -251,6 +251,9 @@
         initComponent();
 
         loadProducts();
+
+        // Mostrar todos los usuario
+        fngetUser();
 
         $("#btnAdd").click( addProduct);
 
@@ -532,6 +535,78 @@
 
         if(!continuar)
             return false;
+
+        let permisos = {};
+
+        permisos.categoria      = ($("#swPermisoCat").is(':checked')) ? 1 : 0;
+        permisos.productos      = ($("#swPermisoProd").is(':checked')) ? 1 : 0;
+        permisos.cupones        = ($("#swPermisoCoup").is(':checked')) ? 1 : 0;
+        permisos.ordenes        = ($("#swPermisoOrder").is(':checked')) ? 1 : 0;
+        permisos.clientes       = ($("#swPermisoClient").is(':checked')) ? 1 : 0;
+        permisos.prospectos     = ($("#swPermisoLeads").is(':checked')) ? 1 : 0;
+        permisos.facturas       = ($("#swPermisoInvoice").is(':checked')) ? 1 : 0;
+        permisos.chat           = ($("#swPermisoChat").is(':checked')) ? 1 : 0;
+        permisos.configuracion  = ($("#swPermisoSett").is(':checked')) ? 1 : 0;
+        permisos.reportes       = ($("#swPermisoReport").is(':checked')) ? 1 : 0;
+
+        let _Data = {
+            "_method": "createUser",
+            "owner": $("#inputUserName").val(),
+            "password": $("#inputUserPassword").val(),
+            "roles": JSON.stringify(permisos)
+        };
+
+        $.post("../core/controllers/user.php", _Data, function(){
+            showAlert("success", "registered user account");
+            $("#frmNewuser").removeClass("was-validated");
+            $("#frmNewuser")[0].reset();
+            $("#btnAddUser").click();
+        });
+    }
+
+    // Metodo para listar todos los usuarios
+    function fngetUser(){
+        let _Data = {
+            "_method": "getUser"
+        },
+        filas = "";
+
+        $("#tblUser").html("");
+        $.post("../core/controllers/user.php", _Data, function(result){
+            // Se recore el contenido del array para listar todos los usuarios
+            $.each(result.data, function(index, item){
+                let roles = item.roles.replace('"', "'");
+
+                filas += `
+                    <tr>
+                        <td>${index +1}</td>
+                        <td>${item.owner}</td>
+                        <td class="text-center">
+                            <a href="javascript:void(0);" data-id="${item.id}" class="btn btn-outline-danger btn-sm btnDeleteUser" title="Delete"><i class="bi bi-trash"></i></a>
+                            <a href="javascript:void(0);" data-id="${item.id}" data-roles="${roles}" class="btn btn-outline-warning btn-sm btnModifyUser" title="Modify"><i class="bi bi-eye-fill"></i></a>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            // Se agrega el contenido del HTML en el body de la tabla contenedora
+            $("#tblUser").append(filas);
+
+            // Accion del boton para eliminar un usuario del sistema
+            $(".btnDeleteUser").unbind().click( function(){
+                let id = $(this).data("id");
+
+                console.log(id);
+            });
+
+            // Accion del boton para eliminar un usuario del sistema
+            $(".btnModifyUser").unbind().click( function(){
+                let id      = $(this).data("id"),
+                    roles   = $(this).data("roles");
+
+                console.log(roles);
+            });
+        });
     }
 </script>
 

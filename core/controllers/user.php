@@ -111,6 +111,28 @@
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
+		} else if($vars['_method'] == 'createUser'){
+			$data = array(
+				'owner'		=> $vars['owner'],
+				'email' 	=> '',
+				'password'	=> encryptPass($vars['password']),
+				'type'		=> 2,
+				'roles'		=> $vars['roles']
+			);
+
+			$userModel->createUser($data);
+
+			header('HTTP/1.1 200 Ok');			
+			exit();
+		} else if($vars['_method'] == 'getUser'){
+			$response = array(
+				'codeResponse' 	=> 200,
+				'data' 			=> $userModel->getUser()
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");			
+			exit(json_encode($response));
 		}
 	}
 

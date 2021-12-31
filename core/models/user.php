@@ -43,16 +43,17 @@
 			$pdo = new Conexion();
 			$cmd = '
 				INSERT INTO user
-					(owner, email, password, type, register_date, oauth_provider, active)
+					(owner, email, password, type, register_date, oauth_provider, active, roles)
 				VALUES
-					(:owner, :email, :password, :type, now(), "system", 1)
+					(:owner, :email, :password, :type, now(), "system", 1, :roles)
 			';
 
 			$parametros = array(
 				':owner' => $userData['owner'],
 				':email' => $userData['email'],
 				':password' => $userData['password'],
-				':type' => $userData['type']
+				':type' => $userData['type'],
+				':roles' => ($userData['roles']) ? $userData['roles'] : ''
 			);
 			
 			try {
@@ -113,5 +114,16 @@
 			$sql->setFetchMode(PDO::FETCH_OBJ);
 
 			return $sql->fetch();
+		}
+
+		public function getUser() {
+			$pdo = new Conexion();
+			$cmd = 'SELECT id, owner, roles FROM user WHERE type = 2 AND active = 1';
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute();
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+
+			return $sql->fetchAll();
 		}
 	}
