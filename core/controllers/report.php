@@ -32,7 +32,7 @@
 			}
 
 			$resumenDias = [];
-			for ($i=1; $i < $vars['ultimoDiaMes']; $i++) { 
+			for ($i=1; $i <= $vars['ultimoDiaMes']; $i++) {
 				$result = $reportmodel->getResumenDay( $data['anioActual'] . '-' . $vars['mesActual'] . '-' . str_pad($i, 2, '0', STR_PAD_LEFT) );
 
 				$venta = ($result->total_venta) ? $result->total_venta : 0;

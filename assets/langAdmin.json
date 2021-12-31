@@ -161,6 +161,16 @@
 			"labelState": "State",
 			"labelZip": "Zip",
 			"labelOtionalInfo": "Optional info"
+		},
+		"Reports":{
+			"chartA": "Total sales in the current year",
+			"chartB": "Total sales in the current month",
+			"labelUno": "Total sales in",
+			"labelDos": "Total sales in the current week",
+			"lblNamePage": "Reports",
+			"labelTres": "Total sales:",
+			"labelCuatro": "Total in debt:",
+			"labelCinco": "Total received:"
 		}
 	},
 	"es":{
@@ -325,6 +335,16 @@
 			"labelState": "Estado",
 			"labelZip": "Codigo postal",
 			"labelOtionalInfo": "Informacion adicional"
+		},
+		"Reports":{
+			"chartA": "Ventas totales en el año actual",
+			"chartB": "Ventas totales en el mes actual",
+			"labelUno": "Venta totales en",
+			"labelDos": "Venta totales en la semana actual",
+			"lblNamePage": "Reportes",
+			"labelTres": "Venta totales:",
+			"labelCuatro": "Total en deudas:",
+			"labelCinco": "Total recibido:"
 		}
 	}
 }

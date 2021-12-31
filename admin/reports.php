@@ -10,12 +10,12 @@
     <div class="col">
         <div class="card">
             <h5 class="card-header">
-                Total sales in <texto id="anioActual"></texto>
+                <texto class="labelUno">Total sales in</texto> <texto id="anioActual"></texto>
             </h5>
             <div class="card-body">
-                <h6>Total sales: <texto id="anioActualSales"></texto></h6>
-                <h6>Total in debt <texto id="anioActualDebt"></texto></h6>
-                <h6>Total received <texto id="anioActualReceived"></texto></h6>
+                <h6><texto class="labelTres">Total sales:</texto> <texto id="anioActualSales"></texto></h6>
+                <h6><texto class="labelCuatro">Total in debt:</texto> <texto id="anioActualDebt"></texto></h6>
+                <h6><texto class="labelCinco">Total received:</texto> <texto id="anioActualReceived"></texto></h6>
             </div>
         </div>
     </div>
@@ -23,12 +23,12 @@
     <div class="col">
         <div class="card">
             <h5 class="card-header">
-                Total sales in <texto id="mesActual"></texto>
+                <texto class="labelUno">Total sales in</texto> <texto id="mesActual"></texto>
             </h5>
             <div class="card-body">
-                <h6>Total sales: <texto id="mesActualSales"></texto></h6>
-                <h6>Total in debt <texto id="mesActualDebt"></texto></h6>
-                <h6>Total received <texto id="mesActualReceived"></texto></h6>
+                <h6><texto class="labelTres">Total sales:</texto> <texto id="mesActualSales"></texto></h6>
+                <h6><texto class="labelCuatro">Total in debt</texto> <texto id="mesActualDebt"></texto></h6>
+                <h6><texto class="labelCinco">Total received:</texto> <texto id="mesActualReceived"></texto></h6>
             </div>
         </div>
     </div>
@@ -36,12 +36,12 @@
     <div class="col">
         <div class="card">
             <h5 class="card-header">
-                Total sales in the current week <texto id="semanaActual"></texto>
+                <texto class="labelDos">Total sales in the current week</texto> <texto id="semanaActual"></texto>
             </h5>
             <div class="card-body">
-                <h6>Total sales: <texto id="semanaActualSales"></texto></h6>
-                <h6>Total in debt <texto id="semanaActualDebt"></texto></h6>
-                <h6>Total received <texto id="semanaActualReceived"></texto></h6>
+                <h6><texto class="labelTres">Total sales:</texto> <texto id="semanaActualSales"></texto></h6>
+                <h6><texto class="labelCuatro">Total in debt:</texto> <texto id="semanaActualDebt"></texto></h6>
+                <h6><texto class="labelCinco">Total received:</texto> <texto id="semanaActualReceived"></texto></h6>
             </div>
         </div>
     </div>
@@ -49,11 +49,11 @@
 
 <div class="row">
     <div class="col-6">
-        <p class="lead mb-0">Total sales in the current year</p>
+        <p class="lead mb-0 chartA">Total sales in the current year</p>
         <canvas class="my-4 w-100" id="myChartA"></canvas>
     </div>
     <div class="col-6">
-        <p class="lead mb-0">Total sales in the current month</p>
+        <p class="lead mb-0 chartB">Total sales in the current month</p>
         <canvas class="my-4 w-100" id="myChartB"></canvas>
     </div>
 </div>
@@ -62,12 +62,12 @@
     <div class="col">
         <div class="card">
             <h5 class="card-header">
-                Total sales in <texto id="anioPasado"></texto>
+                <texto class="labelUno">Total sales in</texto> <texto id="anioPasado"></texto>
             </h5>
             <div class="card-body">
-                <h6>Total sales: <texto id="anioPasadoSales"></texto></h6>
-                <h6>Total in debt <texto id="anioPasadoDebt"></texto></h6>
-                <h6>Total received <texto id="anioPasadoReceived"></texto></h6>
+                <h6><texto class="labelTres">Total sales:</texto> <texto id="anioPasadoSales"></texto></h6>
+                <h6><texto class="labelCuatro">Total in debt:</texto> <texto id="anioPasadoDebt"></texto></h6>
+                <h6><texto class="labelCinco">Total received:</texto> <texto id="anioPasadoReceived"></texto></h6>
             </div>
         </div>
     </div>
@@ -97,9 +97,11 @@
         return Math.ceil((((d - new Date(d.getFullYear(), 0, 1)) / 8.64e7) + 1) / 7);
     }
 
-    $(document).ready(function(){});
+    $(document).ready(function(){
+        currentPage = "Reports";
+    });
 
-    function changePageLang(){
+    function changePageLang(myLang){
         anioActual  = currentDate.getFullYear();
         anioPasado  = anioActual -1;
         mesActual   = currentDate.getMonth();
@@ -109,6 +111,15 @@
         $("#mesActual").html(arrMes[lang][mesActual]);
 
         getResumen();
+
+        $(".lblNamePage").html(myLang.lblNamePage);
+        $(".chartA").html(myLang.chartA);
+        $(".chartB").html(myLang.chartB);
+        $(".labelUno").html(myLang.labelUno);
+        $(".labelDos").html(myLang.labelDos);
+        $(".labelTres").html(myLang.labelTres);
+        $(".labelCuatro").html(myLang.labelCuatro);
+        $(".labelCinco").html(myLang.labelCinco);
     }
 
     function getResumen(){
@@ -119,7 +130,7 @@
                 "_method": "getResumen",
                 "anioPasado": anioPasado,
                 "anioActual": anioActual,
-                "mesActual": mesActual + 1,
+                "mesActual": pad(mesActual + 1, 2),
                 "ultimoDiaMes": ultimoDiaMes.getDate(),
                 "primerDiaSemana": primerDiaSemana.getDate(),
                 "ultimoDiaSemana": currentDate.getDate()
@@ -165,19 +176,55 @@
             $("#semanaActualReceived").html(formatter.format( (venta_paypal + venta_facturas) - adeudos ));
 
             // Imprimir grafica
-            printChart(result.dataMes);
+            printChart(result.dataMes, result.dataDia, ultimoDiaMes.getDate());
         });
     }
 
-    function printChart(data){
-        // Graphs
-        let canva   = document.getElementById('myChartA'),
-            myChart = new Chart(canva, {
+    function printChart(dataYear, dataDays, lastDay){
+        // Graphs year
+        let canvaA   = document.getElementById('myChartA'),
+            myChartA = new Chart(canvaA, {
                 type: 'line',
                 data: {
                     labels: arrMes[lang],
                     datasets: [{
-                        data: data,
+                        data: dataYear,
+                        lineTension: 0,
+                        backgroundColor: 'transparent',
+                        borderColor: '#007bff',
+                        borderWidth: 4,
+                        pointBackgroundColor: '#007bff'
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: false
+                            }
+                        }]
+                    },
+                    legend: {
+                        display: false
+                    }
+                }
+            });
+
+        // Graphs days
+        let labelDays = [];
+
+        for (let i = 1; i < (lastDay + 1); i++) {
+            labelDays.push(pad(i,2));
+        }
+
+
+        let canvaB   = document.getElementById('myChartB'),
+            myChartB = new Chart(canvaB, {
+                type: 'line',
+                data: {
+                    labels: labelDays,
+                    datasets: [{
+                        data: dataDays,
                         lineTension: 0,
                         backgroundColor: 'transparent',
                         borderColor: '#007bff',
