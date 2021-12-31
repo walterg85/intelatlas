@@ -225,7 +225,11 @@
 
             <div class="d-grid gap-2 my-5">
                 <button class="btn btn-success btn-lg" type="button" id="addNewUser">
-                    <i class="bi bi-check2"></i> Save information
+                    <i class="bi bi-check2"></i> Register user
+                </button>
+
+                <button class="btn btn-success btn-lg d-none" type="button" id="btnUpdateUser">
+                    <i class="bi bi-check2"></i> Update user information
                 </button>
             </div>
         </form>
@@ -240,7 +244,8 @@
         settingPhoto        = null,
         currentProduct      = 0,
         arrayProductos      = [],
-        tempProductos       = null;
+        tempProductos       = null,
+        userSelected        = 0;
 
     $(document).ready(function(){
         currentPage = "Settings";
@@ -258,6 +263,15 @@
         $("#btnAdd").click( addProduct);
 
         $("#addNewUser").click( addNewUser);
+
+        $("#btnAddUser").click( function(){
+            $("#btnUpdateUser").addClass("d-none");
+            $("#addNewUser").removeClass("d-none");
+            $("#inputUserPassword").attr("required", "required");
+            $("#frmNewuser")[0].reset();
+        });
+
+        $("#btnUpdateUser").click( fnUpdateUser);
     });
 
     // Metodo para cargar la lista de productos
@@ -557,10 +571,12 @@
         };
 
         $.post("../core/controllers/user.php", _Data, function(){
-            showAlert("success", "registered user account");
+            showAlert("success", "Registered user account");
             $("#frmNewuser").removeClass("was-validated");
             $("#frmNewuser")[0].reset();
             $("#btnAddUser").click();
+
+            fngetUser();
         });
     }
 
@@ -575,7 +591,7 @@
         $.post("../core/controllers/user.php", _Data, function(result){
             // Se recore el contenido del array para listar todos los usuarios
             $.each(result.data, function(index, item){
-                let roles = item.roles.replace('"', "'");
+                let roles = item.roles.replace(/\"/g, "'");
 
                 filas += `
                     <tr>
@@ -583,7 +599,7 @@
                         <td>${item.owner}</td>
                         <td class="text-center">
                             <a href="javascript:void(0);" data-id="${item.id}" class="btn btn-outline-danger btn-sm btnDeleteUser" title="Delete"><i class="bi bi-trash"></i></a>
-                            <a href="javascript:void(0);" data-id="${item.id}" data-roles="${roles}" class="btn btn-outline-warning btn-sm btnModifyUser" title="Modify"><i class="bi bi-eye-fill"></i></a>
+                            <a href="javascript:void(0);" data-id="${item.id}" data-roles="${roles}" data-owner="${item.owner}" class="btn btn-outline-warning btn-sm btnModifyUser" title="Modify"><i class="bi bi-eye-fill"></i></a>
                         </td>
                     </tr>
                 `;
@@ -594,18 +610,111 @@
 
             // Accion del boton para eliminar un usuario del sistema
             $(".btnDeleteUser").unbind().click( function(){
-                let id = $(this).data("id");
+                let _Data = {
+                    "_method": "deleteUser",
+                    "userId": $(this).data("id")
+                };
 
-                console.log(id);
+                $.post("../core/controllers/user.php", _Data, function(){
+                    showAlert("success", "User account has been deleted");
+                    fngetUser();
+                });
+
             });
 
-            // Accion del boton para eliminar un usuario del sistema
+            // Accion del boton para editar un usuario del sistema
             $(".btnModifyUser").unbind().click( function(){
-                let id      = $(this).data("id"),
-                    roles   = $(this).data("roles");
+                $("#frmNewuser").removeClass("was-validated");
+                $("#frmNewuser")[0].reset();
+                $("#btnAddUser").click();
+                $("#inputUserPassword").removeAttr("required");
 
-                console.log(roles);
+                $("#btnUpdateUser").removeClass("d-none");
+                $("#addNewUser").addClass("d-none");
+
+                let permisos    = JSON.parse($(this).data("roles").replace(/\'/g, '"')),
+                    owner       = $(this).data("owner");
+
+                userSelected    = $(this).data("id");
+
+                $("#inputUserName").val(owner);
+
+                if(permisos.categoria == 1)
+                    $("#swPermisoCat").prop("checked", true);
+
+                if(permisos.productos == 1)
+                    $("#swPermisoProd").prop("checked", true);
+
+                if(permisos.cupones == 1)
+                    $("#swPermisoCoup").prop("checked", true);
+
+                if(permisos.ordenes == 1)
+                    $("#swPermisoOrder").prop("checked", true);
+
+                if(permisos.clientes == 1)
+                    $("#swPermisoClient").prop("checked", true);
+
+                if(permisos.prospectos == 1)
+                    $("#swPermisoLeads").prop("checked", true);
+
+                if(permisos.facturas == 1)
+                    $("#swPermisoInvoice").prop("checked", true);
+
+                if(permisos.chat == 1)
+                    $("#swPermisoChat").prop("checked", true);
+
+                if(permisos.configuracion == 1)
+                    $("#swPermisoSett").prop("checked", true);
+
+                if(permisos.reportes == 1)
+                    $("#swPermisoReport").prop("checked", true);
             });
+        });
+    }
+
+    // Metodo para actualizar un usuario
+    function fnUpdateUser(){
+        let forms = document.querySelectorAll('.needs-validation-userform'),
+            continuar = true;
+
+        Array.prototype.slice.call(forms).forEach(function (formv){ 
+            if (!formv.checkValidity())
+                continuar = false;
+
+            formv.classList.add('was-validated');
+        });
+
+        if(!continuar)
+            return false;
+
+        let permisos = {};
+
+        permisos.categoria      = ($("#swPermisoCat").is(':checked')) ? 1 : 0;
+        permisos.productos      = ($("#swPermisoProd").is(':checked')) ? 1 : 0;
+        permisos.cupones        = ($("#swPermisoCoup").is(':checked')) ? 1 : 0;
+        permisos.ordenes        = ($("#swPermisoOrder").is(':checked')) ? 1 : 0;
+        permisos.clientes       = ($("#swPermisoClient").is(':checked')) ? 1 : 0;
+        permisos.prospectos     = ($("#swPermisoLeads").is(':checked')) ? 1 : 0;
+        permisos.facturas       = ($("#swPermisoInvoice").is(':checked')) ? 1 : 0;
+        permisos.chat           = ($("#swPermisoChat").is(':checked')) ? 1 : 0;
+        permisos.configuracion  = ($("#swPermisoSett").is(':checked')) ? 1 : 0;
+        permisos.reportes       = ($("#swPermisoReport").is(':checked')) ? 1 : 0;
+
+        let _Data = {
+            "_method": "updateUser",
+            "userId": userSelected,
+            "owner": $("#inputUserName").val(),
+            "password": $("#inputUserPassword").val(),
+            "roles": JSON.stringify(permisos)
+        };
+
+        $.post("../core/controllers/user.php", _Data, function(){
+            showAlert("success", "Update user account");
+            $("#frmNewuser").removeClass("was-validated");
+            $("#frmNewuser")[0].reset();
+            $("#btnAddUser").click();
+
+            fngetUser();
         });
     }
 </script>

@@ -133,6 +133,36 @@
 			header('HTTP/1.1 200 Ok');
 			header("Content-Type: application/json; charset=UTF-8");			
 			exit(json_encode($response));
+		} else if($vars['_method'] == 'deleteUser'){
+			$response = array(
+				'codeResponse' 	=> 200,
+				'data' 			=> $userModel->deleteUser($vars['userId'])
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");			
+			exit(json_encode($response));
+		} else if($vars['_method'] == 'updateUser'){
+			$data = array(
+				'owner'		=> $vars['owner'],
+				'password'	=> (strlen($vars['password']) > 0) ? encryptPass($vars['password']) : '',
+				'roles'		=> $vars['roles'],
+				'userId'	=> $vars['userId']
+			);
+
+			$userModel->updateUser($data);
+
+			header('HTTP/1.1 200 Ok');			
+			exit();
+		} else if($vars['_method'] == 'solicitarPermiso'){
+			$response = array(
+				'codeResponse' 	=> 200,
+				'data' 			=> $userModel->solicitarPermiso( $_SESSION['authData']->id )
+			);
+
+			header('HTTP/1.1 200 Ok');
+			header("Content-Type: application/json; charset=UTF-8");			
+			exit(json_encode($response));
 		}
 	}
 

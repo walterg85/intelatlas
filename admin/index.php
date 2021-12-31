@@ -244,6 +244,9 @@
                     .html("")
                     .removeClass("show");
             });
+
+            // Verificar los permisos
+            fnVerificarPermisos();
         });
 
         function pad (str, max) {
@@ -319,6 +322,16 @@
                 cancelButtonColor: '#d33',
                 confirmButtonText: confirmButtonText,
                 allowOutsideClick: false
+            });
+        }
+
+        function fnVerificarPermisos(){
+            let _Data = {
+                "_method": "solicitarPermiso"
+            };
+
+            $.post("../core/controllers/user.php", _Data, function(result){
+                console.log(result);
             });
         }
     </script>

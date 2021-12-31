@@ -126,4 +126,52 @@
 
 			return $sql->fetchAll();
 		}
+
+		public function deleteUser($userId) {
+			$pdo = new Conexion();
+			$cmd = 'DELETE FROM user WHERE id =:id';
+
+			$parametros = array(
+				':id' => $userId
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
+
+		public function updateUser($userData) {
+			$pdo = new Conexion();
+
+			$update = ( strlen($userData['password']) > 0 ) ? ', password ="'. $userData['password'] .'"' : '';
+			$cmd = '
+				UPDATE user SET owner =:owner, roles =:roles'. $update .' WHERE id =:userId
+			';
+
+			$parametros = array(
+				':owner' => $userData['owner'],
+				':roles' => $userData['roles'],
+				':userId' => $userData['userId']
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
+
+		public function solicitarPermiso($userId) {
+			$pdo = new Conexion();
+			$cmd = 'SELECT roles FROM user WHERE id =:id';
+			$parametros = array(
+				':id' => $userId
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+
+			return $sql->fetch();
+		}
 	}
