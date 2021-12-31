@@ -21,20 +21,31 @@
 				'ultimoDiaSemana'	=> $vars['ultimoDiaSemana']
 			);
 
-			$resumenMes = [];
+			$resumenMeses = [];
 			for ($i=1; $i < 13; $i++) { 
 				$result = $reportmodel->getResumenMonth( $data['anioActual'] . '-' . str_pad($i, 2, '0', STR_PAD_LEFT) );
 
 				$venta = ($result->total_venta) ? $result->total_venta : 0;
 				$factura = ($result->venta_factura) ? $result->venta_factura : 0;
 
-				$resumenMes[] = number_format((float) $venta + $factura , 2, '.', '');
+				$resumenMeses[] = number_format((float) $venta + $factura , 2, '.', '');
+			}
+
+			$resumenDias = [];
+			for ($i=1; $i < $vars['ultimoDiaMes']; $i++) { 
+				$result = $reportmodel->getResumenDay( $data['anioActual'] . '-' . $vars['mesActual'] . '-' . str_pad($i, 2, '0', STR_PAD_LEFT) );
+
+				$venta = ($result->total_venta) ? $result->total_venta : 0;
+				$factura = ($result->venta_factura) ? $result->venta_factura : 0;
+
+				$resumenDias[] = number_format((float) $venta + $factura , 2, '.', '');
 			}
 
 			$response = array(
 				'codeResponse' 	=> 200,
 				'data' 			=> $reportmodel->getResumen( $data ),
-				'dataMes'		=> $resumenMes
+				'dataMes'		=> $resumenMeses,
+				'dataDia'		=> $resumenDias
 			);
 
 			header('HTTP/1.1 200 Ok');

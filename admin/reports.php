@@ -48,9 +48,13 @@
 </div>
 
 <div class="row">
-    <p class="lead mb-0">Total sales in the current year</p>
     <div class="col-6">
-        <canvas class="my-4 w-100" id="myChart"></canvas>
+        <p class="lead mb-0">Total sales in the current year</p>
+        <canvas class="my-4 w-100" id="myChartA"></canvas>
+    </div>
+    <div class="col-6">
+        <p class="lead mb-0">Total sales in the current month</p>
+        <canvas class="my-4 w-100" id="myChartB"></canvas>
     </div>
 </div>
 
@@ -110,7 +114,7 @@
     function getResumen(){
         let ultimoDiaMes    = new Date(anioActual, currentDate.getMonth() + 1, 0),
             semanaActual    = new Date().getWeekNumber(),
-            primerDiaSemana = new Date(anioActual, 0, (semanaActual - 1) * 7 + 1);
+            primerDiaSemana = new Date(anioActual, 0, (semanaActual - 1) * 7 + 1),
             _Data           = {
                 "_method": "getResumen",
                 "anioPasado": anioPasado,
@@ -167,7 +171,7 @@
 
     function printChart(data){
         // Graphs
-        let canva   = document.getElementById('myChart'),
+        let canva   = document.getElementById('myChartA'),
             myChart = new Chart(canva, {
                 type: 'line',
                 data: {
