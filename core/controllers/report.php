@@ -28,7 +28,7 @@
 				$venta = ($result->total_venta) ? $result->total_venta : 0;
 				$factura = ($result->venta_factura) ? $result->venta_factura : 0;
 
-				$resumenMes[] = $venta + $factura;
+				$resumenMes[] = number_format((float) $venta + $factura , 2, '.', '');
 			}
 
 			$response = array(

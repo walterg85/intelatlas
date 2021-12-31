@@ -2,6 +2,7 @@
     @session_start();
     ob_start();
 ?>
+
 <!-- cropperCSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.css" integrity="sha512-w+u2vZqMNUVngx+0GVZYM21Qm093kAexjueWOv9e9nIeYJb1iEfiHC7Y+VvmP/tviQyA5IR32mwN/5hTEJx6Ng==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -92,11 +93,11 @@
 </div>
 
 <script type="text/javascript">
-    let dataTableCategory = null,
-        maxCroppedWidth = 300,
-        maxCroppedHeight = 300,
-        catPhoto = null,
-        mesages = {//Control de mensajes para los ALERTS
+    let dataTableCategory   = null,
+        maxCroppedWidth     = 300,
+        maxCroppedHeight    = 300,
+        catPhoto            = null,
+        mesages             = { //Control de mensajes para los ALERTS
             "ctrImage1":"Your selected file is larger than 5MB",
             "ctrImage2":"files not allowed, only images",
             "ctrtoRemove":"do you want to delete this category"
@@ -113,7 +114,7 @@
         // Iniciar componente de imagen
         initComponent();
 
-        var myModalEl = document.getElementById('modalCategoria')
+        var myModalEl = document.getElementById('modalCategoria');
         myModalEl.addEventListener('hidden.bs.modal', function (event) {
             $("#inputPhoto").val("");
             $("#inputName").val("");
@@ -122,17 +123,16 @@
             $("#categoryId").val(0);
             $("#frmCategorie").removeClass("was-validated");
             $("#imgPreview").addClass("d-none");
-        })
+        });
     });
 
     function fnRegisterCategory(){
-        let forms = document.querySelectorAll('.needs-validation'),
-            continuar = true;
+        let forms       = document.querySelectorAll('.needs-validation'),
+            continuar   = true;
 
         Array.prototype.slice.call(forms).forEach(function (formv){ 
-            if (!formv.checkValidity()) {
-                    continuar = false;
-            }
+            if (!formv.checkValidity())
+                continuar = false;
 
             formv.classList.add('was-validated');
         });
@@ -143,8 +143,8 @@
         $("#btnAddCategory").attr("disabled","disabled");
         $("#btnAddCategory").html('<i class="bi bi-clock-history"></i> Registering');
 
-        let form = $("#frmCategorie")[0],
-            formData = new FormData(form);
+        let form        = $("#frmCategorie")[0],
+            formData    = new FormData(form);
 
         formData.append("_method", "POST");
 
@@ -256,8 +256,8 @@
                 ],
                 "fnDrawCallback":function(oSettings){
                     $(".btnDeleteCategory").unbind().click(function(){
-                        let data = getData($(this), dataTableCategory),
-                            buton = $(this);
+                        let data    = getData($(this), dataTableCategory),
+                            buton   = $(this);
 
                         (async () => {
                             const tmpResult = await showConfirmation(`${mesages.ctrtoRemove}?`, data.name, "Acept");
@@ -281,33 +281,30 @@
                     });
 
                     $(".chVisible").unbind().change(function(){
-                        let data = getData($(this), dataTableCategory),
-                            buton = $(this),
-                            visible = ($(this).is(':checked')) ? 1 : 0;
-
-                        let objData = {
-                            "_method":"unVisivility",
-                            "categoryId": data.id,
-                            "visible": visible
-                        };
+                        let data    = getData($(this), dataTableCategory),
+                            buton   = $(this),
+                            visible = ($(this).is(':checked')) ? 1 : 0,
+                            objData = {
+                                "_method":"unVisivility",
+                                "categoryId": data.id,
+                                "visible": visible
+                            };
 
                         $.post("../core/controllers/category.php", objData);
                     });
 
                     $(".btnModifyCategory").unbind().click(function(){
-                        let data = getData($(this), dataTableCategory),
-                            visible = (data.parent) ? (data.parent == 1) ? true : false : false;
+                        let data    = getData($(this), dataTableCategory),
+                            visible = (data.parent) ? (data.parent == 1) ? true : false : false,
+                            img     = (data.thumbnail) ? `../${data.thumbnail}` : "../assets/img/defaultCat.jpg";
 
-                        catPhoto = null;
+                        catPhoto    = null;
 
                         $("#categoryId").val(data.id);
                         $("#inputName").val(data.name);
                         $("#inputNameSp").val(data.nameSp);
                         $("#chkVisible").prop("checked", visible);
-
-                        let img = (data.thumbnail) ? `../${data.thumbnail}` : "../assets/img/defaultCat.jpg";
                         $(".imgPreview").attr("src", img).parent().removeClass("d-none");
-
                         $("#modalCategoria").modal("show");
                     });
                 },
@@ -339,9 +336,9 @@
         });
 
         // Image Cropper
-        let picture = $(".imgPreview"),
+        let picture     = $(".imgPreview"),
             image       = $("#previewCrop")[0],
-            inputFile1   = $("#inputPhoto")[0],
+            inputFile1  = $("#inputPhoto")[0],
             $modal      = $('#modalCrop'),
             cropper     = null;
 

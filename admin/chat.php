@@ -2,6 +2,7 @@
     @session_start();
     ob_start();
 ?>
+
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2 lblNamePage">Welcome to chat support!</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
@@ -11,7 +12,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="row">
     <div class="col-4">
@@ -56,9 +56,9 @@
 </div>
 
 <script type="text/javascript">
-    var chatActive = "",
-        refreshLog = null,
-        audio = new Audio(`../assets/sound/bell.wav`);
+    var chatActive  = "",
+        refreshLog  = null,
+        audio       = new Audio(`../assets/sound/bell.wav`);
 
     $(document).ready(function(){
         currentPage = "chat";
@@ -102,15 +102,14 @@
                     $("#chatLog").html("");
                     $("#chatDetails").addClass("d-none");
 
-                    let dt = new Date(),
-                        time = dt.getHours() + ":" + dt.getMinutes();
-
-                    let objData = {
-                        _method: "POST",
-                        _action: "closeChat",
-                        _time: time,
-                        _chatid: chatActive._chatid
-                    };
+                    let dt      = new Date(),
+                        time    = dt.getHours() + ":" + dt.getMinutes(),
+                        objData = {
+                            _method: "POST",
+                            _action: "closeChat",
+                            _time: time,
+                            _chatid: chatActive._chatid
+                        };
 
                     $.post("../core/controllers/chatAdmin.php", objData);
 
@@ -131,14 +130,13 @@
                     $("#chatLog").html("");
                     $("#chatDetails").addClass("d-none");
 
-                    let dt = new Date(),
-                        time = dt.getHours() + ":" + dt.getMinutes();
-
-                    let objData = {
-                        _method: "POST",
-                        _action: "moveChat",
-                        _chatid: chatActive._chatid
-                    };
+                    let dt      = new Date(),
+                        time    = dt.getHours() + ":" + dt.getMinutes(),
+                        objData = {
+                            _method: "POST",
+                            _action: "moveChat",
+                            _chatid: chatActive._chatid
+                        };
 
                     $.post("../core/controllers/chatAdmin.php", objData);
 
@@ -160,15 +158,14 @@
                     $("#chatLog").html("");
                     $("#chatDetails").addClass("d-none");
 
-                    let dt = new Date(),
-                        time = dt.getHours() + ":" + dt.getMinutes();
-
-                    let objData = {
-                        _method: "POST",
-                        _action: "sendChat",
-                        _time: time,
-                        _chatid: chatActive._chatid
-                    };
+                    let dt      = new Date(),
+                        time    = dt.getHours() + ":" + dt.getMinutes(),
+                        objData = {
+                            _method: "POST",
+                            _action: "sendChat",
+                            _time: time,
+                            _chatid: chatActive._chatid
+                        };
 
                     $.post("../core/controllers/chatAdmin.php", objData);
 
@@ -178,13 +175,12 @@
         });
 
         $("#swActivo").change( function(){
-            let valor = (this.checked) ? 1 : 0;
-
-            let objData = {
-                _method: "updateUniqueSetting",
-                parametro: "chat",
-                value: valor
-            };
+            let valor   = (this.checked) ? 1 : 0,
+                objData = {
+                    _method: "updateUniqueSetting",
+                    parametro: "chat",
+                    value: valor
+                };
 
             $.post("../core/controllers/setting.php", objData);
         });
@@ -202,9 +198,9 @@
             if(result.length > 0){
                 $("#chatList").html("");
                 $.each( result, function( index, item){
-                    let chat = $(".itemClone").clone(),
-                        origin = JSON.parse(item.origin),
-                        geo = JSON.parse(origin.ip);
+                    let chat    = $(".itemClone").clone(),
+                        origin  = JSON.parse(item.origin),
+                        geo     = JSON.parse(origin.ip);
 
                     chat.find(".cliName").html( (origin.name == "no name") ? pad(item.id, 5) : origin.name );
                     chat.find(".cliDate").html(item.registered);
@@ -268,22 +264,21 @@
     }
 
     function sendMessage(strMessage){
-        let dt = new Date(),
-            time = dt.getHours() + ":" + dt.getMinutes();
-
-        let objData = {
-            message: strMessage,
-            _method: "POST",
-            _time: time,
-            _chatid: chatActive._chatid,
-            _action: "responseChat",
-        };
+        let dt      = new Date(),
+            time    = dt.getHours() + ":" + dt.getMinutes(),
+            objData = {
+                message: strMessage,
+                _method: "POST",
+                _time: time,
+                _chatid: chatActive._chatid,
+                _action: "responseChat",
+            };
 
         $.post("../core/controllers/chatAdmin.php", objData, function(){
-            loadChats()
+            loadChats();
+            $("#txtMessage").val("");
         });
         
-        $("#txtMessage").val("");
         return false;
     }
 
