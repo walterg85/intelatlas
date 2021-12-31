@@ -74,30 +74,58 @@
             </div>
 
             <hr>
-            <p class="lead">Display products on the carousel</p>
 
             <div class="row g-3">
-                <div class=" col-9 mb-3">
-                    <label for="productList" class="form-label labelDatalist">Product</label>
-                    <input class="form-control" list="datalistOptions" id="productList" name="productList" placeholder="Type to search...">
-                    <datalist id="datalistOptions"></datalist>
+                <div class="col-6">
+                    <div class="row">
+                        <p class="lead">Display products on the carousel</p>
+                        <div class=" col-9 mb-3">
+                            <label for="productList" class="form-label labelDatalist">Product</label>
+                            <input class="form-control" list="datalistOptions" id="productList" name="productList" placeholder="Type to search...">
+                            <datalist id="datalistOptions"></datalist>
+                        </div>
+                        <div class="col-3">
+                            <div class="d-grid gap-2 pt-4">
+                                <button class="btn btn-outline-success" id="btnAdd" type="button">Add</button>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <table class="table align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th class="labelControl2" scope="col">Product</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblProductos"></tbody>
+                            </table>
+                        </div>
+                   </div>
                 </div>
-                <div class="col">
-                    <div class="d-grid gap-2 pt-4">
-                        <button class="btn btn-outline-success" id="btnAdd" type="button">Add</button>
-                    </div>
-                </div>
+                <div class="col-6">
+                   <div class="row">
+                        <p class="lead">System user management</p>
+                        <div class="col-12 mb-3">
+                            <div class="d-grid gap-2 pt-4">
+                                <button class="btn btn-outline-success" id="btnAddUser" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser">Add user</button>
+                            </div>
+                        </div>
 
-                <table class="table align-middle">
-                    <thead class="table-light">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th class="labelControl2" scope="col">Product</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody id="tblProductos"></tbody>
-                </table>
+                        <div class="col-12">
+                            <table class="table align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th class="" scope="col">User</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblUser"></tbody>
+                            </table>
+                        </div>
+                   </div>
+                </div>
             </div>
         </div>        
     </div>
@@ -124,6 +152,86 @@
     </div>
 </div>
 
+<!-- Panel lateral para agregar cuenta de usuario -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasUser" aria-labelledby="offcanvasWithBackdropLabel"  >
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">Add a new user</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <form id="frmNewuser" class="needs-validation-userform" novalidate>
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <label for="inputName" class="form-label labelName">Owner</label>
+                    <input type="text" id="inputName" name="inputName" class="form-control" autocomplete="off" maxlength="250" required>
+                </div>
+                <div class="col mb-3">
+                    <label for="inputUserName" class="form-label inputUserName">Username</label>
+                    <input type="text" id="inputUserName" name="inputUserName" class="form-control" autocomplete="off" maxlength="50" required>
+                </div>
+                <div class="col mb-3">
+                    <label for="inputUserPassword" class="form-label inputUserPassword">Password</label>
+                    <input type="password" id="inputUserPassword" name="inputUserPassword" class="form-control" autocomplete="off" maxlength="50" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <p class="lead">Permissions for this user account</p>
+                <div class="col">
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="swPermisoCat">
+                        <label class="form-check-label swPermisoCat" for="swPermisoCat"> Manage Categories</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="swPermisoProd">
+                        <label class="form-check-label swPermisoProd" for="swPermisoProd"> Manage Products</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="swPermisoCoup">
+                        <label class="form-check-label swPermisoCoup" for="swPermisoCoup"> Manage Coupons</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="swPermisoOrder">
+                        <label class="form-check-label swPermisoOrder" for="swPermisoOrder"> Manage Orders</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="swPermisoClient">
+                        <label class="form-check-label swPermisoClient" for="swPermisoClient"> Manage Clients</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="swPermisoLeads">
+                        <label class="form-check-label swPermisoLeads" for="swPermisoLeads"> Manage Leads</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="swPermisoInvoice">
+                        <label class="form-check-label swPermisoInvoice" for="swPermisoInvoice"> Manage Invoice</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="swPermisoChat">
+                        <label class="form-check-label swPermisoChat" for="swPermisoChat"> Manage Chat</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="swPermisoSett">
+                        <label class="form-check-label swPermisoSett" for="swPermisoSett"> Manage Settings</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="swPermisoReport">
+                        <label class="form-check-label swPermisoReport" for="swPermisoReport"> Manage Reports</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2 my-5">
+                <button class="btn btn-success btn-lg" type="button" id="addNewUser">
+                    <i class="bi bi-check2"></i> Save information
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script type="text/javascript">
     var confButonText = "",
         strMesage = "",
@@ -145,6 +253,8 @@
         loadProducts();
 
         $("#btnAdd").click( addProduct);
+
+        $("#addNewUser").click( addNewUser);
     });
 
     // Metodo para cargar la lista de productos
@@ -406,6 +516,22 @@
         $("#inputPass").attr("placeholder", myLang.labelPassword);
 
         strMesage = myLang.ctrMessage;
+    }
+
+    // Metodo para crear una cuenta de usuario
+    function addNewUser(){
+        let forms = document.querySelectorAll('.needs-validation-userform'),
+            continuar = true;
+
+        Array.prototype.slice.call(forms).forEach(function (formv){ 
+            if (!formv.checkValidity())
+                continuar = false;
+
+            formv.classList.add('was-validated');
+        });
+
+        if(!continuar)
+            return false;
     }
 </script>
 
