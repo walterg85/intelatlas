@@ -194,9 +194,9 @@
 
         $("#btnAddNote").click( function(){
             if($("#txtNotes").val() != ""){
-                let strNote = $("#txtNotes").val(),
-                    idCliente = $("#btnAddNote").data("clientid"),
-                    objData = {
+                let strNote     = $("#txtNotes").val(),
+                    idCliente   = $("#btnAddNote").data("clientid"),
+                    objData     = {
                         "_method":"addNotes",
                         "note": strNote,
                         "idCliente": idCliente
@@ -216,9 +216,8 @@
 
         // Recore cada campo del formulario para valirdar su contenido
         Array.prototype.slice.call(forms).forEach(function (formv){ 
-            if (!formv.checkValidity()) {
-                    continuar = false;
-            }
+            if (!formv.checkValidity())
+                continuar = false;
 
             formv.classList.add('was-validated');
         });
