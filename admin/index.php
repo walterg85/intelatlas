@@ -144,7 +144,7 @@
                 </div>
             </nav>
 
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 contenedorPrincipal">
                 <?php
                     if(isset($content)){
                         echo $content;
@@ -245,8 +245,8 @@
                     .removeClass("show");
             });
 
-            // Verificar los permisos
-            fnVerificarPermisos();
+            // Cargar los permisos del usuario logueado
+            fnLoadRoles();
         });
 
         function pad (str, max) {
@@ -325,13 +325,14 @@
             });
         }
 
-        function fnVerificarPermisos(){
+        // Metodo para cargar los permisos del usuario logueado
+        function fnLoadRoles(){
             let _Data = {
                 "_method": "solicitarPermiso"
             };
 
             $.post("../core/controllers/user.php", _Data, function(result){
-                console.log(result);
+                verificarPermisos( JSON.parse(result.data) )
             });
         }
     </script>

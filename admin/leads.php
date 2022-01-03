@@ -9,7 +9,7 @@
     }
 </style>
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom seccionHeader">
     <h1 class="h2 lblNamePage">Leads</h1>
     <button type="button" class="btnPanelDetalle d-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDetail">Show details</button>
     <button type="button" class="btnPanelNotes d-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNotes">Show notes</button>
@@ -306,6 +306,14 @@
                 });
             });
         });
+    }
+
+    // Metodo para validar los permisos dentro de la pagina
+    function verificarPermisos(permisos){
+        if(permisos.prospectos == 0){
+            $("#leadsList, .seccionHeader").remove();
+            $(".contenedorPrincipal").html("<p class='lead my-3'>you currently do not have permission to access this resource</p>");
+        }
     }
 </script>
 

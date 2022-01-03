@@ -2,11 +2,11 @@
     @session_start();
     ob_start();
 ?>
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom seccionHeader">
     <h1 class="h2 lblNamePage">Reports</h1>
 </div>
 
-<div class="row row-cols-1 row-cols-md-2 g-4 mb-3">
+<div class="row row-cols-1 row-cols-md-2 g-4 mb-3 secseccionBody">
     <div class="col">
         <div class="card">
             <h5 class="card-header">
@@ -47,7 +47,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row secseccionBody">
     <div class="col-6">
         <p class="lead mb-0 chartA">Total sales in the current year</p>
         <canvas class="my-4 w-100" id="myChartA"></canvas>
@@ -58,7 +58,7 @@
     </div>
 </div>
 
-<div class="row row-cols-1 row-cols-md-2 g-4 mb-3">
+<div class="row row-cols-1 row-cols-md-2 g-4 mb-3 secseccionBody">
     <div class="col">
         <div class="card">
             <h5 class="card-header">
@@ -245,6 +245,14 @@
                     }
                 }
             });
+    }
+
+    // Metodo para validar los permisos dentro de la pagina
+    function verificarPermisos(permisos){
+        if(permisos.reportes == 0){
+            $(".secseccionBody, .seccionHeader").remove();
+            $(".contenedorPrincipal").html("<p class='lead my-3'>you currently do not have permission to access this resource</p>");
+        }
     }
 </script>
 

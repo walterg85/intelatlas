@@ -172,6 +172,6 @@
 			$sql->execute($parametros);
 			$sql->setFetchMode(PDO::FETCH_OBJ);
 
-			return $sql->fetch();
+			return $sql->fetch()->roles;
 		}
 	}

@@ -8,7 +8,7 @@
 <!-- cropperJS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.js" integrity="sha512-9pGiHYK23sqK5Zm0oF45sNBAX/JqbZEP7bSDHyt+nT3GddF+VFIcYNqREt0GDpmFVZI3LZ17Zu9nMMc9iktkCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom seccionHeader">
     <h1 class="h2 lblNamePage">Settings</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group me-2">
@@ -716,6 +716,14 @@
 
             fngetUser();
         });
+    }
+
+    // Metodo para validar los permisos dentro de la pagina
+    function verificarPermisos(permisos){
+        if(permisos.configuracion == 0){
+            $("#configForm, .seccionHeader").remove();
+            $(".contenedorPrincipal").html("<p class='lead my-3'>you currently do not have permission to access this resource</p>");
+        }
     }
 </script>
 
