@@ -91,52 +91,52 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link linkCategories" href="categories.php">
+                            <a class="nav-link linkCategories d-none" href="categories.php">
                                 <i class="bi bi-tags"></i> Categories
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link linkProduct" href="product.php">
+                            <a class="nav-link linkProduct d-none" href="product.php">
                                 <i class="bi bi-bag"></i> Products
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link linkCoupons" href="coupons.php">
+                            <a class="nav-link linkCoupons d-none" href="coupons.php">
                                 <i class="bi bi-award"></i> Coupons
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link linkOrders" href="orders.php">
+                            <a class="nav-link linkOrders d-none" href="orders.php">
                                 <i class="bi bi-basket"></i> Orders
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link linkClients" href="client.php">
+                            <a class="nav-link linkClients d-none" href="client.php">
                                 <i class="bi bi-person-fill"></i> Clients
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link linkLeads" href="leads.php">
+                            <a class="nav-link linkLeads d-none" href="leads.php">
                                 <i class="bi bi-person"></i> Leads
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link linkInvoice" href="invoice.php">
+                            <a class="nav-link linkInvoice d-none" href="invoice.php">
                                 <i class="bi bi-receipt"></i> Invoice
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link linkChat" href="chat.php">
+                            <a class="nav-link linkChat d-none" href="chat.php">
                                 <i class="bi bi-at"></i> Chat
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="linkSetting" href="settings.php">
+                            <a class="nav-link d-none" id="linkSetting" href="settings.php">
                                 <i class="bi bi-sliders"></i> Settings
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="linkReports" href="reports.php">
+                            <a class="nav-link d-none" id="linkReports" href="reports.php">
                                 <i class="bi bi-calculator-fill"></i> Reports
                             </a>
                         </li>
@@ -274,6 +274,8 @@
                 $("#linkSetting").html(`<i class="bi bi-sliders"></i> ${myLang.linkSetting}`);
                 $(".linkClients").html(`<i class="bi bi-person-fill"></i> ${myLang.linkClients}`);
                 $(".linkLeads").html(`<i class="bi bi-person"></i> ${myLang.linkLeads}`);
+                $(".linkInvoice").html(`<i class="bi bi-receipt"></i> ${myLang.linkInvoice}`);
+                $("#linkReports").html(`<i class="bi bi-calculator-fill"></i> ${myLang.linkReports}`);
 
                 changePageLang(data[lang][currentPage]);
             });
@@ -332,7 +334,39 @@
             };
 
             $.post("../core/controllers/user.php", _Data, function(result){
-                verificarPermisos( JSON.parse(result.data) )
+                let permisos = JSON.parse(result.data);
+
+                if(permisos.categoria == 1)
+                    $(".linkCategories").removeClass("d-none");
+
+                if(permisos.productos == 1)
+                    $(".linkProduct").removeClass("d-none");
+
+                if(permisos.cupones == 1)
+                    $(".linkCoupons").removeClass("d-none");
+
+                if(permisos.ordenes == 1)
+                    $(".linkOrders").removeClass("d-none");
+
+                if(permisos.clientes == 1)
+                    $(".linkClients").removeClass("d-none");
+
+                if(permisos.prospectos == 1)
+                    $(".linkLeads").removeClass("d-none");
+
+                if(permisos.facturas == 1)
+                    $(".linkInvoice").removeClass("d-none");
+
+                if(permisos.chat == 1)
+                    $(".linkChat").removeClass("d-none");
+
+                if(permisos.configuracion == 1)
+                    $("#linkSetting").removeClass("d-none");
+
+                if(permisos.reportes == 1)
+                    $("#linkReports").removeClass("d-none");
+
+                verificarPermisos( permisos );
             });
         }
     </script>

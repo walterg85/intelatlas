@@ -10,7 +10,9 @@
 			"linkOrders": "Orders",
 			"linkSetting": "Settings",
 			"linkClients": "Clients",
-			"linkLeads": "Leads"
+			"linkLeads": "Leads",
+			"linkInvoice": "Invoice",
+			"linkReports": "Reports"
 		},
 		"Settings":{
 			"namePage":"Settings",
@@ -23,7 +25,14 @@
 			"labelPassword": "Change Password",
 			"ctrMessage": "Updated information.",
 			"lblApiKey": "Paypal cliente ID",
-			"inputApiKey": "Client ID"
+			"inputApiKey": "Client ID",
+			"labelCaroucel": "Display products on the carousel",
+			"labelDatalist": "Product",
+			"productList": "Type to search...",
+			"labelButtonAdd": "Add",
+			"labelUserMngr": "System user management",
+			"labelButtonAddUser": "Add user",
+			"labelColumn1": "Users"
 		},
 		"Orders":{
 			"namePage":"Orders",
@@ -184,7 +193,9 @@
 			"linkOrders": "Pedidos",
 			"linkSetting": "Configuraciones",
 			"linkClients": "Clientes",
-			"linkLeads": "Prospectos"
+			"linkLeads": "Prospectos",
+			"linkInvoice": "Facturas",
+			"linkReports": "Reportes"
 		},
 		"Settings":{
 			"namePage":"Configuraciones",
@@ -197,7 +208,14 @@
 			"labelPassword": "Cambiar contraseña",
 			"ctrMessage": "Informacion actualizada.",
 			"lblApiKey": "ID de cliente de paypal",
-			"inputApiKey": "ID de cliente"
+			"inputApiKey": "ID de cliente",
+			"labelCaroucel": "Mostrar productos en el carrusel",
+			"labelDatalist": "Producto",
+			"productList": "Escribe para buscar...",
+			"labelButtonAdd": "Agregar",
+			"labelUserMngr": "Gestión de usuarios del sistema",
+			"labelButtonAddUser": "Nuevo usuario",
+			"labelColumn1": "Usuario"
 		},
 		"Orders":{
 			"namePage":"Pedidos",

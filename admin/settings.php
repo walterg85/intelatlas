@@ -78,7 +78,7 @@
             <div class="row g-3">
                 <div class="col-6">
                     <div class="row">
-                        <p class="lead">Display products on the carousel</p>
+                        <p class="lead labelCaroucel">Display products on the carousel</p>
                         <div class=" col-9 mb-3">
                             <label for="productList" class="form-label labelDatalist">Product</label>
                             <input class="form-control" list="datalistOptions" id="productList" name="productList" placeholder="Type to search...">
@@ -94,7 +94,7 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th class="labelControl2" scope="col">Product</th>
+                                        <th class="labelDatalist" scope="col">Product</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
@@ -105,7 +105,7 @@
                 </div>
                 <div class="col-6">
                    <div class="row">
-                        <p class="lead">System user management</p>
+                        <p class="lead labelUserMngr">System user management</p>
                         <div class="col-12 mb-3">
                             <div class="d-grid gap-2 pt-4">
                                 <button class="btn btn-outline-success" id="btnAddUser" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser">Add user</button>
@@ -117,7 +117,7 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th class="" scope="col">User</th>
+                                        <th class="labelColumn1" scope="col">User</th>
                                         <th scope="col"></th>
                                     </tr>
                                 </thead>
@@ -531,6 +531,14 @@
         $("#inputtax").attr("placeholder", myLang.labelTax);
         $("#inputMail").attr("placeholder", myLang.labelEmail);
         $("#inputPass").attr("placeholder", myLang.labelPassword);
+
+        $(".labelCaroucel").html(myLang.labelCaroucel);
+        $(".labelDatalist").html(myLang.labelDatalist);
+        $("#productList").attr("placeholder", myLang.productList);
+        $("#btnAdd").html(myLang.labelButtonAdd);
+        $(".labelUserMngr").html(myLang.labelUserMngr);
+        $("#btnAddUser").html(myLang.labelButtonAddUser);
+        $(".labelColumn1").html(myLang.labelColumn1);
 
         strMesage = myLang.ctrMessage;
     }
