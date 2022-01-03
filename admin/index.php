@@ -334,39 +334,43 @@
             };
 
             $.post("../core/controllers/user.php", _Data, function(result){
-                let permisos = JSON.parse(result.data);
+                if(result.data.type == 2){
+                    let permisos = JSON.parse(result.data.roles);
 
-                if(permisos.categoria == 1)
-                    $(".linkCategories").removeClass("d-none");
+                    if(permisos.categoria == 1)
+                        $(".linkCategories").removeClass("d-none");
 
-                if(permisos.productos == 1)
-                    $(".linkProduct").removeClass("d-none");
+                    if(permisos.productos == 1)
+                        $(".linkProduct").removeClass("d-none");
 
-                if(permisos.cupones == 1)
-                    $(".linkCoupons").removeClass("d-none");
+                    if(permisos.cupones == 1)
+                        $(".linkCoupons").removeClass("d-none");
 
-                if(permisos.ordenes == 1)
-                    $(".linkOrders").removeClass("d-none");
+                    if(permisos.ordenes == 1)
+                        $(".linkOrders").removeClass("d-none");
 
-                if(permisos.clientes == 1)
-                    $(".linkClients").removeClass("d-none");
+                    if(permisos.clientes == 1)
+                        $(".linkClients").removeClass("d-none");
 
-                if(permisos.prospectos == 1)
-                    $(".linkLeads").removeClass("d-none");
+                    if(permisos.prospectos == 1)
+                        $(".linkLeads").removeClass("d-none");
 
-                if(permisos.facturas == 1)
-                    $(".linkInvoice").removeClass("d-none");
+                    if(permisos.facturas == 1)
+                        $(".linkInvoice").removeClass("d-none");
 
-                if(permisos.chat == 1)
-                    $(".linkChat").removeClass("d-none");
+                    if(permisos.chat == 1)
+                        $(".linkChat").removeClass("d-none");
 
-                if(permisos.configuracion == 1)
-                    $("#linkSetting").removeClass("d-none");
+                    if(permisos.configuracion == 1)
+                        $("#linkSetting").removeClass("d-none");
 
-                if(permisos.reportes == 1)
-                    $("#linkReports").removeClass("d-none");
+                    if(permisos.reportes == 1)
+                        $("#linkReports").removeClass("d-none");
 
-                verificarPermisos( permisos );
+                    verificarPermisos( permisos );
+                } else {
+                    $(".linkCategories, .linkProduct, .linkCoupons, .linkOrders, .linkClients, .linkLeads, .linkInvoice, .linkChat, #linkSetting, #linkReports").removeClass("d-none");
+                }
             });
         }
     </script>

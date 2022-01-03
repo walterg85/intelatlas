@@ -163,7 +163,7 @@
 
 		public function solicitarPermiso($userId) {
 			$pdo = new Conexion();
-			$cmd = 'SELECT roles FROM user WHERE id =:id';
+			$cmd = 'SELECT roles, type FROM user WHERE id =:id';
 			$parametros = array(
 				':id' => $userId
 			);
@@ -172,6 +172,6 @@
 			$sql->execute($parametros);
 			$sql->setFetchMode(PDO::FETCH_OBJ);
 
-			return $sql->fetch()->roles;
+			return $sql->fetch();
 		}
 	}

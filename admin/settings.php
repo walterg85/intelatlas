@@ -176,7 +176,7 @@
             </div>
 
             <div class="row">
-                <p class="lead">Permissions for this user account</p>
+                <p class="lead labelNewUser">Permissions for this user account</p>
                 <div class="col">
                     <div class="form-check form-switch mb-3">
                         <input class="form-check-input" type="checkbox" id="swPermisoCat">
@@ -225,11 +225,11 @@
 
             <div class="d-grid gap-2 my-5">
                 <button class="btn btn-success btn-lg" type="button" id="addNewUser">
-                    <i class="bi bi-check2"></i> Register user
+                    <i class="bi bi-check2"></i> <texto class="labelButonSave">Register user</texto>
                 </button>
 
                 <button class="btn btn-success btn-lg d-none" type="button" id="btnUpdateUser">
-                    <i class="bi bi-check2"></i> Update user information
+                    <i class="bi bi-check2"></i> <texto class="labelButonUpdate">Update user information</texto>
                 </button>
             </div>
         </form>
@@ -539,6 +539,25 @@
         $(".labelUserMngr").html(myLang.labelUserMngr);
         $("#btnAddUser").html(myLang.labelButtonAddUser);
         $(".labelColumn1").html(myLang.labelColumn1);
+
+        $("#offcanvasWithBackdropLabel").html(myLang.offcanvasWithBackdropLabel);
+        $(".inputUserName").html(myLang.inputUserName);
+        $(".inputUserPassword").html(myLang.inputUserPassword);
+        $(".labelNewUser").html(myLang.labelNewUser);
+
+        $(".swPermisoCat").html(myLang.swPermisoCat);
+        $(".swPermisoProd").html(myLang.swPermisoProd);
+        $(".swPermisoCoup").html(myLang.swPermisoCoup);
+        $(".swPermisoOrder").html(myLang.swPermisoOrder);
+        $(".swPermisoClient").html(myLang.swPermisoClient);
+        $(".swPermisoLeads").html(myLang.swPermisoLeads);
+        $(".swPermisoInvoice").html(myLang.swPermisoInvoice);
+        $(".swPermisoChat").html(myLang.swPermisoChat);
+        $(".swPermisoSett").html(myLang.swPermisoSett);
+        $(".swPermisoReport").html(myLang.swPermisoReport);
+
+        $(".labelButonSave").html(myLang.labelButonSave);
+        $(".labelButonUpdate").html(myLang.labelButonUpdate);
 
         strMesage = myLang.ctrMessage;
     }
