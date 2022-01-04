@@ -232,8 +232,8 @@
 
 <script type="text/javascript">
     var productPhotos   = {},
-        maxCroppedWidth = 420,
-        maxCroppedHeight = 300,
+        maxCroppedWidth = 1,
+        maxCroppedHeight = 1,
         dataTableProduct = null,
         formatter = new Intl.NumberFormat('en-US', {
             style: 'currency',
@@ -784,7 +784,7 @@
                 actions     = document.getElementById('cropper-buttons'),
                 options     = {
                     viewMode: 1,
-                    aspectRatio: maxCroppedWidth / maxCroppedHeight,
+                    // aspectRatio: maxCroppedWidth / maxCroppedHeight,
                     background: false
                 };
 
@@ -803,10 +803,7 @@
             $modal.modal("hide");
 
             if(cropper){
-                canvas = cropper.getCroppedCanvas({
-                    width: maxCroppedWidth,
-                    height: maxCroppedHeight,
-                });
+                canvas = cropper.getCroppedCanvas();
 
                 initialPhotoURL = picture.attr("src");
                 picture
