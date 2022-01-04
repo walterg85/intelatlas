@@ -69,7 +69,7 @@
 </section>
 
 <script src="../assets/js/mimes.js"></script>
-<script src="../assets/js/download.js"></script>
+<script src="../assets/js/download.min.js"></script>
 
 <script type="text/javascript">
     var currentOrderId = 0;

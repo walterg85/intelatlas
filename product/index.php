@@ -3,7 +3,7 @@
     ob_start();
 ?>
 
-<link href="<?php echo $base_url; ?>/assets/css/product.css" rel="stylesheet">
+<link href="<?php echo $base_url; ?>/assets/css/product.min.css" rel="stylesheet">
 
 <div class="card">
     <div class="row g-0">
@@ -56,7 +56,7 @@
 </div>
 
 <script src="../assets/js/mimes.js"></script>
-<script src="../assets/js/download.js"></script>
+<script src="../assets/js/download.min.js"></script>
 
 <script>
     $(document).ready(function(){
