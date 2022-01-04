@@ -8,7 +8,7 @@
 <!-- cropperJS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.js" integrity="sha512-9pGiHYK23sqK5Zm0oF45sNBAX/JqbZEP7bSDHyt+nT3GddF+VFIcYNqREt0GDpmFVZI3LZ17Zu9nMMc9iktkCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom seccionHeader">
     <h1 class="h2 lblNamePage">Settings</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group me-2">
@@ -74,30 +74,58 @@
             </div>
 
             <hr>
-            <p class="lead">Display products on the carousel</p>
 
             <div class="row g-3">
-                <div class=" col-9 mb-3">
-                    <label for="productList" class="form-label labelDatalist">Product</label>
-                    <input class="form-control" list="datalistOptions" id="productList" name="productList" placeholder="Type to search...">
-                    <datalist id="datalistOptions"></datalist>
+                <div class="col-6">
+                    <div class="row">
+                        <p class="lead labelCaroucel">Display products on the carousel</p>
+                        <div class=" col-9 mb-3">
+                            <label for="productList" class="form-label labelDatalist">Product</label>
+                            <input class="form-control" list="datalistOptions" id="productList" name="productList" placeholder="Type to search...">
+                            <datalist id="datalistOptions"></datalist>
+                        </div>
+                        <div class="col-3">
+                            <div class="d-grid gap-2 pt-4">
+                                <button class="btn btn-outline-success" id="btnAdd" type="button">Add</button>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <table class="table align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th class="labelDatalist" scope="col">Product</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblProductos"></tbody>
+                            </table>
+                        </div>
+                   </div>
                 </div>
-                <div class="col">
-                    <div class="d-grid gap-2 pt-4">
-                        <button class="btn btn-outline-success" id="btnAdd" type="button">Add</button>
-                    </div>
-                </div>
+                <div class="col-6">
+                   <div class="row">
+                        <p class="lead labelUserMngr">System user management</p>
+                        <div class="col-12 mb-3">
+                            <div class="d-grid gap-2 pt-4">
+                                <button class="btn btn-outline-success" id="btnAddUser" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser">Add user</button>
+                            </div>
+                        </div>
 
-                <table class="table align-middle">
-                    <thead class="table-light">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th class="labelControl2" scope="col">Product</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody id="tblProductos"></tbody>
-                </table>
+                        <div class="col-12">
+                            <table class="table align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th class="labelColumn1" scope="col">User</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tblUser"></tbody>
+                            </table>
+                        </div>
+                   </div>
+                </div>
             </div>
         </div>        
     </div>
@@ -124,6 +152,90 @@
     </div>
 </div>
 
+<!-- Panel lateral para agregar cuenta de usuario -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasUser" aria-labelledby="offcanvasWithBackdropLabel"  >
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">Add a new user</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <form id="frmNewuser" class="needs-validation-userform" novalidate>
+            <div class="row">
+                <!-- <div class="col-12 mb-3">
+                    <label for="inputName" class="form-label labelName">Owner</label>
+                    <input type="text" id="inputName" name="inputName" class="form-control" autocomplete="off" maxlength="250" required>
+                </div> -->
+                <div class="col mb-3">
+                    <label for="inputUserName" class="form-label inputUserName">Username</label>
+                    <input type="text" id="inputUserName" name="inputUserName" class="form-control" autocomplete="off" maxlength="50" required>
+                </div>
+                <div class="col mb-3">
+                    <label for="inputUserPassword" class="form-label inputUserPassword">Password</label>
+                    <input type="password" id="inputUserPassword" name="inputUserPassword" class="form-control" autocomplete="off" maxlength="50" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <p class="lead labelNewUser">Permissions for this user account</p>
+                <div class="col">
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="swPermisoCat">
+                        <label class="form-check-label swPermisoCat" for="swPermisoCat"> Manage Categories</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="swPermisoProd">
+                        <label class="form-check-label swPermisoProd" for="swPermisoProd"> Manage Products</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="swPermisoCoup">
+                        <label class="form-check-label swPermisoCoup" for="swPermisoCoup"> Manage Coupons</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="swPermisoOrder">
+                        <label class="form-check-label swPermisoOrder" for="swPermisoOrder"> Manage Orders</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="swPermisoClient">
+                        <label class="form-check-label swPermisoClient" for="swPermisoClient"> Manage Clients</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="swPermisoLeads">
+                        <label class="form-check-label swPermisoLeads" for="swPermisoLeads"> Manage Leads</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="swPermisoInvoice">
+                        <label class="form-check-label swPermisoInvoice" for="swPermisoInvoice"> Manage Invoice</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="swPermisoChat">
+                        <label class="form-check-label swPermisoChat" for="swPermisoChat"> Manage Chat</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="swPermisoSett">
+                        <label class="form-check-label swPermisoSett" for="swPermisoSett"> Manage Settings</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="swPermisoReport">
+                        <label class="form-check-label swPermisoReport" for="swPermisoReport"> Manage Reports</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2 my-5">
+                <button class="btn btn-success btn-lg" type="button" id="addNewUser">
+                    <i class="bi bi-check2"></i> <texto class="labelButonSave">Register user</texto>
+                </button>
+
+                <button class="btn btn-success btn-lg d-none" type="button" id="btnUpdateUser">
+                    <i class="bi bi-check2"></i> <texto class="labelButonUpdate">Update user information</texto>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script type="text/javascript">
     var confButonText = "",
         strMesage = "",
@@ -132,7 +244,8 @@
         settingPhoto        = null,
         currentProduct      = 0,
         arrayProductos      = [],
-        tempProductos       = null;
+        tempProductos       = null,
+        userSelected        = 0;
 
     $(document).ready(function(){
         currentPage = "Settings";
@@ -144,7 +257,21 @@
 
         loadProducts();
 
+        // Mostrar todos los usuario
+        fngetUser();
+
         $("#btnAdd").click( addProduct);
+
+        $("#addNewUser").click( addNewUser);
+
+        $("#btnAddUser").click( function(){
+            $("#btnUpdateUser").addClass("d-none");
+            $("#addNewUser").removeClass("d-none");
+            $("#inputUserPassword").attr("required", "required");
+            $("#frmNewuser")[0].reset();
+        });
+
+        $("#btnUpdateUser").click( fnUpdateUser);
     });
 
     // Metodo para cargar la lista de productos
@@ -405,7 +532,225 @@
         $("#inputMail").attr("placeholder", myLang.labelEmail);
         $("#inputPass").attr("placeholder", myLang.labelPassword);
 
+        $(".labelCaroucel").html(myLang.labelCaroucel);
+        $(".labelDatalist").html(myLang.labelDatalist);
+        $("#productList").attr("placeholder", myLang.productList);
+        $("#btnAdd").html(myLang.labelButtonAdd);
+        $(".labelUserMngr").html(myLang.labelUserMngr);
+        $("#btnAddUser").html(myLang.labelButtonAddUser);
+        $(".labelColumn1").html(myLang.labelColumn1);
+
+        $("#offcanvasWithBackdropLabel").html(myLang.offcanvasWithBackdropLabel);
+        $(".inputUserName").html(myLang.inputUserName);
+        $(".inputUserPassword").html(myLang.inputUserPassword);
+        $(".labelNewUser").html(myLang.labelNewUser);
+
+        $(".swPermisoCat").html(myLang.swPermisoCat);
+        $(".swPermisoProd").html(myLang.swPermisoProd);
+        $(".swPermisoCoup").html(myLang.swPermisoCoup);
+        $(".swPermisoOrder").html(myLang.swPermisoOrder);
+        $(".swPermisoClient").html(myLang.swPermisoClient);
+        $(".swPermisoLeads").html(myLang.swPermisoLeads);
+        $(".swPermisoInvoice").html(myLang.swPermisoInvoice);
+        $(".swPermisoChat").html(myLang.swPermisoChat);
+        $(".swPermisoSett").html(myLang.swPermisoSett);
+        $(".swPermisoReport").html(myLang.swPermisoReport);
+
+        $(".labelButonSave").html(myLang.labelButonSave);
+        $(".labelButonUpdate").html(myLang.labelButonUpdate);
+
         strMesage = myLang.ctrMessage;
+    }
+
+    // Metodo para crear una cuenta de usuario
+    function addNewUser(){
+        let forms = document.querySelectorAll('.needs-validation-userform'),
+            continuar = true;
+
+        Array.prototype.slice.call(forms).forEach(function (formv){ 
+            if (!formv.checkValidity())
+                continuar = false;
+
+            formv.classList.add('was-validated');
+        });
+
+        if(!continuar)
+            return false;
+
+        let permisos = {};
+
+        permisos.categoria      = ($("#swPermisoCat").is(':checked')) ? 1 : 0;
+        permisos.productos      = ($("#swPermisoProd").is(':checked')) ? 1 : 0;
+        permisos.cupones        = ($("#swPermisoCoup").is(':checked')) ? 1 : 0;
+        permisos.ordenes        = ($("#swPermisoOrder").is(':checked')) ? 1 : 0;
+        permisos.clientes       = ($("#swPermisoClient").is(':checked')) ? 1 : 0;
+        permisos.prospectos     = ($("#swPermisoLeads").is(':checked')) ? 1 : 0;
+        permisos.facturas       = ($("#swPermisoInvoice").is(':checked')) ? 1 : 0;
+        permisos.chat           = ($("#swPermisoChat").is(':checked')) ? 1 : 0;
+        permisos.configuracion  = ($("#swPermisoSett").is(':checked')) ? 1 : 0;
+        permisos.reportes       = ($("#swPermisoReport").is(':checked')) ? 1 : 0;
+
+        let _Data = {
+            "_method": "createUser",
+            "owner": $("#inputUserName").val(),
+            "password": $("#inputUserPassword").val(),
+            "roles": JSON.stringify(permisos)
+        };
+
+        $.post("../core/controllers/user.php", _Data, function(){
+            showAlert("success", "Registered user account");
+            $("#frmNewuser").removeClass("was-validated");
+            $("#frmNewuser")[0].reset();
+            $("#btnAddUser").click();
+
+            fngetUser();
+        });
+    }
+
+    // Metodo para listar todos los usuarios
+    function fngetUser(){
+        let _Data = {
+            "_method": "getUser"
+        },
+        filas = "";
+
+        $("#tblUser").html("");
+        $.post("../core/controllers/user.php", _Data, function(result){
+            // Se recore el contenido del array para listar todos los usuarios
+            $.each(result.data, function(index, item){
+                let roles = item.roles.replace(/\"/g, "'");
+
+                filas += `
+                    <tr>
+                        <td>${index +1}</td>
+                        <td>${item.owner}</td>
+                        <td class="text-center">
+                            <a href="javascript:void(0);" data-id="${item.id}" class="btn btn-outline-danger btn-sm btnDeleteUser" title="Delete"><i class="bi bi-trash"></i></a>
+                            <a href="javascript:void(0);" data-id="${item.id}" data-roles="${roles}" data-owner="${item.owner}" class="btn btn-outline-warning btn-sm btnModifyUser" title="Modify"><i class="bi bi-eye-fill"></i></a>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            // Se agrega el contenido del HTML en el body de la tabla contenedora
+            $("#tblUser").append(filas);
+
+            // Accion del boton para eliminar un usuario del sistema
+            $(".btnDeleteUser").unbind().click( function(){
+                let _Data = {
+                    "_method": "deleteUser",
+                    "userId": $(this).data("id")
+                };
+
+                $.post("../core/controllers/user.php", _Data, function(){
+                    showAlert("success", "User account has been deleted");
+                    fngetUser();
+                });
+
+            });
+
+            // Accion del boton para editar un usuario del sistema
+            $(".btnModifyUser").unbind().click( function(){
+                $("#frmNewuser").removeClass("was-validated");
+                $("#frmNewuser")[0].reset();
+                $("#btnAddUser").click();
+                $("#inputUserPassword").removeAttr("required");
+
+                $("#btnUpdateUser").removeClass("d-none");
+                $("#addNewUser").addClass("d-none");
+
+                let permisos    = JSON.parse($(this).data("roles").replace(/\'/g, '"')),
+                    owner       = $(this).data("owner");
+
+                userSelected    = $(this).data("id");
+
+                $("#inputUserName").val(owner);
+
+                if(permisos.categoria == 1)
+                    $("#swPermisoCat").prop("checked", true);
+
+                if(permisos.productos == 1)
+                    $("#swPermisoProd").prop("checked", true);
+
+                if(permisos.cupones == 1)
+                    $("#swPermisoCoup").prop("checked", true);
+
+                if(permisos.ordenes == 1)
+                    $("#swPermisoOrder").prop("checked", true);
+
+                if(permisos.clientes == 1)
+                    $("#swPermisoClient").prop("checked", true);
+
+                if(permisos.prospectos == 1)
+                    $("#swPermisoLeads").prop("checked", true);
+
+                if(permisos.facturas == 1)
+                    $("#swPermisoInvoice").prop("checked", true);
+
+                if(permisos.chat == 1)
+                    $("#swPermisoChat").prop("checked", true);
+
+                if(permisos.configuracion == 1)
+                    $("#swPermisoSett").prop("checked", true);
+
+                if(permisos.reportes == 1)
+                    $("#swPermisoReport").prop("checked", true);
+            });
+        });
+    }
+
+    // Metodo para actualizar un usuario
+    function fnUpdateUser(){
+        let forms = document.querySelectorAll('.needs-validation-userform'),
+            continuar = true;
+
+        Array.prototype.slice.call(forms).forEach(function (formv){ 
+            if (!formv.checkValidity())
+                continuar = false;
+
+            formv.classList.add('was-validated');
+        });
+
+        if(!continuar)
+            return false;
+
+        let permisos = {};
+
+        permisos.categoria      = ($("#swPermisoCat").is(':checked')) ? 1 : 0;
+        permisos.productos      = ($("#swPermisoProd").is(':checked')) ? 1 : 0;
+        permisos.cupones        = ($("#swPermisoCoup").is(':checked')) ? 1 : 0;
+        permisos.ordenes        = ($("#swPermisoOrder").is(':checked')) ? 1 : 0;
+        permisos.clientes       = ($("#swPermisoClient").is(':checked')) ? 1 : 0;
+        permisos.prospectos     = ($("#swPermisoLeads").is(':checked')) ? 1 : 0;
+        permisos.facturas       = ($("#swPermisoInvoice").is(':checked')) ? 1 : 0;
+        permisos.chat           = ($("#swPermisoChat").is(':checked')) ? 1 : 0;
+        permisos.configuracion  = ($("#swPermisoSett").is(':checked')) ? 1 : 0;
+        permisos.reportes       = ($("#swPermisoReport").is(':checked')) ? 1 : 0;
+
+        let _Data = {
+            "_method": "updateUser",
+            "userId": userSelected,
+            "owner": $("#inputUserName").val(),
+            "password": $("#inputUserPassword").val(),
+            "roles": JSON.stringify(permisos)
+        };
+
+        $.post("../core/controllers/user.php", _Data, function(){
+            showAlert("success", "Update user account");
+            $("#frmNewuser").removeClass("was-validated");
+            $("#frmNewuser")[0].reset();
+            $("#btnAddUser").click();
+
+            fngetUser();
+        });
+    }
+
+    // Metodo para validar los permisos dentro de la pagina
+    function verificarPermisos(permisos){
+        if(permisos.configuracion == 0){
+            $("#configForm, .seccionHeader").remove();
+            $(".contenedorPrincipal").html("<p class='lead my-3'>you currently do not have permission to access this resource</p>");
+        }
     }
 </script>
 

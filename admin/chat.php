@@ -3,7 +3,7 @@
     ob_start();
 ?>
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom seccionHeader">
     <h1 class="h2 lblNamePage">Welcome to chat support!</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="form-check form-switch h5">
@@ -13,7 +13,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row seccionBody">
     <div class="col-4">
         <div class="list-group" id="chatList"></div>
         <!-- Item chat to clone  -->
@@ -305,6 +305,14 @@
                 $("#swActivo").prop("checked", false);
             }
         });
+    }
+
+    // Metodo para validar los permisos dentro de la pagina
+    function verificarPermisos(permisos){
+        if(permisos.chat == 0){
+            $(".seccionBody, .seccionHeader").remove();
+            $(".contenedorPrincipal").html("<p class='lead my-3'>you currently do not have permission to access this resource</p>");
+        }
     }
 </script>
 <?php

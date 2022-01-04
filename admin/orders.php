@@ -9,7 +9,7 @@
     }
 </style>
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom seccionHeader">
     <h1 class="h2 lblNamePage">Orders</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="input-group mb-3 dvFilter"></div>
@@ -396,6 +396,14 @@
         $(".colH").html(myLang.colH);
 
         $(".labelFilter").html(myLang.labelFilter);
+    }
+
+    // Metodo para validar los permisos dentro de la pagina
+    function verificarPermisos(permisos){
+        if(permisos.ordenes == 0){
+            $(".orderList, .seccionHeader").remove();
+            $(".contenedorPrincipal").html("<p class='lead my-3'>you currently do not have permission to access this resource</p>");
+        }
     }
 </script>
 

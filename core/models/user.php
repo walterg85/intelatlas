@@ -43,16 +43,17 @@
 			$pdo = new Conexion();
 			$cmd = '
 				INSERT INTO user
-					(owner, email, password, type, register_date, oauth_provider, active)
+					(owner, email, password, type, register_date, oauth_provider, active, roles)
 				VALUES
-					(:owner, :email, :password, :type, now(), "system", 1)
+					(:owner, :email, :password, :type, now(), "system", 1, :roles)
 			';
 
 			$parametros = array(
 				':owner' => $userData['owner'],
 				':email' => $userData['email'],
 				':password' => $userData['password'],
-				':type' => $userData['type']
+				':type' => $userData['type'],
+				':roles' => ($userData['roles']) ? $userData['roles'] : ''
 			);
 			
 			try {
@@ -106,6 +107,65 @@
 
 			$parametros = array(
 				':uname' => $uname
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+
+			return $sql->fetch();
+		}
+
+		public function getUser() {
+			$pdo = new Conexion();
+			$cmd = 'SELECT id, owner, roles FROM user WHERE type = 2 AND active = 1';
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute();
+			$sql->setFetchMode(PDO::FETCH_OBJ);
+
+			return $sql->fetchAll();
+		}
+
+		public function deleteUser($userId) {
+			$pdo = new Conexion();
+			$cmd = 'DELETE FROM user WHERE id =:id';
+
+			$parametros = array(
+				':id' => $userId
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
+
+		public function updateUser($userData) {
+			$pdo = new Conexion();
+
+			$update = ( strlen($userData['password']) > 0 ) ? ', password ="'. $userData['password'] .'"' : '';
+			$cmd = '
+				UPDATE user SET owner =:owner, roles =:roles'. $update .' WHERE id =:userId
+			';
+
+			$parametros = array(
+				':owner' => $userData['owner'],
+				':roles' => $userData['roles'],
+				':userId' => $userData['userId']
+			);
+
+			$sql = $pdo->prepare($cmd);
+			$sql->execute($parametros);
+
+			return TRUE;
+		}
+
+		public function solicitarPermiso($userId) {
+			$pdo = new Conexion();
+			$cmd = 'SELECT roles, type FROM user WHERE id =:id';
+			$parametros = array(
+				':id' => $userId
 			);
 
 			$sql = $pdo->prepare($cmd);
