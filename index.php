@@ -1,83 +1,87 @@
 <?php
-    // Se inicia el metodo para encapsular todo el contenido de las paginas (bufering), para dar salida al HTML 
+    // Se inicia el metodo para encapsular el contenido del carusel, 
+    // Esto solo por que se dibujan en secciones apartadas
     ob_start();
 ?>
-
-<!-- ======= Hero Section ======= -->
-<section id="hero" class="d-flex justify-content-center align-items-center">
+<div class="text-center mt-5">
     <div class="carousel-item d-none carouselClone">
-        <div class="carousel-container">
-            <h2 class="animate__animated animate__fadeInDown pName">Websites and more</h2>
-            <p class="animate__animated animate__fadeInUp pPrice">Basic website only $189</p>
-            <a href="javascript:void(0);" class="btn-get-started animate__animated animate__fadeInUp scrollto btnAddtocart labelPurchase1">Order now</a>
-        </div>
-    </div>
-
-    <div id="heroCarousel" data-bs-interval="5000" class="container carousel carousel-fade" data-bs-ride="carousel">
-        <div class="objContenedor"></div>
-        <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon bx bx-chevron-left" aria-hidden="true"></span>
-        </a>
-
-        <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
-            <span class="carousel-control-next-icon bx bx-chevron-right" aria-hidden="true"></span>
-        </a>
-    </div>
-</section>
-<!-- End Hero -->
-
-<!-- ======= Website Pricing Section ======= -->
-<section id="web-price" class="pricing web-price">
-    <div class="container" data-aos="fade-up">
-        <div class="col-lg-3 col-md-6 webClone d-none">
-            <div class="box">
-                <span class="advanced d-none">Popular</span>
-                <a href="javascript:void(0);" class="linkto"> <h3 class="card-title">Free Website Draft</h3></a>
-                <div class="mb-3">
-                    <a href="javascript:void(0);">
-                        <img src="#" alt="image" class="img-fluid card-img-top">
-                    </a>
-                </div>
-                <h4 class="lblPrice"></h4>
-                <ul class="lblDescriptions"></ul>
-                <div class="btn-wrap">
-                    <a href="javascript:void(0);" class="btn-buy btnAddtocart labelPurchase2">Buy Now</a>
-                </div>
+        <h1 class="display-4"><span class="text-warning pName">store</span></h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4 pPrice">Get 3 design with unlimited revision. Pick your favorite for only $95.</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <button type="button" class="btn btn-danger px-4 me-sm-3 btnAddtocart labelPurchase1">Buy Now</button>
+                <a href="#" class="text-decoration-none text-info">Learn more</a>
             </div>
         </div>
-        <div class="row listWebPrice"></div>
     </div>
-</section>
+
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner objContenedor"></div>
+    </div>
+    
+    <div class="container d-flex justify-content-between mt-3 mt-md-0">
+        <img src="assets/img/hero.png?v=1.3" style="margin-bottom: -50px; height: 225px;" alt="Example image" loading="lazy">
+        <img src="assets/img/rocket.png?v=1" style="margin-bottom: -50px; height: 115px;" alt="Example image" loading="lazy">
+    </div>
+</div>
+
+<?php
+    // Se obtiene el contenido del bufer
+    $carousel = ob_get_contents();
+
+    // Limpiar el bufer para liberar
+    ob_end_clean();
+
+    // Se inicia el metodo para encapsular el resto del contenido
+    ob_start();
+?>
+<!-- ======= Website Pricing Section ======= -->
+<div class="pricing-header mt-5 p-3 pb-md-4 mx-auto text-center">
+    <h1 class="display-4 fw-light text-secondary">Websites</h1>
+    <p class="fs-5 text-muted mt-3 mb-5">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It’s built with default Bootstrap components and utilities with little customization.</p>
+</div>
+
+<div class="container-fluid">
+    <div class="col webClone d-none">
+        <div class="card mb-4 rounded-3 bg-danger">
+            <a href="javascript:void(0);" class="linkto text-decoration-none text-white"> <h4 class="cardtitle mt-4 fw-normal">Free Website Draft</h4></a>
+            <div class="card-body pt-0">
+                <h3 class="card-title fw-light lblPrice">$149</h3>
+                <ul class="list-unstyled mt-3 mb-4 lblDescriptions"></ul>
+                <button type="button" class="w-100 btn btn-warning btnAddtocart labelPurchase2">Buy Now</button>
+            </div>
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 mb-3 text-center text-light listWebPrice"></div>
+</div>
 <!-- End Website Section -->
 
-<!-- ======= Cta Section ======= -->
-<section id="cta" class="cta">
-    <div class="container">
-        <div class="row" data-aos="zoom-in">
-            <div class="col-lg-9 text-center text-lg-start">
-                <h3 class="bannerTittle">Your brand</h3>
-                <p class="bannerSubTittle"> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            </div>
-            <div class="col-lg-3 cta-btn-container text-center">
-                <a class="cta-btn align-middle ctaCall" href="#">Call</a>
-                <a class="cta-btn align-middle linkChat ctaMessage" href="javascript:void(0);">Chat</a>
+<!-- ======= Banner Section ======= -->
+<div class="container col-xl-10 col-xxl-8 px-4 py-5 text-secondary">
+    <div class="row align-items-center g-5 py-5">
+        <div class="col-lg-6 text-lg-start">
+            <h1 class="display-4 fw-light mb-3 bannerTittle">Vertically centered hero sign-up form</h1>
+            <p class="lead bannerSubTittle">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                <button type="button" class="btn btn-success btn-lg px-4 me-md-2 ctaCall">Primary</button>
+                <button type="button" class="btn btn-outline-warning btn-lg px-4 linkChat ctaMessage">Default</button>
             </div>
         </div>
+        <div class="col-md-10 mx-auto col-lg-6">
+            <img src="assets/img/home.jpg" class="d-block mx-lg-auto img-fluid shadow-lg" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+        </div>
     </div>
-</section>
-<!-- End Cta Section -->
+</div>
+<!-- End Banner Section -->
 
 <!-- ======= Pricing Section ======= -->
-<section id="pricing" class="pricing">
-    <div class="container" data-aos="fade-up">
-        <div class="section-title">
-            <h2 class="ctaStoreTittle">ONLINE STORE</h2>
-            <p class="ctaStoreSubTittle">Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
-        </div>
-
-        <div class="row listStorePrice"></div>
-    </div>
-</section>
+<div class="pricing-header p-3 pb-md-4 mx-auto text-center bg-light text-secondary">
+    <h1 class="display-4 fw-light">Online Store</h1>
+    <p class="fs-5 mt-3 mb-5">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It’s built with default Bootstrap components and utilities with little customization.</p>
+</div>
+<div class="container-fluid">
+    <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 mb-3 text-center text-light listStorePrice"></div>
+</div>
 <!-- End Pricing Section -->
 
 <script type="text/javascript">
@@ -122,13 +126,13 @@
                 let productCard = $(".webClone").clone();
 
                 if(lang == "en"){
-                    productCard.find(".card-title").html(item.name);
+                    productCard.find(".cardtitle").html(item.name);
                     let descriptions = JSON.parse(item.descriptions);
                     $.each( descriptions, function(i, d){
                         productCard.find(".lblDescriptions").append(`<li class="${(d.underline == 1) ? 'na' : ''}">${d.descripcion}</li>`);
                     });
                 }else{
-                    productCard.find(".card-title").html(item.optional_name);
+                    productCard.find(".cardtitle").html(item.optional_name);
                     let descriptions = JSON.parse(item.descriptions);
                     $.each( descriptions, function(i, d){
                         productCard.find(".lblDescriptions").append(`<li class="${(d.underline == 1) ? 'na' : ''}">${d.descripcionOpc}</li>`);
@@ -176,12 +180,16 @@
                     if(alternatives){
                         objHTML.find(".pPrice").html(`${alternatives.alternative}`);
                     }
+
+                    objHTML.find(".pPrice").append(` For only $${item.price}`);
                 } else {
                     objHTML.find(".pName").html(item.optional_name);
 
                     if(alternatives){
                         objHTML.find(".pPrice").html(`${alternatives.alternativeSp}`);
                     }
+
+                    objHTML.find(".pPrice").append(` Por solo $${item.price}`);
                 }
 
                 objHTML.find(".btnAddtocart").data("item", item);                
