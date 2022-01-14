@@ -25,7 +25,7 @@
     <title>Websites and more | INTELATLAS</title>
 
     <!-- Stylo del chat -->
-    <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/chat.min.css?v=1.3">
+    <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/chat.min.css?v=1.4">
 
     <!-- sweetalert2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11" async></script>

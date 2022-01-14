@@ -45,8 +45,11 @@
     <div class="col webClone d-none">
         <div class="card mb-4 rounded-3 bg-danger">
             <a href="javascript:void(0);" class="linkto text-decoration-none text-white"> <h4 class="cardtitle mt-4 fw-normal">Free Website Draft</h4></a>
+            <span class="advanced d-none">Popular</span>
             <div class="card-body pt-0">
-                <h3 class="card-title fw-light lblPrice">$149</h3>
+                <h3 class="card-title fw-light">
+                    <span class="lblPrice">$149</span> <span class="lblSalePrice d-none ms-2">$149</span>
+                </h3>
                 <ul class="list-unstyled mt-3 mb-4 lblDescriptions"></ul>
                 <button type="button" class="w-100 btn btn-warning btnAddtocart labelPurchase2">Buy Now</button>
             </div>
@@ -121,7 +124,7 @@
 
         $.post(`${base_url}/core/controllers/product.php`, objData, function(result) {
             $(`.${obj}`).html("");
-
+            
             $.each( result.data, function( index, item){
                 let productCard = $(".webClone").clone();
 
@@ -143,8 +146,15 @@
                 productCard.find(".card-img-top").attr("src", `${img}`);
                 productCard.find(".card-img-top").parent().attr("href", `${base_url}/product/index.php?pid=${item.id}`);
                 productCard.find(".linkto").attr("href", `${base_url}/product/index.php?pid=${item.id}`);
+                productCard.find(".lblPrice").html(`$${item.price}`);
 
-                productCard.find(".lblPrice").html(`<sup>$</sup> ${item.price}`);
+                let salePrice = parseFloat(item.sale_price);
+                if(salePrice > 0){
+                    productCard.find(".lblPrice").addClass(`fs-6 text-decoration-line-through`);
+                    productCard.find(".lblSalePrice").removeClass("d-none");
+                    productCard.find(".lblSalePrice").html(`$${salePrice}`);
+                }
+
                 productCard.find(".btnAddtocart").data("item", item);
 
                 if(item.optional_description == 1)
