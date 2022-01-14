@@ -153,3 +153,23 @@
     height: 70px;
   }
 }
+
+/*--------------------------------------------------------------
+# Cintillo
+--------------------------------------------------------------*/
+.advanced {
+    width: 200px;
+    position: absolute;
+    top: 18px;
+    right: -68px;
+    transform: rotate(45deg);
+    z-index: 1;
+    font-size: 14px;
+    padding: 1px 0 3px 0;
+    background: #005c50;
+    color: #fff;
+}
+
+.card {
+  overflow: hidden;
+}
