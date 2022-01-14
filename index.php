@@ -124,7 +124,7 @@
 
         $.post(`${base_url}/core/controllers/product.php`, objData, function(result) {
             $(`.${obj}`).html("");
-            
+
             $.each( result.data, function( index, item){
                 let productCard = $(".webClone").clone();
 
@@ -236,7 +236,7 @@
                 newItem.descriptions            = currentItem.descriptions;
                 newItem.optional_description    = currentItem.optional_description;
                 newItem.thumbnail               = currentItem.thumbnail;
-                newItem.price                   = currentItem.price;
+                newItem.price                   = (parseFloat(currentItem.sale_price) > 0) ? currentItem.sale_price : currentItem.price;
                 newItem.esdigital               = currentItem.esdigital;
                 newItem.qty                     = 1;
                 currentCart[currentItem.id]     = newItem;
