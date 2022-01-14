@@ -16,7 +16,7 @@
 
     <!-- Bootstrap, CSS, Icons & fonts -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/style.css?v=1.3">
+    <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/style.css?v=1.2">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,13 +42,14 @@
         height: 160px;
     }
 </style>
-<body class="bg-light">
-    <div class="nav-scroller container-fluid top-menu py-1">
+<body>
+    <div class="nav-scroller container-fluid top-menu py-2">
         <div class="container">
             <nav class="nav d-flex justify-content-center">
-                <a class="p-2 link-secondary text-decoration-none text-light changeLang" href="javascript:void(0);"><i class="bi bi-globe2 top-menu-color px-2"></i> Español</a>
-                <a class="py-2 text-decoration-none text-light" href="<?php echo $base_url; ?>/account.php"><i class="top-menu-color bi bi-person-circle px-2"></i> <text class="link4">Account</text></a>
-                <a class="p-2 link-secondary text-decoration-none text-light" href="#"><i class="bi bi-telephone-fill top-menu-color px-2"></i> +1(520) 955-8534</a>
+                <a class="link-secondary text-decoration-none text-light changeLang" href="javascript:void(0);"><i class="bi bi-globe2 top-menu-color"></i>Español</a>
+                <a class="px-3 text-decoration-none text-light" href="<?php echo $base_url; ?>/account.php"><i class="top-menu-color bi bi-person-circle"></i> <text class="link4">Account</text></a>
+                <a class="link-secondary text-decoration-none text-light d-sm-none" href="tel:5209558534"><i class="bi bi-telephone-fill top-menu-color"></i> Call Us</a>
+                <a class="link-secondary text-decoration-none text-light d-none d-sm-block" href="tel:5209558534"><i class="bi bi-telephone-fill top-menu-color"></i> +(520) 955-8534</a>
             </nav>
         </div>
     </div>
@@ -95,45 +96,45 @@
     <!-- End #main -->
 
     <!-- ========== FOOTER ========== -->
-    <div class="container-fluid bg-light">
+    <div class="container-fluid bg-dark">
         <div class="container">
-            <footer class="py-5">
-                <div class="row">
-                    <div class="col-6 col-lg-3 mt-sm-0">
+            <footer class="py-5 text-secondary">
+                <div class="row text-center">
+                    <div class="col-6 col-md-4 col-xl-3 mt-sm-0">
                         <h5>Services</h5>
                         <ul class="nav flex-column">
-                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Online store</a></li>
-                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Websites</a></li>
-                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Logos</a></li>
-                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Bootstrap Themes</a></li>
+                            <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-muted">Online store</a></li>
+                            <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-muted">Websites</a></li>
+                            <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-muted">Logos</a></li>
+                            <li class="nav-item"><a href="#" class="nav-link p-0 text-muted">Bootstrap Themes</a></li>
                         </ul>
                     </div>
-                    <div class="col-4 col-lg-3 mt-5 mt-lg-0">
+                    <div class="col-6 col-md-4 col-xl-3">
                         <h5>More</h5>
                         <ul class="nav flex-column">
-                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About Us</a></li>
-                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">CLUBTRES</a></li>
+                            <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-muted">About Us</a></li>
+                            <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+                            <li class="nav-item"><a href="#" class="nav-link p-0 text-muted">CLUBTRES</a></li>
                         </ul>
                     </div>
-                    <div class="col-6 col-lg-3">
+                    <div class="col-6 col-md-4 col-xl-3 mt-5 mt-md-0">
                         <h5>Contact</h5>
                         <ul class="nav flex-column">
-                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">+1(520) 955-8534</a></li>
-                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">1690 N Stone Ave</a></li>
-                            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Tucson, Arizona 85705</a></li>
+                            <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-muted">+1(520) 955-8534</a></li>
+                            <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-muted">1690 N Stone Ave</a></li>
+                            <li class="nav-item"><a href="#" class="nav-link p-0 text-muted">Tucson, Arizona 85705</a></li>
                         </ul>
                     </div>
 
-                    <div class="col-12 col-sm-8 col-lg-3 mt-5 mt-lg-0 text-center text-lg-start">
-                        <form>
+                    <div class="col-md-8 col-lg-6 col-xl-3 my-5 mt-xl-0 text-lg-start m-auto">
+                        <form class="text-center">
                             <h5 class="subTittle">Subscribe to our newsletter</h5>
                             <p class="subSubTittle">Monthly digest of whats new and exciting from us.</p>
                             <div class="gap-2">
                                 <label for="newsletter1" class="visually-hidden">Email address</label>
                                 <input type="email" id="txtEmail" class="form-control" placeholder="Email address">
                                 <div class="d-grid gap-2 mt-3">
-                                    <button class="btn btn-info" type="submit" id="btnSuscribe">Subscribe</button>
+                                    <button class="btn btn-info text-light" type="submit" id="btnSuscribe">Subscribe</button>
                                 </div>
                             </div>
                         </form>
@@ -143,9 +144,9 @@
                 <div class="d-flex justify-content-between py-4 my-4 border-top">
                     <p><script>document.write(new Date().getFullYear())</script> &copy;  INTELATLAS</p>
                     <ul class="list-unstyled d-flex">
-                        <li class="ms-3"><a class="link-dark" href="#"><i class="bi bi-facebook"></i></a></li>
-                        <li class="ms-3"><a class="link-dark" href="#"><i class="bi bi-twitter"></i></a></li>
-                        <li class="ms-3"><a class="link-dark" href="#"><i class="bi bi-instagram"></i></a></li>
+                        <li class="ms-3"><a class="link-primary" href="#"><i class="bi bi-facebook"></i></a></li>
+                        <li class="ms-3"><a class="link-info" href="#"><i class="bi bi-twitter"></i></a></li>
+                        <li class="ms-3"><a class="link-danger" href="#"><i class="bi bi-instagram"></i></a></li>
                     </ul>
                 </div>
             </footer>

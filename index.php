@@ -20,8 +20,8 @@
     </div>
     
     <div class="container d-flex justify-content-between mt-3 mt-md-0">
-        <img src="assets/img/hero.png?v=1.3" style="margin-bottom: -50px; height: 225px;" alt="Example image" loading="lazy">
-        <img src="assets/img/rocket.png?v=1" style="margin-bottom: -50px; height: 115px;" alt="Example image" loading="lazy">
+        <img class="hero-img1" src="assets/img/hero.png?v=1.3" alt="Example image" loading="lazy">
+        <img class="hero-img2" src="assets/img/rocket.png?v=1" alt="Example image" loading="lazy">
     </div>
 </div>
 
@@ -37,7 +37,7 @@
 ?>
 <!-- ======= Website Pricing Section ======= -->
 <div class="pricing-header mt-5 p-3 pb-md-4 mx-auto text-center">
-    <h1 class="display-4 fw-light text-secondary">Websites</h1>
+    <h1 class="display-4 fw-light">Websites</h1>
     <p class="fs-5 text-muted mt-3 mb-5">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It’s built with default Bootstrap components and utilities with little customization.</p>
 </div>
 
@@ -75,7 +75,7 @@
 <!-- End Banner Section -->
 
 <!-- ======= Pricing Section ======= -->
-<div class="pricing-header p-3 pb-md-4 mx-auto text-center bg-light text-secondary">
+<div class="pricing-header p-3 pb-md-4 mx-auto text-center text-secondary">
     <h1 class="display-4 fw-light">Online Store</h1>
     <p class="fs-5 mt-3 mb-5">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It’s built with default Bootstrap components and utilities with little customization.</p>
 </div>
@@ -181,7 +181,7 @@
                         objHTML.find(".pPrice").html(`${alternatives.alternative}`);
                     }
 
-                    objHTML.find(".pPrice").append(` For only $${item.price}`);
+                    objHTML.find(".pPrice").append(` Only $${item.price}`);
                 } else {
                     objHTML.find(".pName").html(item.optional_name);
 
@@ -189,7 +189,7 @@
                         objHTML.find(".pPrice").html(`${alternatives.alternativeSp}`);
                     }
 
-                    objHTML.find(".pPrice").append(` Por solo $${item.price}`);
+                    objHTML.find(".pPrice").append(` Solo $${item.price}`);
                 }
 
                 objHTML.find(".btnAddtocart").data("item", item);                
