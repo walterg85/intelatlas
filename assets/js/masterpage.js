@@ -177,6 +177,8 @@ var formatter = new Intl.NumberFormat('en-US', {
                 $(".link3").html(myLang.link3);
                 $(".link4").html(myLang.link4);
                 $(".link5").html(myLang.link5);
+                $(".link6").html(myLang.link6);
+                $(".link7").html(myLang.link7);
                 $(".bannerTittle").html(myLang.bannerTittle);
                 $(".bannerSubTittle").html(myLang.bannerSubTittle);
                 $(".ctaCall").html(myLang.ctaCall);
@@ -188,6 +190,10 @@ var formatter = new Intl.NumberFormat('en-US', {
                 $("#btnSuscribe").val(myLang.btnSuscribe);
                 $(".labelPurchase1").html(myLang.labelPurchase1);
                 $(".labelPurchase2").html(myLang.labelPurchase2);
+
+                $(".footerSection1").html(myLang.footerSection1);
+                $(".footerSection2").html(myLang.footerSection2);
+                $(".footerSection3").html(myLang.footerSection3);
 
                 // Page title
                 document.title = myLang.pageTitle;

@@ -12,6 +12,8 @@
 			"link3": "Custom Packages",
 			"link4": "My account",
 			"link5": "Let's Talk!",
+			"link6": "About Us",
+			"link7": "FAQs",
 			"myCart": "My Cart",
 			"btnKeepShopping": "Keep Shopping",
 			"categories": "Top Categories",
@@ -26,7 +28,12 @@
 			"subSubTittle": "And get exclusive deals you wont find anywhere else!",
 			"btnSuscribe": "Subscribe",
 			"labelPurchase1": "Order now",
-			"labelPurchase2": "Buy Now"
+			"labelPurchase2": "Buy Now",
+			"footerSection1": "Services",
+			"footerSection2": "More",
+			"footerSection3": "Contact",
+			"indexSeccion1": "Popular websites packages",
+			"indexSeccion2": "Online Store"
 		},
 		"checkout":{
 			"labelSeccion": "Process Payment",
@@ -86,6 +93,23 @@
 			"messageExist": "This email address is already registered",
 			"messageSuccess": "registered customer account, check your email for more details",
 			"messageNoregistered": "The user is not registered"
+		},
+		"website":{
+			"pageTitle" : "Website Design",
+			"pageDescription": "Be where your customers are and look professional. When you get a website, it can also help generate more leads."
+		},
+		"webstore":{
+			"pageTitle" : "Online Store",
+			"pageDescription": "Expand your reach and start generating sales online 365 days a year."
+		},
+		"logos":{
+			"pageTitle" : "Logo Design",
+			"pageDescription": "Grab the attention of potential customers and make a strong first impression by getting an awesome logo design.",
+			"labelButton": "Order Now"
+		},
+		"bootstrap":{
+			"pageTitle" : "Bootstrap Themes",
+			"pageDescription": "Coming Soon..."
 		}
 	},
 	"es":{
@@ -101,6 +125,8 @@
 			"link3": "Paquetes Personalizados",
 			"link4": "Mi cuenta",
 			"link5": "¡Hablemos!",
+			"link6": "Sobre nosotros",
+			"link7": "Preguntas y respuestas",
 			"myCart": "Mi Carrito",
 			"btnKeepShopping": "Seguir Comprando",
 			"categories": "Categorías Populares",
@@ -115,7 +141,12 @@
 			"subSubTittle": "Subscribete para recibir las últimas noticias y ofertas!",
 			"btnSuscribe": "Suscribirse",
 			"labelPurchase1": "Ordenar ahora",
-			"labelPurchase2": "Comprar ahora"
+			"labelPurchase2": "Comprar ahora",
+			"footerSection1": "Servicios",
+			"footerSection2": "Más",
+			"footerSection3": "Contacto",
+			"indexSeccion1": "Paquetes de sitios web populares",
+			"indexSeccion2": "Tiendas en linea"
 		},
 		"checkout":{
 			"labelSeccion": "Procesar Pago",
@@ -175,6 +206,23 @@
 			"messageExist": "Este correo electronico ya esta registrado",
 			"messageSuccess": "Cuenta registrada, revice su correo para mas detalles",
 			"messageNoregistered": "El usuario no esta registrado"
+		},
+		"website":{
+			"pageTitle" : "Diseño de paginas web",
+			"pageDescription": "Esté donde están sus clientes y luzca profesional. Cuando obtiene un sitio web, también puede ayudar a generar más clientes potenciales."
+		},
+		"webstore":{
+			"pageTitle" : "Tienda en línea",
+			"pageDescription": "Expande tu alcance y comienza a generar ventas en línea los 365 días del año."
+		},
+		"logos":{
+			"pageTitle" : "Diseño de logo",
+			"pageDescription": "Capte la atención de los clientes potenciales y dé una buena primera impresión al obtener un diseño de logotipo increíble.",
+			"labelButton": "Ordenar ahora"
+		},
+		"bootstrap":{
+			"pageTitle" : "Temas de Bootstrap",
+			"pageDescription": "Próximamente..."
 		}
 	}
 }
