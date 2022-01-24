@@ -38,7 +38,7 @@
 </div>
 <!-- ======= Website Pricing Section ======= -->
 <div class="pricing-header mt-3 p-3 pb-md-4 mx-auto text-center">
-    <h1 class="fw-light">Popular websites packages</h1>
+    <h1 class="fw-light indexSeccion1">Popular websites packages</h1>
 </div>
 
 <div class="container-fluid">
@@ -79,7 +79,7 @@
 
 <!-- ======= Pricing Section ======= -->
 <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-    <h1 class="fw-light">Online Store</h1>
+    <h1 class="fw-light indexSeccion2">Online Store</h1>
 </div>
 <div class="container-fluid">
     <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 mb-3 text-center text-light listStorePrice"></div>
@@ -107,11 +107,13 @@
             loadData("listWebPrice", "Website");
             loadData("listStorePrice", "Store");
             getCarouselData();
+            languagePage(lang);
         });
 
         $("#fixBaground").removeClass("fixBaground");
 
         setFnButton = setInterval(activeBoton, 1500);
+        languagePage(lang);
     });
 
     function loadData(obj, category){
@@ -246,6 +248,16 @@
 
             // Ejecutar para redirigir al checkout
             $(".btnCheckout").click();
+        });
+    }
+
+    function languagePage(lang){
+        $.post(`${base_url}/assets/lang.json`, {}, function(data) {
+
+            let myLang = data[lang]["home"];
+
+            $(".indexSeccion1").html(myLang.indexSeccion1);
+            $(".indexSeccion2").html(myLang.indexSeccion2);
         });
     }
 </script>

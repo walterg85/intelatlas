@@ -98,24 +98,24 @@
             <footer class="py-5 text-light">
                 <div class="row text-center">
                     <div class="col-6 col-md-4 col-xl-3 mt-sm-0">
-                        <h5 class="lead">Services</h5>
+                        <h5 class="lead footerSection1">Services</h5>
                         <ul class="nav flex-column">
-                            <li class="nav-item mb-1"><a href="<?php echo $base_url; ?>/Webstore" class="nav-link p-0 text-muted">Online store</a></li>
-                            <li class="nav-item mb-1"><a href="<?php echo $base_url; ?>/Website" class="nav-link p-0 text-muted">Websites</a></li>
+                            <li class="nav-item mb-1"><a href="<?php echo $base_url; ?>/Webstore" class="nav-link p-0 text-muted link2">Online store</a></li>
+                            <li class="nav-item mb-1"><a href="<?php echo $base_url; ?>/Website" class="nav-link p-0 text-muted link1">Websites</a></li>
                             <li class="nav-item mb-1"><a href="<?php echo $base_url; ?>/logos" class="nav-link p-0 text-muted">Logos</a></li>
                             <li class="nav-item"><a href="<?php echo $base_url; ?>/bootstrap" class="nav-link p-0 text-muted">Bootstrap Themes</a></li>
                         </ul>
                     </div>
                     <div class="col-6 col-md-4 col-xl-3">
-                        <h5 class="lead">More</h5>
+                        <h5 class="lead footerSection2">More</h5>
                         <ul class="nav flex-column">
-                            <li class="nav-item mb-1"><a href="<?php echo $base_url; ?>/pages/about.php" class="nav-link p-0 text-muted">About Us</a></li>
-                            <li class="nav-item mb-1"><a href="<?php echo $base_url; ?>/pages/faq.php" class="nav-link p-0 text-muted">FAQs</a></li>
+                            <li class="nav-item mb-1"><a href="<?php echo $base_url; ?>/pages/about.php" class="nav-link p-0 text-muted link6">About Us</a></li>
+                            <li class="nav-item mb-1"><a href="<?php echo $base_url; ?>/pages/faq.php" class="nav-link p-0 text-muted link7">FAQs</a></li>
                             <li class="nav-item"><a href="#" class="nav-link p-0 text-muted">CLUBTRES</a></li>
                         </ul>
                     </div>
                     <div class="col-6 col-md-4 col-xl-3 mt-5 mt-md-0">
-                        <h5 class="lead">Contact</h5>
+                        <h5 class="lead footerSection3">Contact</h5>
                         <ul class="nav flex-column">
                             <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-muted">+1(520) 955-8534</a></li>
                             <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-muted">1690 N Stone Ave</a></li>
