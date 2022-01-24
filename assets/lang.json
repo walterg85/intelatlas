@@ -86,6 +86,23 @@
 			"messageExist": "This email address is already registered",
 			"messageSuccess": "registered customer account, check your email for more details",
 			"messageNoregistered": "The user is not registered"
+		},
+		"website":{
+			"pageTitle" : "Website Design",
+			"pageDescription": "Be where your customers are and look professional. When you get a website, it can also help generate more leads."
+		},
+		"webstore":{
+			"pageTitle" : "Online Store",
+			"pageDescription": "Expand your reach and start generating sales online 365 days a year."
+		},
+		"logos":{
+			"pageTitle" : "Logo Design",
+			"pageDescription": "Grab the attention of potential customers and make a strong first impression by getting an awesome logo design.",
+			"labelButton": "Order Now"
+		},
+		"bootstrap":{
+			"pageTitle" : "Bootstrap Themes",
+			"pageDescription": "Coming Soon..."
 		}
 	},
 	"es":{
@@ -175,6 +192,23 @@
 			"messageExist": "Este correo electronico ya esta registrado",
 			"messageSuccess": "Cuenta registrada, revice su correo para mas detalles",
 			"messageNoregistered": "El usuario no esta registrado"
+		},
+		"website":{
+			"pageTitle" : "Diseño de paginas web",
+			"pageDescription": "Esté donde están sus clientes y luzca profesional. Cuando obtiene un sitio web, también puede ayudar a generar más clientes potenciales."
+		},
+		"webstore":{
+			"pageTitle" : "Tienda en línea",
+			"pageDescription": "Expande tu alcance y comienza a generar ventas en línea los 365 días del año."
+		},
+		"logos":{
+			"pageTitle" : "Diseño de logo",
+			"pageDescription": "Capte la atención de los clientes potenciales y dé una buena primera impresión al obtener un diseño de logotipo increíble.",
+			"labelButton": "Ordenar ahora"
+		},
+		"bootstrap":{
+			"pageTitle" : "Temas de Bootstrap",
+			"pageDescription": "Próximamente..."
 		}
 	}
 }
