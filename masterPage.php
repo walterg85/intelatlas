@@ -54,10 +54,10 @@
     <div class="nav-scroller container-fluid top-menu-sec py-1">
         <div class="container">
             <nav class="nav d-flex justify-content-between">
-                <a class="p-2 link-secondary text-decoration-none text-light link1" href="#">Websites</a>
-                <a class="p-2 link-secondary text-decoration-none text-light link2" href="#">Online Store</a>
-                <a class="p-2 link-secondary text-decoration-none text-light" href="#">Logos</a>
-                <a class="p-2 link-secondary text-decoration-none text-light" href="#">Bootstrap Themes</a>
+                <a class="p-2 link-secondary text-decoration-none text-light link1" href="<?php echo $base_url; ?>/Website">Websites</a>
+                <a class="p-2 link-secondary text-decoration-none text-light link2" href="<?php echo $base_url; ?>/Webstore">Online Store</a>
+                <a class="p-2 link-secondary text-decoration-none text-light" href="<?php echo $base_url; ?>/logos">Logos</a>
+                <a class="p-2 link-secondary text-decoration-none text-light" href="<?php echo $base_url; ?>/bootstrap">Bootstrap Themes</a>
             </nav>
         </div>
     </div>
@@ -100,17 +100,17 @@
                     <div class="col-6 col-md-4 col-xl-3 mt-sm-0">
                         <h5 class="lead">Services</h5>
                         <ul class="nav flex-column">
-                            <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-muted">Online store</a></li>
-                            <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-muted">Websites</a></li>
-                            <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-muted">Logos</a></li>
-                            <li class="nav-item"><a href="#" class="nav-link p-0 text-muted">Bootstrap Themes</a></li>
+                            <li class="nav-item mb-1"><a href="<?php echo $base_url; ?>/Webstore" class="nav-link p-0 text-muted">Online store</a></li>
+                            <li class="nav-item mb-1"><a href="<?php echo $base_url; ?>/Website" class="nav-link p-0 text-muted">Websites</a></li>
+                            <li class="nav-item mb-1"><a href="<?php echo $base_url; ?>/logos" class="nav-link p-0 text-muted">Logos</a></li>
+                            <li class="nav-item"><a href="<?php echo $base_url; ?>/bootstrap" class="nav-link p-0 text-muted">Bootstrap Themes</a></li>
                         </ul>
                     </div>
                     <div class="col-6 col-md-4 col-xl-3">
                         <h5 class="lead">More</h5>
                         <ul class="nav flex-column">
-                            <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-muted">About Us</a></li>
-                            <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
+                            <li class="nav-item mb-1"><a href="<?php echo $base_url; ?>/pages/about.php" class="nav-link p-0 text-muted">About Us</a></li>
+                            <li class="nav-item mb-1"><a href="<?php echo $base_url; ?>/pages/faq.php" class="nav-link p-0 text-muted">FAQs</a></li>
                             <li class="nav-item"><a href="#" class="nav-link p-0 text-muted">CLUBTRES</a></li>
                         </ul>
                     </div>
@@ -180,6 +180,9 @@
         </div>
     </div>
     <!-- End formulario para el chat -->
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
     <!-- Masterpage JS File -->
     <script type="text/javascript">
