@@ -4,8 +4,15 @@
 ?>
 
 <!-- Colocar el contenido HTML Aqui -->
-<p class="lead">Productos de logos</p>
-
+<div class="container py-4">
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Logo Design</h1>
+            <p class="col-md-8 fs-4">Grab the attention of potential customers and make a strong first impression by getting an awesome logo design.</p>
+            <button class="btn btn-orange" type="button">Order Now</button>
+        </div>
+    </div>
+</div>
 <?php
     // Se obtiene el contenido del bufer
     $content = ob_get_contents();

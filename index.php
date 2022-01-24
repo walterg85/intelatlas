@@ -9,7 +9,7 @@
         <div class="carousel-item d-none carouselClone my-3">
             <h1 class="fw-light"><span class="pName text-gris">store</span></h1>
             <p class="lead mb-4 pPrice">Get 3 design with unlimited revision. Pick your favorite for only $95.</p>
-            <button type="button" class="btn-green px-4 me-sm-3 btnAddtocart labelPurchase1">Buy Now</button>     
+            <button type="button" class="btn-orange px-4 me-sm-3 btnAddtocart labelPurchase1">Buy Now</button>     
         </div>
         <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner objContenedor"></div>
@@ -51,7 +51,7 @@
                     <span class="lblPrice">$149</span><span class="lblSalePrice d-none ms-2">$149</span>
                 </h3>
                 <ul class="list-unstyled mt-3 mb-4 lblDescriptions"></ul>
-                <button type="button" class="w-100 btn-green btnAddtocart labelPurchase2">Buy Now</button>
+                <button type="button" class="w-100 btn-orange btnAddtocart labelPurchase2">Buy Now</button>
             </div>
         </div>
     </div>

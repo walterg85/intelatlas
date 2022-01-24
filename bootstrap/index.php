@@ -4,7 +4,14 @@
 ?>
 
 <!-- Colocar el contenido HTML Aqui -->
-<p class="lead">Productos de bootstrap</p>
+<div class="container py-4">
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Bootstrap Themes</h1>
+            <p class="col-md-8 fs-4">Coming Soon...</p>
+        </div>
+    </div>
+</div>
 
 <?php
     // Se obtiene el contenido del bufer
