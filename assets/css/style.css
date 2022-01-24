@@ -1,4 +1,55 @@
 /*--------------------------------------------------------------
+# Colors
+--------------------------------------------------------------*/
+.bg-luz {
+  background-color: #fff;
+}
+
+
+.bg-oscuro {
+  background-color: black;
+}
+
+.bg-gris {
+  background-color: #F7F6F3;
+}
+.text-gris {
+  color: #3D2600;
+}
+
+.bg-purple {
+  color: #5a189a;
+}
+
+.btn-green {
+  background-color: #fc2f00;
+  color: white;
+  border: none;
+  height: 35px;
+}
+
+.btn-purple {
+  background-image: linear-gradient(to top, #5a189a, #3c096c);
+  color: white;
+  border: none;
+  height: 35px;
+}
+
+.btn-exito {
+  background-color: #5BBA6F;
+  color: white;
+  border: none;
+  height: 35px;
+}
+
+.btn-normal {
+  background-color: #2EBFA5;
+  color: white;
+  border: none;
+  height: 35px;
+}
+
+/*--------------------------------------------------------------
 # Top Menu
 --------------------------------------------------------------*/
 .top-menu {
@@ -11,17 +62,8 @@
 }
 
 .top-menu-color {
-  color: #fc2f00;
+  color: #f74c06;
 
-}
-
-.hero-img1 {
-  margin-bottom: -60px;
-  height: 225px;
-}
-
-.hero-img2 {
-  height: 115px;
 }
 
 /*--------------------------------------------------------------
@@ -69,8 +111,18 @@
 # Hero
 --------------------------------------------------------------*/
 .hero {
-  background-image: linear-gradient(to bottom right, #FFFCAD,#FFC885);
-  font-family: 'Titillium Web', sans-serif;
+  background-image: linear-gradient(to bottom right, #FFDE7D,#FFC885);
+}
+.hero-img {
+  margin-top: -90px; 
+}
+
+.hero-img1 {
+  height: 120px;
+}
+
+.hero-img2 {
+  height: 80px;
 }
 
 /*--------------------------------------------------------------
@@ -137,21 +189,26 @@
     text-decoration: line-through;
 }
 
+
 /*--------------------------------------------------------------
 # Phone size
 --------------------------------------------------------------*/
+@media only screen and (min-width: 992px) {
+  .hero-img {
+    margin-top: -150px;    
+  }
+  .hero-img1 {
+    height: 175px;    
+  }
+  .hero-img2 {
+    height: 125px;    
+  }
+}
+
 @media all and (min-width:0px) and (max-width: 768px) {
   .top-menu {
     font-size: 13px;
-  }
-
-  .hero-img1 {
-    height: 140px;
-  }
-
-  .hero-img2 {
-    height: 70px;
-  }
+  } 
 }
 
 /*--------------------------------------------------------------
@@ -166,8 +223,7 @@
     z-index: 1;
     font-size: 14px;
     padding: 1px 0 3px 0;
-    background: #005c50;
-    color: #fff;
+    background-image: linear-gradient(to bottom right, #FFFCAD,#FFC885);
 }
 
 .card {

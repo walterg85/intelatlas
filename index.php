@@ -3,25 +3,17 @@
     // Esto solo por que se dibujan en secciones apartadas
     ob_start();
 ?>
-<div class="text-center mt-5">
-    <div class="carousel-item d-none carouselClone">
-        <h1 class="display-4"><span class="text-warning pName">store</span></h1>
-        <div class="col-lg-6 mx-auto">
-            <p class="lead mb-4 pPrice">Get 3 design with unlimited revision. Pick your favorite for only $95.</p>
-            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                <button type="button" class="btn btn-danger px-4 me-sm-3 btnAddtocart labelPurchase1">Buy Now</button>
-                <a href="#" class="text-decoration-none text-info">Learn more</a>
-            </div>
-        </div>
-    </div>
 
-    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner objContenedor"></div>
-    </div>
-    
-    <div class="container d-flex justify-content-between mt-3 mt-md-0">
-        <img class="hero-img1" src="assets/img/hero.png?v=1.3" alt="Example image" loading="lazy">
-        <img class="hero-img2" src="assets/img/rocket.png?v=1" alt="Example image" loading="lazy">
+<div class="container text-center">
+    <div class="col col-md-8 col-lg-6 mx-auto">
+        <div class="carousel-item d-none carouselClone my-3">
+            <h1 class="fw-light"><span class="pName text-gris">store</span></h1>
+            <p class="lead mb-4 pPrice">Get 3 design with unlimited revision. Pick your favorite for only $95.</p>
+            <button type="button" class="btn-green px-4 me-sm-3 btnAddtocart labelPurchase1">Buy Now</button>     
+        </div>
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner objContenedor"></div>
+        </div>    
     </div>
 </div>
 
@@ -35,23 +27,31 @@
     // Se inicia el metodo para encapsular el resto del contenido
     ob_start();
 ?>
+
+<div class="container">
+    <div class="row">
+        <div class="col hero-img">
+            <img class="hero-img1 float-start" src="assets/img/hero.png?v=1.7" alt="Example image" loading="lazy">
+            <img class="hero-img2 float-end" src="assets/img/rocket.png?v=1.1" alt="Example image" loading="lazy">           
+        </div>
+    </div>
+</div>
 <!-- ======= Website Pricing Section ======= -->
-<div class="pricing-header mt-5 p-3 pb-md-4 mx-auto text-center">
-    <h1 class="display-4 fw-light">Websites</h1>
-    <p class="fs-5 text-muted mt-3 mb-5">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It’s built with default Bootstrap components and utilities with little customization.</p>
+<div class="pricing-header mt-3 p-3 pb-md-4 mx-auto text-center">
+    <h1 class="fw-light">Popular websites packages</h1>
 </div>
 
 <div class="container-fluid">
     <div class="col webClone d-none">
-        <div class="card mb-4 rounded-3 bg-danger">
-            <a href="javascript:void(0);" class="linkto text-decoration-none text-white"> <h4 class="cardtitle mt-4 fw-normal">Free Website Draft</h4></a>
-            <span class="advanced d-none">Popular</span>
+        <div class="card mb-4 rounded-3 bg-gris text-gris">
+            <a href="javascript:void(0);" class="linkto text-decoration-none text-gris"> <h4 class="cardtitle mt-4 fw-normal">Free Website Draft</h4></a>
+            <span class="text-secondary advanced d-none">Popular</span>
             <div class="card-body pt-0">
-                <h3 class="card-title fw-light">
-                    <span class="lblPrice">$149</span> <span class="lblSalePrice d-none ms-2">$149</span>
+                <h3 class="card-title fw-light text-secondary">
+                    <span class="lblPrice">$149</span><span class="lblSalePrice d-none ms-2">$149</span>
                 </h3>
                 <ul class="list-unstyled mt-3 mb-4 lblDescriptions"></ul>
-                <button type="button" class="w-100 btn btn-warning btnAddtocart labelPurchase2">Buy Now</button>
+                <button type="button" class="w-100 btn-green btnAddtocart labelPurchase2">Buy Now</button>
             </div>
         </div>
     </div>
@@ -60,27 +60,26 @@
 <!-- End Website Section -->
 
 <!-- ======= Banner Section ======= -->
-<div class="container col-xl-10 col-xxl-8 px-4 py-5 text-secondary">
+<div class="container-fluid col-xl-10 col-xxl-8 px-4 py-5 text-secondary">
     <div class="row align-items-center g-5 py-5">
-        <div class="col-lg-6 text-lg-start">
-            <h1 class="display-4 fw-light mb-3 bannerTittle">Vertically centered hero sign-up form</h1>
-            <p class="lead bannerSubTittle">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                <button type="button" class="btn btn-success btn-lg px-4 me-md-2 ctaCall">Primary</button>
-                <button type="button" class="btn btn-outline-warning btn-lg px-4 linkChat ctaMessage">Default</button>
-            </div>
+        <div class="col-md-10 mx-auto col-lg-6 order-lg-last">
+            <img src="assets/img/home.jpg?v=1.2" class="d-block mx-lg-auto img-fluid shadow-lg" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
         </div>
-        <div class="col-md-10 mx-auto col-lg-6">
-            <img src="assets/img/home.jpg" class="d-block mx-lg-auto img-fluid shadow-lg" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+        <div class="col-lg-6 text-lg-start">
+            <h1 class="fw-light mb-3 bannerTittle">Vertically centered hero sign-up form</h1>
+            <p class="lead bannerSubTittle">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
+            <div class="d-grid gap-2 d-flex justify-content-center">
+                <button type="button" class="btn-exito px-4 me-md-2 ctaCall">Primary</button>
+                <button type="button" class="btn-normal px-4 linkChat ctaMessage">Default</button>
+            </div>
         </div>
     </div>
 </div>
 <!-- End Banner Section -->
 
 <!-- ======= Pricing Section ======= -->
-<div class="pricing-header p-3 pb-md-4 mx-auto text-center text-secondary">
-    <h1 class="display-4 fw-light">Online Store</h1>
-    <p class="fs-5 mt-3 mb-5">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It’s built with default Bootstrap components and utilities with little customization.</p>
+<div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+    <h1 class="fw-light">Online Store</h1>
 </div>
 <div class="container-fluid">
     <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 mb-3 text-center text-light listStorePrice"></div>

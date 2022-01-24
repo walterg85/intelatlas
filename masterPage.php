@@ -16,16 +16,13 @@
 
     <!-- Bootstrap, CSS, Icons & fonts -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/style.css?v=1.2">
+    <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/style.css?v=1.1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap" rel="stylesheet">
 
     <title>Websites and more | INTELATLAS</title>
 
     <!-- Stylo del chat -->
-    <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/chat.min.css?v=1.4">
+    <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/chat.css?v=1.8">
 
     <!-- sweetalert2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11" async></script>
@@ -42,7 +39,7 @@
         height: 160px;
     }
 </style>
-<body>
+<body class="bg-luz">
     <div class="nav-scroller container-fluid top-menu py-2">
         <div class="container">
             <nav class="nav d-flex justify-content-center">
@@ -79,7 +76,7 @@
                     </div>
                     <a class="py-2 text-decoration-none top-menu-color fs-5 btnCheckout" href="#">
                         <i class="bi bi-bag"></i> 
-                        <span class="translate-middle badge rounded-pill bg-danger qtyCart btnCheckout">0</span>
+                        <span class="translate-middle badge rounded-pill text-danger qtyCart btnCheckout">0</span>
                     </a>            
                 </nav>
             </div>
@@ -96,12 +93,12 @@
     <!-- End #main -->
 
     <!-- ========== FOOTER ========== -->
-    <div class="container-fluid bg-dark">
+    <div class="container-fluid bg-oscuro">
         <div class="container">
-            <footer class="py-5 text-secondary">
+            <footer class="py-5 text-light">
                 <div class="row text-center">
                     <div class="col-6 col-md-4 col-xl-3 mt-sm-0">
-                        <h5>Services</h5>
+                        <h5 class="lead">Services</h5>
                         <ul class="nav flex-column">
                             <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-muted">Online store</a></li>
                             <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-muted">Websites</a></li>
@@ -110,7 +107,7 @@
                         </ul>
                     </div>
                     <div class="col-6 col-md-4 col-xl-3">
-                        <h5>More</h5>
+                        <h5 class="lead">More</h5>
                         <ul class="nav flex-column">
                             <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-muted">About Us</a></li>
                             <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
@@ -118,7 +115,7 @@
                         </ul>
                     </div>
                     <div class="col-6 col-md-4 col-xl-3 mt-5 mt-md-0">
-                        <h5>Contact</h5>
+                        <h5 class="lead">Contact</h5>
                         <ul class="nav flex-column">
                             <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-muted">+1(520) 955-8534</a></li>
                             <li class="nav-item mb-1"><a href="#" class="nav-link p-0 text-muted">1690 N Stone Ave</a></li>
@@ -128,13 +125,13 @@
 
                     <div class="col-md-8 col-lg-6 col-xl-3 my-5 mt-xl-0 text-lg-start m-auto">
                         <form class="text-center">
-                            <h5 class="subTittle">Subscribe to our newsletter</h5>
-                            <p class="subSubTittle">Monthly digest of whats new and exciting from us.</p>
+                            <h5 class="subTittle lead">Subscribe to our newsletter</h5>
+                            <p class="subSubTittle text-secondary">Monthly digest of whats new and exciting from us.</p>
                             <div class="gap-2">
                                 <label for="newsletter1" class="visually-hidden">Email address</label>
                                 <input type="email" id="txtEmail" class="form-control" placeholder="Email address">
                                 <div class="d-grid gap-2 mt-3">
-                                    <button class="btn btn-info text-light" type="submit" id="btnSuscribe">Subscribe</button>
+                                    <button class="btn-purple text-light" type="submit" id="btnSuscribe">Subscribe</button>
                                 </div>
                             </div>
                         </form>
@@ -144,7 +141,7 @@
                 <div class="d-flex justify-content-between py-4 my-4 border-top">
                     <p><script>document.write(new Date().getFullYear())</script> &copy;  INTELATLAS</p>
                     <ul class="list-unstyled d-flex">
-                        <li class="ms-3"><a class="link-primary" href="#"><i class="bi bi-facebook"></i></a></li>
+                        <li class="ms-3"><a class="bg-purple" href="#"><i class="bi bi-facebook"></i></a></li>
                         <li class="ms-3"><a class="link-info" href="#"><i class="bi bi-twitter"></i></a></li>
                         <li class="ms-3"><a class="link-danger" href="#"><i class="bi bi-instagram"></i></a></li>
                     </ul>

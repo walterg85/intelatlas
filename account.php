@@ -17,20 +17,20 @@
         <section class="pricing">
             <div class="container">
                 <div class="row">
-                    <div class="col-5 mb-3">
+                    <div class="col col-sm-8 col-md-6 col-xl-4 mx-auto my-5 text-center">
                         <div class="mb-3">
                             <label for="txtClientEmail" class="form-label labelMail">Email address</label>
                             <input type="email" class="form-control" id="txtClientEmail" placeholder="">
                         </div>
-                        <div class="">
+                        <div class="mb-3">
                             <label for="txtPassword" class="form-label linkPassword">Password</label>
                             <input type="password" id="txtPassword" class="form-control">
                         </div>
                         <a href="javascript:void(0);" class="text-decoration-none mx-2 labelCreateaccount" data-bs-toggle="modal" data-bs-target="#mdlCreateaccount">Create new account</a> |
                         <a href="javascript:void(0);" class="text-decoration-none ms-2 labelRecoveryPassw" data-bs-toggle="modal" data-bs-target="#mdlRestorepassword">Recover password</a>
-                    </div>
-                    <div class="col-12">
-                        <button type="button" id="btnLogin" class="btn btn-success mb-3">Confirm identity</button>
+                        <div class="d-grid">
+                            <button type="button" id="btnLogin" class="btn btn-success btn-lg mt-3">Confirm identity</button>
+                        </div>
                     </div>
                 </div>
             </div>
