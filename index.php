@@ -90,8 +90,8 @@
     let setFnButton = null;
 
     $(document).ready(function(){
-        loadData("listWebPrice", "Website");
-        loadData("listStorePrice", "Store");
+        loadData("listWebPrice", "Website", "website");
+        loadData("listStorePrice", "Store", "webstore");
         getCarouselData();
 
         $(".changeLang").click( function(){
@@ -104,19 +104,19 @@
             }
             switchLanguage(lang);
 
-            loadData("listWebPrice", "Website");
-            loadData("listStorePrice", "Store");
+            loadData("listWebPrice", "Website", "website");
+            loadData("listStorePrice", "Store", "webstore");
             getCarouselData();
             languagePage(lang);
         });
 
         $("#fixBaground").removeClass("fixBaground");
 
-        setFnButton = setInterval(activeBoton, 1500);
+        // setFnButton = setInterval(activeBoton, 1500);
         languagePage(lang);
     });
 
-    function loadData(obj, category){
+    function loadData(obj, category, linkCategory){
         let objData = {
                 "_method":"GET",
                 "limite": 0,
@@ -145,8 +145,8 @@
 
                 let img = (item.thumbnail != "" &&  item.thumbnail != "0") ? `${base_url}/${item.thumbnail}` : `${base_url}/assets/img/default.jpg`;
                 productCard.find(".card-img-top").attr("src", `${img}`);
-                productCard.find(".card-img-top").parent().attr("href", `${base_url}/product/index.php?pid=${item.id}`);
-                productCard.find(".linkto").attr("href", `${base_url}/product/index.php?pid=${item.id}`);
+                productCard.find(".card-img-top").parent().attr("href", `${base_url}/${linkCategory}`);
+                productCard.find(".linkto").attr("href", `${base_url}/${linkCategory}`);
                 productCard.find(".lblPrice").html(`$${item.price}`);
 
                 let salePrice = parseFloat(item.sale_price);
@@ -252,6 +252,7 @@
     }
 
     function languagePage(lang){
+        setFnButton = setInterval(activeBoton, 1500);
         $.post(`${base_url}/assets/lang.json`, {}, function(data) {
 
             let myLang = data[lang]["home"];
