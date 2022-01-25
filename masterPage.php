@@ -16,7 +16,7 @@
 
     <!-- Bootstrap, CSS, Icons & fonts -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/style.css?v=1.1">
+    <link rel="stylesheet" href="<?php echo $base_url; ?>/assets/css/style.css?v=1.2">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 
     <title>Websites and more | INTELATLAS</title>
@@ -54,8 +54,8 @@
     <div class="nav-scroller container-fluid top-menu-sec py-1">
         <div class="container">
             <nav class="nav d-flex justify-content-between">
-                <a class="p-2 link-secondary text-decoration-none text-light link1" href="<?php echo $base_url; ?>/Website">Websites</a>
-                <a class="p-2 link-secondary text-decoration-none text-light link2" href="<?php echo $base_url; ?>/Webstore">Online Store</a>
+                <a class="p-2 link-secondary text-decoration-none text-light link1" href="<?php echo $base_url; ?>/website">Websites</a>
+                <a class="p-2 link-secondary text-decoration-none text-light link2" href="<?php echo $base_url; ?>/webstore">Online Store</a>
                 <a class="p-2 link-secondary text-decoration-none text-light" href="<?php echo $base_url; ?>/logos">Logos</a>
                 <a class="p-2 link-secondary text-decoration-none text-light" href="<?php echo $base_url; ?>/bootstrap">Bootstrap Themes</a>
             </nav>
@@ -74,7 +74,7 @@
                             <ul class="dropdown-menu" aria-labelledby="inputSearch"></ul>
                         </div>
                     </div>
-                    <a class="py-2 text-decoration-none top-menu-color fs-5 btnCheckout" href="#">
+                    <a class="py-2 text-decoration-none top-menu-color fs-5 btnCheckout" href="<?php echo $base_url; ?>/checkout/index.php">
                         <i class="bi bi-bag"></i> 
                         <span class="translate-middle badge rounded-pill text-danger qtyCart btnCheckout">0</span>
                     </a>            
@@ -141,9 +141,7 @@
                 <div class="d-flex justify-content-between py-4 my-4 border-top">
                     <p><script>document.write(new Date().getFullYear())</script> &copy;  INTELATLAS</p>
                     <ul class="list-unstyled d-flex">
-                        <li class="ms-3"><a class="bg-purple" href="#"><i class="bi bi-facebook"></i></a></li>
-                        <li class="ms-3"><a class="link-info" href="#"><i class="bi bi-twitter"></i></a></li>
-                        <li class="ms-3"><a class="link-danger" href="#"><i class="bi bi-instagram"></i></a></li>
+                        <li class="ms-3"><a class="bg-purple" href="https://www.facebook.com/intelatlas/"><i class="bi bi-facebook"></i></a></li>
                     </ul>
                 </div>
             </footer>

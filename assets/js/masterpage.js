@@ -165,7 +165,7 @@ var formatter = new Intl.NumberFormat('en-US', {
 
         function switchLanguage(lang){
             $.post(`${base_url}/assets/lang.json`, {}, function(data) {
-                $(".changeLang").html(`<i class="bi bi-globe2 top-menu-color px-2"></i> ${data[lang]["buttonText"]}`);
+                $(".changeLang").html(`<i class="bi bi-globe2 top-menu-color"></i> ${data[lang]["buttonText"]}`);
 
                 let myLang = data[lang]["home"];
                 $("#inputSearch").attr("placeholder", myLang.search);

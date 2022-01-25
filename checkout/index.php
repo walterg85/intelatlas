@@ -49,7 +49,7 @@
             <div class="py-5 text-center tmpSeccionB d-none">
                 <p class="lead">You don't have products in your shopping cart.</p>
                 <hr>
-                <a href="javascript:history.back()" class="btn btn-outline-secondary btn-lg">Return</a>
+                <a href="javascript:history.back()" class="btn btn-outline-info btn-lg"><i class="bi bi-arrow-return-left"></i> Keep Shopping</a>
             </div>
             <div class="row g-5 tmpSeccion d-none">
                 <div class="col-md-7 col-lg-8">

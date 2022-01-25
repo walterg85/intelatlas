@@ -37,7 +37,7 @@
 		},
 		"checkout":{
 			"labelSeccion": "Process Payment",
-			"lblLetrero": "Place your order and we will contact you to confirm your to begin working with us on your project.",
+			"lblLetrero": "After placing your order, we will contact you soon to begin working together on your project.",
 			"labelCart": "Your cart",
 			"labelCoupon": "Apply coupon",
 			"inputCode": "Coupon code",
@@ -56,7 +56,7 @@
 			"inputNewMessage": "Your Message",
 			"msgReceived": "We have received your message! We will be in touch soon",
 			"labelFinish": "End chat",
-			"messageInicial": "Hello, welcome, can we help you with something? it is a pleasure to help you"
+			"messageInicial": "Hi, we are ready to help. What's your project about?"
 		},
 		"account":{
 			"labelWelcome": "Welcome",
@@ -169,7 +169,7 @@
 			"inputNewMessage": "Tu mensaje",
 			"msgReceived": "Hemos recibido tu mensaje! Nos pondremos en contacto contigo pronto",
 			"labelFinish": "Finalizar Charla",
-			"messageInicial": "Hola, bienvenido, ¿podemos ayudarte en algo? es un placer ayudarte"
+			"messageInicial": "Hola, estamos listos para ayudarte. ¿En que te podemos ayudar?"
 		},
 		"account":{
 			"labelWelcome": "Bienvenido",

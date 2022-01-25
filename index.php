@@ -11,7 +11,7 @@
             <p class="lead mb-4 pPrice">Get 3 design with unlimited revision. Pick your favorite for only $95.</p>
             <button type="button" class="btn-orange px-4 me-sm-3 btnAddtocart labelPurchase1">Buy Now</button>     
         </div>
-        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+        <div id="carouselExampleSlidesOnly" class="carousel slide carousel-fade" data-bs-ride="carousel">
             <div class="carousel-inner objContenedor"></div>
         </div>    
     </div>
@@ -133,13 +133,13 @@
                     productCard.find(".cardtitle").html(item.name);
                     let descriptions = JSON.parse(item.descriptions);
                     $.each( descriptions, function(i, d){
-                        productCard.find(".lblDescriptions").append(`<li class="${(d.underline == 1) ? 'na' : ''}">${d.descripcion}</li>`);
+                        productCard.find(".lblDescriptions").append(`<li class="${(d.underline == 1) ? 'na' : ''} mb-2">${d.descripcion}</li>`);
                     });
                 }else{
                     productCard.find(".cardtitle").html(item.optional_name);
                     let descriptions = JSON.parse(item.descriptions);
                     $.each( descriptions, function(i, d){
-                        productCard.find(".lblDescriptions").append(`<li class="${(d.underline == 1) ? 'na' : ''}">${d.descripcionOpc}</li>`);
+                        productCard.find(".lblDescriptions").append(`<li class="${(d.underline == 1) ? 'na' : ''} mb-2">${d.descripcionOpc}</li>`);
                     });
                 }
 
